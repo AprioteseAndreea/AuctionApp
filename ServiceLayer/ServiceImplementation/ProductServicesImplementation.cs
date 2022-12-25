@@ -23,9 +23,15 @@ namespace ServiceLayer.ServiceImplementation
         {
             throw new NotImplementedException();
             //return DAOFactoryMethod.CurrentDAOFactory.ProducDataServices.GetAllProducts();
+
         }
 
-        public void GetProductById(int id)
+        public Product GetProductById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<Product> GetProductsByUserId(int userId)
         {
             throw new NotImplementedException();
         }

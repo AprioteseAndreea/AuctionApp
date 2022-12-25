@@ -21,5 +21,20 @@ namespace DataMapper
         {
             get;
         }
+
+        IUserAuctionDataServices UserAuctionDataServices
+        {
+            get;
+        }
+
+        ICategoryDataServices CategoryDataServices
+        {
+            get;
+        }
+
+        ICategoryRelationDataServices CategoryRelationDataServices
+        {
+            get;
+        }
     }
 }

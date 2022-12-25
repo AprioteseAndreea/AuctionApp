@@ -8,6 +8,11 @@ namespace DomainModel
 {
     public class UserAuction
     {
+        public int Id
+        {
+            get;
+            set;
+        }
         public int ProductId
         {
             get;

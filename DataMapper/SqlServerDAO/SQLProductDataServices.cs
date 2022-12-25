@@ -1,6 +1,7 @@
 ﻿using DomainModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,14 @@ namespace DataMapper.SqlServerDAO
             }
         }
 
+        public IList<Product> GetProductsByUserId(int userId)
+        {
+            using (var context = new MyApplicationContext())
+            {
+                return context.Products.Where(product => product.OwnerUser.Id == userId).ToList();
+            }
+        }
+
         /// <summary>
         /// Updates the product.
         /// </summary>
@@ -72,7 +81,12 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                //left as an exercise
+                var result = context.Products.First(p => p.Id == product.Id);
+                if (result != null)
+                {
+                    result = product;
+                    context.SaveChanges();
+                }
             }
         }
     }

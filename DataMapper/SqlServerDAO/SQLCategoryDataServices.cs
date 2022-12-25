@@ -7,52 +7,52 @@ using System.Threading.Tasks;
 
 namespace DataMapper.SqlServerDAO
 {
-    internal class SQLUserDataServices : IUserDataServices
+    internal class SQLCategoryDataServices : ICategoryDataServices
     {
-        public void AddUser(User user)
+        public void AddCategory(Category category)
         {
             using (var context = new MyApplicationContext())
             {
-                context.Users.Add(user);
+                context.Categories.Add(category);
                 context.SaveChanges();
             }
         }
 
-        public void DeleteUser(User user)
+        public void DeleteCategory(Category category)
         {
             using (var context = new MyApplicationContext())
             {
-                var newUser = new User { Id = user.Id };
-                context.Users.Attach(newUser);
-                context.Users.Remove(newUser);
+                var newCategory = new Category { Id = category.Id };
+                context.Categories.Attach(newCategory);
+                context.Categories.Remove(newCategory);
                 context.SaveChanges();
             }
         }
 
-        public IList<User> GetAllUsers()
+        public Category GetCategoryById(int id)
         {
             using (var context = new MyApplicationContext())
             {
-                return context.Users.Select(user => user).ToList();
+                return context.Categories.Where(cat => cat.Id == id).SingleOrDefault();
             }
         }
 
-        public User GetUserById(int id)
+        public IList<Category> GetListOfCategories()
         {
             using (var context = new MyApplicationContext())
             {
-                return context.Users.Where(user => user.Id == id).SingleOrDefault();
+                return context.Categories.Select(category => category).ToList();
             }
         }
 
-        public void UpdateUser(User user)
+        public void UpdateCategory(Category category)
         {
             using (var context = new MyApplicationContext())
             {
-                var result = context.Users.First(u => u.Id == user.Id);
+                var result = context.Categories.First(c => c.Id == category.Id);
                 if (result != null)
                 {
-                    result = user;
+                    result = category;
                     context.SaveChanges();
                 }
             }

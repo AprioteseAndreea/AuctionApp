@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.ServiceImplementation
 {
-    internal class UserAuctionServicesImplementation : IUserAuctionServices
+    public class UserAuctionServicesImplementation : IUserAuctionServices
     {
         public void AddUserAuction(UserAuction userAuction)
         {
@@ -24,7 +24,7 @@ namespace ServiceLayer.ServiceImplementation
             throw new NotImplementedException();
         }
 
-        public void GetUserAuctionById(int id)
+        public UserAuction GetUserAuctionById(int id)
         {
             throw new NotImplementedException();
         }

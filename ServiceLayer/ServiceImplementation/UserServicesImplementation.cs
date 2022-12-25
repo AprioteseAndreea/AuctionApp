@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.ServiceImplementation
 {
-    internal class UserServicesImplementation : IUserServices
+    public class UserServicesImplementation : IUserServices
     {
         public void AddUser(User user)
         {
@@ -24,7 +24,7 @@ namespace ServiceLayer.ServiceImplementation
             throw new NotImplementedException();
         }
 
-        public void GetUserById(int id)
+        public User GetUserById(int id)
         {
             throw new NotImplementedException();
         }

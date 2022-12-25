@@ -8,6 +8,11 @@ namespace DomainModel
 {
     public class CategoryRelation
     {
+        public int Id
+        {
+            get;
+            set;
+        }
         public int ParentCategory
         {
             get;

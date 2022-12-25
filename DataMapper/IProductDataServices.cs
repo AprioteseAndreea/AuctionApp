@@ -39,5 +39,7 @@ namespace DataMapper
         /// </summary>
         /// <param name="product">The product.</param>
         void UpdateProduct(Product product);
+        IList<Product> GetProductsByUserId(int userId);
+
     }
 }

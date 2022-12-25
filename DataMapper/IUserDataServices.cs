@@ -32,5 +32,7 @@ namespace DataMapper
         /// </summary>
         /// <param name="customer">The customer.</param>
         void UpdateUser(User user);
+        User GetUserById(int id);
+
     }
 }

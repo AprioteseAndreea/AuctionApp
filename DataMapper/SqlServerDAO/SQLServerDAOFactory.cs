@@ -23,5 +23,11 @@ namespace DataMapper.SqlServerDAO
                 return new SQLProductDataServices();
             }
         }
+
+        public IUserAuctionDataServices UserAuctionDataServices => throw new NotImplementedException();
+
+        public ICategoryDataServices CategoryDataServices => throw new NotImplementedException();
+
+        public ICategoryRelationDataServices CategoryRelationDataServices => throw new NotImplementedException();
     }
 }

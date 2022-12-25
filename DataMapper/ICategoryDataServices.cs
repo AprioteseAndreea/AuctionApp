@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServiceLayer
+namespace DataMapper
 {
-   public interface ICategoryServices
+   public interface ICategoryDataServices
     {
         IList<Category> GetListOfCategories();
 

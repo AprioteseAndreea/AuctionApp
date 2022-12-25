@@ -73,14 +73,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAOFactoryMethod.cs" />
+    <Compile Include="ICategoryDataServices.cs" />
+    <Compile Include="ICategoryRelationDataServices.cs" />
     <Compile Include="IDAOFactory.cs" />
     <Compile Include="IProductDataServices.cs" />
+    <Compile Include="IUserAuctionDataServices.cs" />
     <Compile Include="IUserDataServices.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerDAO\MyApplicationContext.cs" />
+    <Compile Include="SqlServerDAO\SQLCategoryDataServices.cs" />
+    <Compile Include="SqlServerDAO\SQLCategoryRelationDataServices.cs" />
     <Compile Include="SqlServerDAO\SQLProductDataServices.cs" />
     <Compile Include="SqlServerDAO\SQLServerDAOFactory.cs" />
+    <Compile Include="SqlServerDAO\SQLUserAuctionDataServices.cs" />
     <Compile Include="SqlServerDAO\SQLUserDataServices.cs" />
   </ItemGroup>
   <ItemGroup>

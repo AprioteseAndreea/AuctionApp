@@ -15,7 +15,7 @@ namespace ServiceLayer
 
         void UpdateProduct(Product product);
 
-        void GetProductById(int id);
+        Product GetProductById(int id);
         IList<Product> GetProductsByUserId(int userId);
 
         void AddProduct(Product product);
