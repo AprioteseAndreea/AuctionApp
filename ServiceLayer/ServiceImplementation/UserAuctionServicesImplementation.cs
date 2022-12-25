@@ -34,6 +34,11 @@ namespace ServiceLayer.ServiceImplementation
             throw new NotImplementedException();
         }
 
+        public IList<UserAuction> GetUserAuctionsByUserIdandProductId(int userId, int productId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void UpdateUserAuction(UserAuction userAuction)
         {
             throw new NotImplementedException();

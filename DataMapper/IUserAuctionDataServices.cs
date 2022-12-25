@@ -19,5 +19,7 @@ namespace DataMapper
         IList<UserAuction> GetUserAuctionsByUserId(int userId);
 
         void AddUserAuction(UserAuction userAuction);
+        IList<UserAuction> GetUserAuctionsByUserIdandProductId(int userId, int productId);
+
     }
 }

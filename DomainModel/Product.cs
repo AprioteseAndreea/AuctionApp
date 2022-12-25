@@ -83,11 +83,21 @@ namespace DomainModel
         }
 
         [SelfValidation]
-        public void ValidatePrice(ValidationResults validationResults)
+        public void ValidateStartAndEndDate(ValidationResults validationResults)
         {
             if (EndDate < StartDate)
             {
-                validationResults.AddResult(new ValidationResult("The end date should not be less than start date", this, "ValidatePrice", "error", null));
+                validationResults.AddResult(new ValidationResult("The end date should not be less than start date", this, "ValidateStartAndEndDate", "error", null));
+
+            }
+        }
+
+        [SelfValidation]
+        public void ValidateStartDate(ValidationResults validationResults)
+        {
+            if (StartDate < DateTime.Now)
+            {
+                validationResults.AddResult(new ValidationResult("The start date should not be less than current date", this, "ValidateStartDate", "error", null));
 
             }
         }

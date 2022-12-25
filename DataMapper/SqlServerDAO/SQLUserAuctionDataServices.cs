@@ -53,6 +53,14 @@ namespace DataMapper.SqlServerDAO
             }
         }
 
+        public IList<UserAuction> GetUserAuctionsByUserIdandProductId(int userId, int productId)
+        {
+            using (var context = new MyApplicationContext())
+            {
+                return context.UserAuctions.Where(user => user.UserId == userId && user.ProductId == productId).ToList();
+            }
+        }
+
         public void UpdateUserAuction(UserAuction userAuction)
         {
             using (var context = new MyApplicationContext())

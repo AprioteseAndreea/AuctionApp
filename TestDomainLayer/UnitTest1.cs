@@ -124,6 +124,14 @@ namespace TestDomainLayer
         }
 
         [TestMethod]
+        public void TestSelfValidationForStartDate()
+        {
+            product.StartDate = new DateTime(2022, 12, 10);
+            ValidationResults validationResults = Validation.Validate(product);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+
+        [TestMethod]
         public void TestMoneyAmount()
         {
             money_one.Amount = 0;
@@ -131,6 +139,13 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        [TestMethod]
+        public void TestNegativeAmmount()
+        {
+            money_one.Amount = -30;
+            ValidationResults validationResults = Validation.Validate(product);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
         [TestMethod]
         public void TestMoneyCurrencyDomain()
         {
