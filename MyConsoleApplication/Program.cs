@@ -1,5 +1,6 @@
 ﻿using ServiceLayer;
 using ServiceLayer.ServiceImplementation;
+using ServiceLayer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace MyConsoleApplication
     {
         static void Main(string[] args)
         {
-            listAllProducts();
+            // listAllProducts();
+          
         }
 
         private static void listAllProducts()

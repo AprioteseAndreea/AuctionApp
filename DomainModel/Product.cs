@@ -95,7 +95,7 @@ namespace DomainModel
         [SelfValidation]
         public void ValidateStartDate(ValidationResults validationResults)
         {
-            if (StartDate < DateTime.Now)
+            if (StartDate < DateTime.Now.Date)
             {
                 validationResults.AddResult(new ValidationResult("The start date should not be less than current date", this, "ValidateStartDate", "error", null));
 

@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using Microsoft.Practices.EnterpriseLibrary.Common.Utility;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -48,7 +49,7 @@ namespace TestDomainLayer
                 Description = "o descriere foarte interesanta",
                 OwnerUser = this.user,
                 StartDate = DateTime.Now,
-                EndDate = new DateTime(2022, 12, 31),
+                EndDate = new DateTime(2023, 12, 31),
                 StartingPrice = this.money_one,
                 Category = this.category,
                 Status = "Opened",
@@ -64,7 +65,7 @@ namespace TestDomainLayer
         [TestMethod]
         public void TestCorrectProduct()
         {
-            ValidationResults validationResults = Validation.Validate(product);
+            ValidationResults validationResults = Validation.Validate(product);                
             Assert.AreEqual(0, validationResults.Count);
         }
 
@@ -186,15 +187,15 @@ namespace TestDomainLayer
         [TestMethod]
         public void TestCategoryEnoughName()
         {
-            product.Category.Name = "Electrocasnice";
+            category.Name = "Electrocasnice";
             ValidationResults validationResults = Validation.Validate(product);
-            Assert.AreNotEqual(0, validationResults.Count);
+            Assert.AreEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestCategoryShortName()
         {
-            product.Category.Name = "a";
+            category.Name = "a";
             ValidationResults validationResults = Validation.Validate(product);
             Assert.AreNotEqual(0, validationResults.Count);
         }

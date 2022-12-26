@@ -28,8 +28,11 @@ namespace ServiceLayer.ServiceImplementation
         }
 
         public IList<Product> GetListOfProducts()
+
         {
-            return DAOFactoryMethod.CurrentDAOFactory.ProducDataServices.GetAllProducts();
+            throw new NotImplementedException();
+
+            //return DAOFactoryMethod.CurrentDAOFactory.ProducDataServices.GetAllProducts();
 
         }
 
