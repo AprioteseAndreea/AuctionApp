@@ -1,4 +1,5 @@
-﻿using DomainModel;
+﻿using DataMapper;
+using DomainModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,7 @@ namespace ServiceLayer.ServiceImplementation
 
         public IList<Product> GetListOfProducts()
         {
-            throw new NotImplementedException();
-            //return DAOFactoryMethod.CurrentDAOFactory.ProducDataServices.GetAllProducts();
+            return DAOFactoryMethod.CurrentDAOFactory.ProducDataServices.GetAllProducts();
 
         }
 

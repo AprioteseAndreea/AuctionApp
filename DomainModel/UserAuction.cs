@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +14,20 @@ namespace DomainModel
             get;
             set;
         }
-        public int ProductId
+        public int Product
+        {
+            get;
+            set;
+        }
+        
+        public int User
         {
             get;
             set;
         }
 
-        public int UserId
-        {
-            get;
-            set;
-        }
-
-        public double Price
+        [NotNullValidator]
+        public Money Price
         {
             get;
             set;
