@@ -55,6 +55,7 @@
     <Compile Include="ServiceImplementation\ProductServicesImplementation.cs" />
     <Compile Include="ServiceImplementation\UserAuctionServicesImplementation.cs" />
     <Compile Include="ServiceImplementation\UserServicesImplementation.cs" />
+    <Compile Include="Utils\StringDistance.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

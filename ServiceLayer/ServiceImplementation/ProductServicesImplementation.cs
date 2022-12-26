@@ -12,7 +12,14 @@ namespace ServiceLayer.ServiceImplementation
     {
         public void AddProduct(Product product)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DAOFactoryMethod.CurrentDAOFactory.ProducDataServices.AddProduct(product);
+            }
+            catch
+            {
+
+            }
         }
 
         public void DeleteProduct(Product product)
