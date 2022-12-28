@@ -1,4 +1,6 @@
-﻿using DomainModel;
+﻿using DataMapper;
+using DataMapper.SqlServerDAO;
+using DomainModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,10 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class CategoryServicesImplementation : ICategoryServices
     {
+        ICategoryDataServices categoryDataServices = new SQLCategoryDataServices();
         public void AddCategory(Category category)
         {
-            throw new NotImplementedException();
+            categoryDataServices.AddCategory(category);
         }
 
         public void DeleteCategory(Category category)
@@ -26,7 +29,8 @@ namespace ServiceLayer.ServiceImplementation
 
         public IList<Category> GetListOfCategories()
         {
-            throw new NotImplementedException();
+            return categoryDataServices.GetListOfCategories();
+
         }
 
         public void UpdateCategory(Category category)

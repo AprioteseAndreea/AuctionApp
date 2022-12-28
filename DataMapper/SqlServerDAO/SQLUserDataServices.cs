@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataMapper.SqlServerDAO
 {
-    internal class SQLUserDataServices : IUserDataServices
+    public class SQLUserDataServices : IUserDataServices
     {
         public void AddUser(User user)
         {

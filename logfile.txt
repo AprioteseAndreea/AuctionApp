@@ -1,0 +1,4 @@
+2022-12-28 10:46:53,588 [1] INFO  MyConsoleApplication.Program [(null)] – Entering application.
+2022-12-28 10:46:53,684 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProductMethod
+2022-12-28 10:46:57,231 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User added products have been found.
+2022-12-28 10:46:57,454 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – The new product was added!

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataMapper.SqlServerDAO
 {
-    internal class SQLProductDataServices : IProductDataServices
+    public class SQLProductDataServices : IProductDataServices
     {
         /// <summary>
         /// Adds the product.

@@ -17,7 +17,7 @@ namespace DomainModel
             set;
         }
 
-        [ObjectValidator]
+     
         [NotNullValidator(MessageTemplate = "The name cannot be null")]
         [StringLengthValidator(2, RangeBoundaryType.Inclusive, 40, RangeBoundaryType.Inclusive, ErrorMessage = "The name should have between {3} and {5} letters")]
         public string Name
@@ -26,7 +26,6 @@ namespace DomainModel
             set;
         }
 
-        [ObjectValidator]
         [StringLengthValidator(3, 100)]
         public string Description
         {
@@ -34,7 +33,6 @@ namespace DomainModel
             set;
         }
 
-        [ObjectValidator]
         [NotNullValidator]
         public User OwnerUser
         {
@@ -42,7 +40,7 @@ namespace DomainModel
             set;
         }
 
-        [ObjectValidator]
+       
         [NotNullValidator]
         public DateTime StartDate
         {
@@ -50,7 +48,7 @@ namespace DomainModel
             set;
         }
 
-        [ObjectValidator]
+       
         [NotNullValidator]
         public DateTime EndDate
         {
@@ -58,7 +56,6 @@ namespace DomainModel
             set;
         }
 
-        [ObjectValidator]
         [NotNullValidator(MessageTemplate = "The sell price cannot be null")]
         public Money StartingPrice
         {
@@ -66,7 +63,6 @@ namespace DomainModel
             set;
         }
 
-        [ObjectValidator]
         [NotNullValidator]
         public Category Category
         {
@@ -74,7 +70,6 @@ namespace DomainModel
             set;
         }
 
-        [ObjectValidator]
         [DomainValidator("Opened", "Closed", MessageTemplate = "Unknown status")]
         public string Status
         {

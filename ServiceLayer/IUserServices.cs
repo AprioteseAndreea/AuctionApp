@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
-    interface IUserServices
+   public interface IUserServices
     {
         IList<User> GetListOfUsers();
 

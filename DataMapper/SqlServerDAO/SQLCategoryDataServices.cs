@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataMapper.SqlServerDAO
 {
-    internal class SQLCategoryDataServices : ICategoryDataServices
+    public class SQLCategoryDataServices : ICategoryDataServices
     {
         public void AddCategory(Category category)
         {

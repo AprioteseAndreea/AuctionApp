@@ -1,4 +1,6 @@
-﻿using DomainModel;
+﻿using DataMapper.SqlServerDAO;
+using DataMapper;
+using DomainModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,11 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class UserServicesImplementation : IUserServices
     {
+        IUserDataServices userDataServices = new SQLUserDataServices();
+
         public void AddUser(User user)
         {
-            throw new NotImplementedException();
+           userDataServices.AddUser(user);
         }
 
         public void DeleteUser(User user)

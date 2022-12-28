@@ -188,7 +188,7 @@ namespace TestDomainLayer
         public void TestCategoryEnoughName()
         {
             category.Name = "Electrocasnice";
-            ValidationResults validationResults = Validation.Validate(product);
+            ValidationResults validationResults = Validation.Validate(category);
             Assert.AreEqual(0, validationResults.Count);
         }
 
@@ -196,7 +196,7 @@ namespace TestDomainLayer
         public void TestCategoryShortName()
         {
             category.Name = "a";
-            ValidationResults validationResults = Validation.Validate(product);
+            ValidationResults validationResults = Validation.Validate(category);
             Assert.AreNotEqual(0, validationResults.Count);
         }
         [TestMethod]
