@@ -27,6 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDomainLayer", "TestDoma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsServiceLayer", "TestsServiceLayer\TestsServiceLayer.csproj", "{0FB72341-629B-4DA6-8A02-860117D11BE2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AB4AE453-011E-4085-92DF-A9747B2FB78A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,7 +80,7 @@ Global
 		{0FB72341-629B-4DA6-8A02-860117D11BE2} = {FF47A05B-3A34-4212-BDB3-7D78F1BF5494}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EB82F0A9-1B8B-426D-B2EE-96C2334205F5}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
+		SolutionGuid = {EB82F0A9-1B8B-426D-B2EE-96C2334205F5}
 	EndGlobalSection
 EndGlobal

@@ -1,10 +1,7 @@
 ﻿using DomainModel;
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DataMapper.SqlServerDAO
 {
@@ -18,7 +15,16 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                context.Products.Add(product);
+                
+                User user = context.Users.FirstOrDefault(u => u.Id == product.OwnerUser.Id);
+                Category category = context.Categories.FirstOrDefault(c => c.Id == product.Category.Id);
+
+                product.OwnerUser = null;
+                product.Category = null;
+
+                user.Products.Add(product);
+                category.Products.Add(product);
+
                 context.SaveChanges();
             }
         }
@@ -29,10 +35,9 @@ namespace DataMapper.SqlServerDAO
         /// <param name="product">The product.</param>
         public void DeleteProduct(Product product)
         {
-            //see the approaches from http://stackoverflow.com/questions/8391520/entity-framework-how-do-i-delete-a-record-by-its-primary-key
             using (var context = new MyApplicationContext())
             {
-                var newProd = new Product { Id = product.Id };
+                var newProd = product;
                 context.Products.Attach(newProd);
                 context.Products.Remove(newProd);
                 context.SaveChanges();
@@ -81,12 +86,23 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                var result = context.Products.First(p => p.Id == product.Id);
-                if (result != null)
-                {
-                    result = product;
-                    context.SaveChanges();
-                }
+                User user = context.Users.FirstOrDefault(u => u.Id == product.OwnerUser.Id);
+                Category category = context.Categories.FirstOrDefault(c => c.Id == product.Category.Id);
+
+                var result = user.Products.First(p => p.Id == product.Id);
+                var result_two = category.Products.First(p => p.Id == product.Id);
+               
+                result.Name = product.Name;
+                result_two.Name = product.Name;
+
+                result.Description = product.Description;
+                result_two.Description = product.Description;
+
+                result.Status = product.Status;
+                result_two.Status = product.Status;
+
+                context.SaveChanges();
+                
             }
         }
     }

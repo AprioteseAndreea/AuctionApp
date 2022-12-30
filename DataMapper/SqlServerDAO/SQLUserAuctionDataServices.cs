@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataMapper.SqlServerDAO
 {
-    internal class SQLUserAuctionDataServices : IUserAuctionDataServices
+    public class SQLUserAuctionDataServices : IUserAuctionDataServices
     {
         public void AddUserAuction(UserAuction userAuction)
         {
@@ -22,9 +22,8 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                var newUser = new UserAuction { Id = userAuction.Id };
-                context.UserAuctions.Attach(newUser);
-                context.UserAuctions.Remove(newUser);
+                context.UserAuctions.Attach(userAuction);
+                context.UserAuctions.Remove(userAuction);
                 context.SaveChanges();
             }
         }

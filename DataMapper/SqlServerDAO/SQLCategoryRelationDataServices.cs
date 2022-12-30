@@ -22,9 +22,8 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                var newCategory = new CategoryRelation { Id = category.Id };
-                context.CategoryRelations.Attach(newCategory);
-                context.CategoryRelations.Remove(newCategory);
+                context.CategoryRelations.Attach(category);
+                context.CategoryRelations.Remove(category);
                 context.SaveChanges();
             }
         }

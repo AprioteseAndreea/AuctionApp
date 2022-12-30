@@ -32,7 +32,7 @@ namespace ServiceLayer.ServiceImplementation
                     var currentItem = item;
                     if (distance < 20)
                     {
-                        log.Info("A similar product was found. We won't add the product.");
+                        log.Info("A similar product has been found. We won't add the product.");
 
                         hasFound = true;
                         break;
@@ -59,28 +59,27 @@ namespace ServiceLayer.ServiceImplementation
 
         public void DeleteProduct(Product product)
         {
-            throw new NotImplementedException();
+            productDataServices.DeleteProduct(product);
         }
 
         public IList<Product> GetListOfProducts()
 
         {
-            throw new NotImplementedException();
+           return productDataServices.GetAllProducts();
         }
 
         public Product GetProductById(int id)
         {
-            throw new NotImplementedException();
+            return productDataServices.GetProductById(id);
         }
 
         public IList<Product> GetProductsByUserId(int userId)
         {
-            throw new NotImplementedException();
+            return productDataServices.GetProductsByUserId(userId);
         }
 
         public void UpdateProduct(Product product)
         {
-            throw new NotImplementedException();
-        }
+            productDataServices.UpdateProduct(product);        }
     }
 }

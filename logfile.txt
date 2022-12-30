@@ -2,3 +2,69 @@
 2022-12-28 10:46:53,684 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProductMethod
 2022-12-28 10:46:57,231 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User added products have been found.
 2022-12-28 10:46:57,454 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – The new product was added!
+2022-12-29 22:00:20,008 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:00:24,565 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:02:17,640 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:02:21,370 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:02:21,370 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – A similar product was found. We won't add the product.
+2022-12-29 22:03:26,574 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:03:29,917 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:05:37,450 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:05:40,853 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:12:46,425 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:12:49,873 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:21:03,831 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:21:07,046 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:21:20,387 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:21:23,520 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:27:22,420 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:27:25,634 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:30:43,348 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:30:46,580 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:30:46,841 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – The new product was added!
+2022-12-29 22:33:22,711 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:33:25,906 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:34:04,035 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:34:07,162 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:34:07,163 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – The new product was added!
+2022-12-29 22:36:10,420 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:36:13,553 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:36:13,554 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – The new product was added!
+2022-12-29 22:37:26,802 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:37:30,018 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:45:18,508 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:45:21,809 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:45:39,346 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:45:42,610 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 22:57:20,279 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 22:57:23,403 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 23:03:30,352 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 23:03:33,943 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-29 23:10:21,926 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-29 23:10:25,340 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 11:56:47,654 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-30 11:56:51,208 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 11:58:55,561 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-30 11:58:59,222 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 11:58:59,444 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – The new product was added!
+2022-12-30 12:02:55,986 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-30 12:02:59,658 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 12:02:59,658 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – A similar product was found. We won't add the product.
+2022-12-30 12:03:50,108 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-30 12:03:53,560 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 12:03:53,561 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – A similar product was found. We won't add the product.
+2022-12-30 17:36:04,859 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-30 17:36:08,420 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 17:36:08,436 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – A similar product was found. We won't add the product.
+2022-12-30 17:36:31,398 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-30 17:36:34,716 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 17:36:34,716 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – A similar product was found. We won't add the product.
+2022-12-30 19:58:16,418 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-30 19:58:20,092 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 19:59:07,914 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – The new product was added!
+2022-12-30 20:01:22,793 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-30 20:01:27,167 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 20:01:27,168 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – A similar product has been found. We won't add the product.
+2022-12-30 20:01:49,015 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
+2022-12-30 20:01:54,054 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
+2022-12-30 20:01:54,055 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – A similar product has been found. We won't add the product.

@@ -22,9 +22,8 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                var newUser = new User { Id = user.Id };
-                context.Users.Attach(newUser);
-                context.Users.Remove(newUser);
+                context.Users.Attach(user);
+                context.Users.Remove(user);
                 context.SaveChanges();
             }
         }

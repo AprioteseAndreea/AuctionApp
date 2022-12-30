@@ -20,10 +20,11 @@ namespace MyConsoleApplication
         {
             // addUser();
             addProduct();
+           // addUserAuction();
             //addCategory();
-           // listAllCategories();
+            // listAllCategories();
 
-          
+
         }
 
         private static void addProduct()
@@ -38,28 +39,48 @@ namespace MyConsoleApplication
             };
            Money money = new Money
             {
-                Amount = 10000,
+                Amount = 20000,
                 Currency = "RON"
             };
             Category category = new Category
             {
-               Id = 2,
-                Name = "Masini",
+               Id = 3,
+                Name = "Bijuterii",
             };
 
             Product product = new Product
             {
-                Name = "Masina de colectie",
-                Description = "licitez o masina din anul 2000",
+                Id=23,
+                Name = "test update2",
+                Description = "test1234",
                 OwnerUser = user,
-                EndDate = new DateTime(2022, 12, 31),
+                EndDate = new DateTime(2022, 12, 21),
                 StartDate  = DateTime.Now,
                 StartingPrice = money,
                 Category = category,
                 Status = "Opened",
             };
                 
-            productServices.AddProduct(product);
+            productServices.UpdateProduct(product);
+            
+
+        }
+
+        private static void addUserAuction()
+        {
+            IUserAuctionServices userAuctionServices = new UserAuctionServicesImplementation();
+            Money money = new Money
+            {
+                Amount = 1000,
+                Currency = "RON"
+            };
+            UserAuction userAuction = new UserAuction
+            {
+                Product = 22,
+                User = 1,
+                Price = money,
+            };
+            userAuctionServices.AddUserAuction(userAuction);
 
         }
 

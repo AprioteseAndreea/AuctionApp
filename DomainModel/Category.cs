@@ -9,6 +9,10 @@ namespace DomainModel
 {
     public class Category
     {
+        public Category()
+        {
+            Products = new List<Product>();
+        }
         public int Id
         {
             get;
@@ -22,7 +26,7 @@ namespace DomainModel
             set;
         }
 
-        public ICollection<Product> Products
+        public virtual ICollection<Product> Products
         {
             get;
             set;
