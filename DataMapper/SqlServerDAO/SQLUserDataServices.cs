@@ -22,8 +22,9 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                context.Users.Attach(user);
-                context.Users.Remove(user);
+                var newUser = new User { Id = user.Id };
+                context.Users.Attach(newUser);
+                context.Users.Remove(newUser);
                 context.SaveChanges();
             }
         }
@@ -51,7 +52,8 @@ namespace DataMapper.SqlServerDAO
                 var result = context.Users.First(u => u.Id == user.Id);
                 if (result != null)
                 {
-                    result = user;
+                    result.Name = user.Name;
+                    result.Status = user.Status;
                     context.SaveChanges();
                 }
             }

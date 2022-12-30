@@ -20,22 +20,22 @@ namespace ServiceLayer.ServiceImplementation
 
         public void DeleteUser(User user)
         {
-            throw new NotImplementedException();
+           userDataServices.DeleteUser(user);
         }
 
         public IList<User> GetListOfUsers()
         {
-            throw new NotImplementedException();
+            return userDataServices.GetAllUsers();
         }
 
         public User GetUserById(int id)
         {
-            throw new NotImplementedException();
+            return userDataServices.GetUserById(id);
         }
 
         public void UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            userDataServices.UpdateUser(user);
         }
     }
 }

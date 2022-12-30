@@ -18,8 +18,8 @@ namespace MyConsoleApplication
 
         static void Main(string[] args)
         {
-            // addUser();
-            addProduct();
+             addUser();
+           // addProduct();
            // addUserAuction();
             //addCategory();
             // listAllCategories();
@@ -98,11 +98,12 @@ namespace MyConsoleApplication
             IUserServices userServices = new UserServicesImplementation();
             User user = new User
             {
-                Name = "Filip Diana Estera",
-                Status = "Activ",
+                Id=3,
+                Name = "Dinu Ionut-Alin",
+                Status = "Inactiv",
 
             };
-            userServices.AddUser(user);
+            userServices.UpdateUser(user);
            
         }
         private static void listAllProducts()

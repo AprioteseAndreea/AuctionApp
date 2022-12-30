@@ -125,6 +125,10 @@
     <Compile Include="Migrations\202212271013058_secondmigration.designer.cs">
       <DependentUpon>202212271013058_secondmigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212301933481_update-fk.cs" />
+    <Compile Include="Migrations\202212301933481_update-fk.designer.cs">
+      <DependentUpon>202212301933481_update-fk.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212271013058_secondmigration.resx">
       <DependentUpon>202212271013058_secondmigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212301933481_update-fk.resx">
+      <DependentUpon>202212301933481_update-fk.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
