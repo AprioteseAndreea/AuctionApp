@@ -52,13 +52,13 @@ namespace TestDomainLayer
                 EndDate = new DateTime(2023, 12, 31),
                 StartingPrice = this.money_one,
                 Category = this.category,
-                Status = "Opened",
             };
             this.userAuction = new UserAuction
             {
                 Product = 1,
                 User = 1,
                 Price = this.money_two,
+                Status = "Opened",
             };
         }
 
@@ -127,14 +127,6 @@ namespace TestDomainLayer
         public void TestProductStartingPriceNull()
         {
             product.StartingPrice = null;
-            ValidationResults validationResults = Validation.Validate(product);
-            Assert.AreNotEqual(0, validationResults.Count);
-        }
-
-        [TestMethod]
-        public void TestProductStatusRange()
-        {
-            product.Status = "opened";
             ValidationResults validationResults = Validation.Validate(product);
             Assert.AreNotEqual(0, validationResults.Count);
         }

@@ -70,13 +70,6 @@ namespace DomainModel
             set;
         }
 
-        [DomainValidator("Opened", "Closed", MessageTemplate = "Unknown status")]
-        public string Status
-        {
-            get;
-            set;
-        }
-
         [SelfValidation]
         public void ValidateStartAndEndDate(ValidationResults validationResults)
         {

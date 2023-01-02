@@ -32,5 +32,12 @@ namespace DomainModel
             get;
             set;
         }
+
+        [DomainValidator("Opened", "Closed", MessageTemplate = "Unknown status")]
+        public string Status
+        {
+            get;
+            set;
+        }
     }
 }

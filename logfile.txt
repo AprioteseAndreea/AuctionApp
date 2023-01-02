@@ -68,3 +68,11 @@
 2022-12-30 20:01:49,015 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method
 2022-12-30 20:01:54,054 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – User products have been found.
 2022-12-30 20:01:54,055 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – A similar product has been found. We won't add the product.
+2023-01-03 00:55:17,629 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
+2023-01-03 00:57:13,785 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
+2023-01-03 00:58:19,093 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
+2023-01-03 00:59:49,482 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
+2023-01-03 01:00:17,507 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
+2023-01-03 01:01:51,111 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
+2023-01-03 01:02:50,121 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
+2023-01-03 01:04:33,421 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method

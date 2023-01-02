@@ -98,9 +98,6 @@ namespace DataMapper.SqlServerDAO
                 result.Description = product.Description;
                 result_two.Description = product.Description;
 
-                result.Status = product.Status;
-                result_two.Status = product.Status;
-
                 context.SaveChanges();
                 
             }

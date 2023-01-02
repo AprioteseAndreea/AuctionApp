@@ -23,5 +23,6 @@ namespace DataMapper.SqlServerDAO
 
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<UserAuction> UserAuctions { get; set; }
+        public virtual DbSet<Configuration> Configurations { get; set; }
     }
 }

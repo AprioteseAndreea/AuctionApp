@@ -17,8 +17,9 @@ namespace ServiceLayer
 
         UserAuction GetUserAuctionById(int id);
         IList<UserAuction> GetUserAuctionsByUserId(int userId);
-        IList<UserAuction> GetUserAuctionsByUserIdandProductId(int userId, int productId);
+        IList<UserAuction> GetOpenAuctionsByUserId(int userId);
 
+        IList<UserAuction> GetUserAuctionsByUserIdandProductId(int userId, int productId);
 
         void AddUserAuction(UserAuction userAuction);
     }

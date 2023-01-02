@@ -18,9 +18,9 @@ namespace MyConsoleApplication
 
         static void Main(string[] args)
         {
-             addUser();
+             //addUser();
            // addProduct();
-           // addUserAuction();
+            addUserAuction();
             //addCategory();
             // listAllCategories();
 
@@ -58,7 +58,7 @@ namespace MyConsoleApplication
                 StartDate  = DateTime.Now,
                 StartingPrice = money,
                 Category = category,
-                Status = "Opened",
+               
             };
                 
             productServices.UpdateProduct(product);
@@ -71,14 +71,15 @@ namespace MyConsoleApplication
             IUserAuctionServices userAuctionServices = new UserAuctionServicesImplementation();
             Money money = new Money
             {
-                Amount = 1000,
+                Amount = 25000,
                 Currency = "RON"
             };
             UserAuction userAuction = new UserAuction
             {
-                Product = 22,
+                Product = 23,
                 User = 1,
                 Price = money,
+                Status = "Open"
             };
             userAuctionServices.AddUserAuction(userAuction);
 

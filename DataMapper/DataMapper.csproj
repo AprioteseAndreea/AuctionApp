@@ -113,6 +113,7 @@
     <Compile Include="DAOFactoryMethod.cs" />
     <Compile Include="ICategoryDataServices.cs" />
     <Compile Include="ICategoryRelationDataServices.cs" />
+    <Compile Include="IConfigurationDataServices.cs" />
     <Compile Include="IDAOFactory.cs" />
     <Compile Include="IProductDataServices.cs" />
     <Compile Include="IUserAuctionDataServices.cs" />
@@ -129,12 +130,21 @@
     <Compile Include="Migrations\202212301933481_update-fk.designer.cs">
       <DependentUpon>202212301933481_update-fk.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301022231449_configclass.cs" />
+    <Compile Include="Migrations\202301022231449_configclass.designer.cs">
+      <DependentUpon>202301022231449_configclass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301022252065_status-column.cs" />
+    <Compile Include="Migrations\202301022252065_status-column.designer.cs">
+      <DependentUpon>202301022252065_status-column.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerDAO\MyApplicationContext.cs" />
     <Compile Include="SqlServerDAO\SQLCategoryDataServices.cs" />
     <Compile Include="SqlServerDAO\SQLCategoryRelationDataServices.cs" />
+    <Compile Include="SqlServerDAO\SQLConfigurationDataServices.cs" />
     <Compile Include="SqlServerDAO\SQLProductDataServices.cs" />
     <Compile Include="SqlServerDAO\SQLServerDAOFactory.cs" />
     <Compile Include="SqlServerDAO\SQLUserAuctionDataServices.cs" />
@@ -156,6 +166,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212301933481_update-fk.resx">
       <DependentUpon>202212301933481_update-fk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301022231449_configclass.resx">
+      <DependentUpon>202301022231449_configclass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301022252065_status-column.resx">
+      <DependentUpon>202301022252065_status-column.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
