@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Utils
 {
-    class OverbiddingException
+    public class OverbiddingException
     : Exception
     {
         public OverbiddingException() { }

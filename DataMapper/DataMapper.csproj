@@ -138,6 +138,10 @@
     <Compile Include="Migrations\202301022252065_status-column.designer.cs">
       <DependentUpon>202301022252065_status-column.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301031948324_restore-status.cs" />
+    <Compile Include="Migrations\202301031948324_restore-status.designer.cs">
+      <DependentUpon>202301031948324_restore-status.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -172,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202301022252065_status-column.resx">
       <DependentUpon>202301022252065_status-column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301031948324_restore-status.resx">
+      <DependentUpon>202301031948324_restore-status.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

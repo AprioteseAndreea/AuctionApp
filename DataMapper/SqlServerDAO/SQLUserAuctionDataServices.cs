@@ -36,14 +36,6 @@ namespace DataMapper.SqlServerDAO
             }
         }
 
-        public IList<UserAuction> GetOpenAuctionsByUserId(int userId)
-        {
-            using (var context = new MyApplicationContext())
-            {
-                return context.UserAuctions.Where(user => user.User == userId && user.Status == "Open").ToList();
-            }
-        }
-
         public UserAuction GetUserAuctionById(int id)
         {
             using (var context = new MyApplicationContext())

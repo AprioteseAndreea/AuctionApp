@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Utils
 {
-     class IncompatibleCurrencyException: Exception
+     public class IncompatibleCurrencyException: Exception
     {
         public IncompatibleCurrencyException() { }
 

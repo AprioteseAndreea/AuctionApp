@@ -76,6 +76,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataMapper\DataMapper.csproj">
+      <Project>{85E3E26B-8C32-43B6-B840-B03CC7DBF04E}</Project>
+      <Name>DataMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainModel\DomainModel.csproj">
+      <Project>{3104AFE4-F733-46D9-B9BC-192FA1236374}</Project>
+      <Name>DomainModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj">
       <Project>{f782a0cc-5e5f-4adf-9737-b874906e54dc}</Project>
       <Name>ServiceLayer</Name>

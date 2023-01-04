@@ -11,7 +11,12 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class ConfigurationServicesImplementation : IConfigurationServices
     {
-        IConfigurationDataServices configurationDataServices = new SQLConfigurationDataServices();
+        private readonly IConfigurationDataServices configurationDataServices;
+        public ConfigurationServicesImplementation(IConfigurationDataServices configurationDataServices)
+        {
+            this.configurationDataServices = configurationDataServices;
+        }
+
         public void AddConfiguration(Configuration configuration)
         {
             configurationDataServices.AddConfiguration(configuration);

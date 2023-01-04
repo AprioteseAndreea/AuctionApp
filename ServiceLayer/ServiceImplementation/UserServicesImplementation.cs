@@ -11,7 +11,12 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class UserServicesImplementation : IUserServices
     {
-        IUserDataServices userDataServices = new SQLUserDataServices();
+
+        private readonly IUserDataServices userDataServices;
+        public UserServicesImplementation(IUserDataServices userDataServices)
+        {
+            this.userDataServices = userDataServices;
+        }
 
         public void AddUser(User user)
         {

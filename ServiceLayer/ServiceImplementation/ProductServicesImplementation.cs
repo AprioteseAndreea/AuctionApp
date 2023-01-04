@@ -8,19 +8,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using log4net;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace ServiceLayer.ServiceImplementation
 {
     public class ProductServicesImplementation : IProductServices
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(ProductServicesImplementation));
-        IProductDataServices productDataServices = new SQLProductDataServices();
+        private readonly IProductDataServices productDataServices;
+        private readonly IConfigurationDataServices configurationDataServices;
+
+        public ProductServicesImplementation(IProductDataServices productDataServices, IConfigurationDataServices configurationDataServices)
+        {
+            this.productDataServices = productDataServices;
+            this.configurationDataServices = configurationDataServices;
+        }
+        public static IProductDataServices GetProductDataServices()
+        {
+            return new SQLProductDataServices();
+        }
+
+        public static IConfigurationDataServices GetConfigurationDataServices()
+        {
+            return new SQLConfigurationDataServices();
+        }
 
         public void AddProduct(Product product)
         {
             log.Info("In AddProduct method");
             var userProducts = productDataServices.GetProductsByUserId(product.OwnerUser.Id);
-            if(userProducts != null)
+            IList<Product> openAuctions = productDataServices.GetOpenProductsByUserId(product.OwnerUser.Id);
+            var maxAuctions = configurationDataServices.GetConfigurationById(1);
+
+            if (openAuctions.Count == maxAuctions.MaxAuctions)
+            {
+                log.Warn("The maximum number of licitations has been reached!");
+                throw new MaxAuctionsException();
+            }
+            if (userProducts != null)
             {
                 log.Info("User products have been found.");
 
@@ -42,12 +67,11 @@ namespace ServiceLayer.ServiceImplementation
                 {
                     productDataServices.AddProduct(product);
                     log.Info("The new product was added!");
-
                 }
                 else
                 {
-                    throw new SimilarDescriptionException(product.Name);
                     log.Info("A similar product was found. We won't add the product.");
+                    throw new SimilarDescriptionException(product.Name);
                 }
             }
             else
@@ -66,6 +90,11 @@ namespace ServiceLayer.ServiceImplementation
 
         {
            return productDataServices.GetAllProducts();
+        }
+
+        public IList<Product> GetOpenProductsByUserId(int userId)
+        {
+            throw new NotImplementedException();
         }
 
         public Product GetProductById(int id)

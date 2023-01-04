@@ -41,5 +41,8 @@ namespace DataMapper
         void UpdateProduct(Product product);
         IList<Product> GetProductsByUserId(int userId);
 
+        IList<Product> GetOpenProductsByUserId(int userId);
+
+
     }
 }

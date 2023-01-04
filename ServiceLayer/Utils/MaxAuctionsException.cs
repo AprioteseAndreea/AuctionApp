@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ServiceLayer.Utils
 {
 
-    class MaxAuctionsException : Exception
+    public class MaxAuctionsException : Exception
     {
 
         public MaxAuctionsException()

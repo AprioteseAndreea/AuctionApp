@@ -11,7 +11,12 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class CategoryServicesImplementation : ICategoryServices
     {
-        ICategoryDataServices categoryDataServices = new SQLCategoryDataServices();
+        private readonly ICategoryDataServices categoryDataServices;
+        public CategoryServicesImplementation(ICategoryDataServices categoryDataServices)
+        {
+            this.categoryDataServices = categoryDataServices;
+        }
+
         public void AddCategory(Category category)
         {
             categoryDataServices.AddCategory(category);

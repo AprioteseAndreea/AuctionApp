@@ -56,6 +56,14 @@ namespace DataMapper.SqlServerDAO
             }
         }
 
+        public IList<Product> GetOpenProductsByUserId(int userId)
+        {
+            using (var context = new MyApplicationContext())
+            {
+                return context.Products.Where(product => product.OwnerUser.Id == userId && product.Status == "Open").ToList();
+            }
+        }
+       
         /// <summary>
         /// Gets the product by identifier.
         /// </summary>

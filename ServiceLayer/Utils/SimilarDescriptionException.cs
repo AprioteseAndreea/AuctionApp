@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Utils
 {
-     class SimilarDescriptionException: Exception
+     public class SimilarDescriptionException: Exception
     {
         public SimilarDescriptionException() { }
 

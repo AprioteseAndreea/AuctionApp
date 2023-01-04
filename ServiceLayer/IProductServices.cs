@@ -17,6 +17,7 @@ namespace ServiceLayer
 
         Product GetProductById(int id);
         IList<Product> GetProductsByUserId(int userId);
+        IList<Product> GetOpenProductsByUserId(int userId);
 
         void AddProduct(Product product);
     }

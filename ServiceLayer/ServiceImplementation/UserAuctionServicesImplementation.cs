@@ -14,39 +14,37 @@ namespace ServiceLayer.ServiceImplementation
     public class UserAuctionServicesImplementation : IUserAuctionServices
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(ProductServicesImplementation));
-        IUserAuctionDataServices userAuctionDataServices = new SQLUserAuctionDataServices();
-        IConfigurationDataServices configurationDataServices = new SQLConfigurationDataServices();
+        private readonly IUserAuctionDataServices userAuctionDataServices;
+        private readonly IProductDataServices productDataServices;
+
+        public UserAuctionServicesImplementation(IUserAuctionDataServices userAuctionDataServices, IProductDataServices productDataServices)
+        {
+            this.userAuctionDataServices = userAuctionDataServices;
+            this.productDataServices = productDataServices;
+        }
         public void AddUserAuction(UserAuction userAuction)
         {
             log.Info("In AddUserAuction method");
 
-            IProductDataServices productDataServices = new SQLProductDataServices();
             var product = productDataServices.GetProductById(userAuction.Product);
-            var maxAuctions = configurationDataServices.GetConfigurationById(1);
 
             IList<UserAuction> userAuctions = userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction.User, userAuction.Product);
-            IList<UserAuction> openAuctions = userAuctionDataServices.GetOpenAuctionsByUserId(userAuction.User);
             if (product.StartingPrice.Currency != userAuction.Price.Currency)
             {
-                throw new IncompatibleCurrencyException(product.Name);
                 log.Warn("The currency of the product and the currency of the offer are incompatible.");
+                throw new IncompatibleCurrencyException(product.Name);
             }
             else if (userAuctions.Count == 0 && userAuction.Price.Amount <= product.StartingPrice.Amount)
             {
-                throw new MinimumBidException(product.Name);
                 log.Warn("The amount of the offer is too small or equal to the value of the product.");
+                throw new MinimumBidException(product.Name);
 
             }
             else if (userAuctions.Count != 0 && (userAuction.Price.Amount > 3 * userAuctions[userAuctions.Count - 1].Price.Amount || userAuction.Price.Amount <= userAuctions[userAuctions.Count - 1].Price.Amount))
             {
-                throw new OverbiddingException(product.Name);
                 log.Warn("The amount of the offer is too small or equal to the value of the product or more than 300% of the previous offer.");
+                throw new OverbiddingException(product.Name);
 
-            }
-            else if (openAuctions.Count == maxAuctions.MaxAuctions)
-            {
-                throw new MaxAuctionsException();
-                log.Warn("The maximum number of licitations has been reached!");
             }
             else
             {
@@ -64,11 +62,6 @@ namespace ServiceLayer.ServiceImplementation
         public IList<UserAuction> GetListOfUserAuctions()
         {
             return userAuctionDataServices.GetListOfUserAuctions();
-        }
-
-        public IList<UserAuction> GetOpenAuctionsByUserId(int userId)
-        {
-            return userAuctionDataServices.GetOpenAuctionsByUserId((int)userId);
         }
 
         public UserAuction GetUserAuctionById(int id)

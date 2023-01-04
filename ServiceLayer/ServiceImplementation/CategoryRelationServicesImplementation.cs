@@ -9,6 +9,12 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class CategoryRelationServicesImplementation : ICategoryRelationServices
     {
+        private readonly ICategoryRelationServices categoryRelationServices;
+        public CategoryRelationServicesImplementation(ICategoryRelationServices categoryRelationServices)
+        {
+            this.categoryRelationServices = categoryRelationServices;
+        }
+
         public void AddCategoryRelation(CategoryRelation category)
         {
             throw new NotImplementedException();

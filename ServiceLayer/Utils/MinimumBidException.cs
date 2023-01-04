@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Utils
 {
-    class MinimumBidException : Exception
+    public class MinimumBidException : Exception
     {
         public MinimumBidException() { }
 
