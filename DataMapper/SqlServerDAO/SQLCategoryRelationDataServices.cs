@@ -32,7 +32,7 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                return context.CategoryRelations.Where(category => category.ParentCategory == id).ToList();
+                return context.CategoryRelations.Where(category => category.ParentCategory.Id == id).ToList();
             }
         }
 

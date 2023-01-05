@@ -11,24 +11,44 @@ namespace TestDomainLayer
     public class ProductTests
     {
         private Category category;
+        private Category category_two;
+        private CategoryRelation relation;
         private Product product;
         private User user;
         private UserAuction userAuction;
         private Money money_one;
         private Money money_two;
+        private Configuration configuration;
 
         [TestInitialize]
         public void SetUp()
         {
             this.category = new Category
             {
-                Name = "Produse alimentare pentru oameni",
+                Id = 4,
+                Name = "Electronice",
+            };
+
+            this.category_two = new Category
+            {
+                Id=6,
+                Name = "Laptopuri"
+            };
+
+            this.relation = new CategoryRelation
+            {
+                Id = 1,
+                ParentCategory = this.category,
+                ChildCategory = this.category_two,
             };
 
             this.user = new User
             {
                 Name = "Andreea Apriotese",
-                Status = "activ",
+                Status = "Active",
+                Email = "andreea.apriotese@gmail.com",
+                Score = 4.00,
+                BirthDate = "12.12.2000"
             };
 
             this.money_one = new Money
@@ -52,14 +72,22 @@ namespace TestDomainLayer
                 EndDate = new DateTime(2023, 12, 31),
                 StartingPrice = this.money_one,
                 Category = this.category,
-                Status = "Opened",
+                Status = "Open",
             };
             this.userAuction = new UserAuction
             {
-                Product = 1,
-                User = 1,
+                Product = product,
+                User = user,
                 Price = this.money_two,
                
+            };
+            this.configuration = new Configuration
+            {
+                Id = 1,
+                MaxAuctions = 5,
+                InitialScore = 4,
+                MinScore = 3,
+                Days = 30,
             };
         }
 
@@ -95,6 +123,13 @@ namespace TestDomainLayer
         }
 
         [TestMethod]
+        public void TestProductNullDescription()
+        {
+            product.Description = null;
+            ValidationResults validationResults = Validation.Validate(product);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
         public void TestProductShortDescription()
         {
             product.Description = "aa";
@@ -103,7 +138,7 @@ namespace TestDomainLayer
         }
 
         [TestMethod]
-        public void TestProductEnoughDescription()
+        public void TestProductEnoughLongDescription()
         {
             product.Description = "Masina de colectie";
             ValidationResults validationResults = Validation.Validate(product);
@@ -118,11 +153,25 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
         [TestMethod]
+        public void TestProductOwnerUserNotNull()
+        {
+            product.OwnerUser = user;
+            ValidationResults validationResults = Validation.Validate(product);
+            Assert.AreEqual(0, validationResults.Count);
+        }
+        [TestMethod]
         public void TestProductCategoryNull()
         {
             product.Category = null;
             ValidationResults validationResults = Validation.Validate(product);
             Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestProductCategoryNotNull()
+        {
+            product.Category = category;
+            ValidationResults validationResults = Validation.Validate(product);
+            Assert.AreEqual(0, validationResults.Count);
         }
         [TestMethod]
         public void TestProductStartingPriceNull()
@@ -132,14 +181,35 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
         [TestMethod]
-        public void TestProductStatusRange()
+        public void TestProductStartingPriceNotNull()
+        {
+            product.StartingPrice = money_one;
+            ValidationResults validationResults = Validation.Validate(product);
+            Assert.AreEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestProductNullStatus()
+        {
+            product.Status = null;
+            ValidationResults validationResults = Validation.Validate(product);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestProductWrongStatusRange()
         {
             product.Status = "opened";
             ValidationResults validationResults = Validation.Validate(product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
         [TestMethod]
-        public void TestSelfValidationForDates()
+        public void TestProductCorrectStatusRange()
+        {
+            product.Status = "Open";
+            ValidationResults validationResults = Validation.Validate(product);
+            Assert.AreEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestEndDateBeforeNow()
         {
             product.EndDate = new DateTime(2022, 12, 10); 
             ValidationResults validationResults = Validation.Validate(product);
@@ -147,9 +217,18 @@ namespace TestDomainLayer
         }
 
         [TestMethod]
-        public void TestSelfValidationForStartDate()
+        public void TestStartDateBeforeNow()
         {
             product.StartDate = new DateTime(2022, 12, 10);
+            ValidationResults validationResults = Validation.Validate(product);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestStartDateBeforeNowAndEndDateInFuture()
+        {
+            product.StartDate = new DateTime(2022, 12, 10);
+            product.EndDate = new DateTime(2023, 12, 10);
+
             ValidationResults validationResults = Validation.Validate(product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
@@ -168,6 +247,20 @@ namespace TestDomainLayer
             money_one.Amount = -30;
             ValidationResults validationResults = Validation.Validate(money_one);
             Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestCorrectAmmount()
+        {
+            money_one.Amount = 30;
+            ValidationResults validationResults = Validation.Validate(money_one);
+            Assert.AreEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestCorrectMoneyCurrencyDomain()
+        {
+            money_one.Currency = "RON";
+            ValidationResults validationResults = Validation.Validate(money_one);
+            Assert.AreEqual(0, validationResults.Count);
         }
         [TestMethod]
         public void TestMoneyCurrencyDomain()
@@ -199,11 +292,25 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
         [TestMethod]
+        public void TestCategoryNullProducts()
+        {
+            category.Products = null;
+            ValidationResults validationResults = Validation.Validate(category);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
         public void TestUserNullName()
         {
             user.Name = null;
             ValidationResults validationResults = Validation.Validate(user);
             Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestUserNameContainsNumbers()
+        {
+            user.Name = "Andreea1234";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreEqual(0, validationResults.Count);
         }
         [TestMethod]
         public void TestUserShortName()
@@ -218,14 +325,174 @@ namespace TestDomainLayer
         {
             user.Name = "Andreea";
             ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreEqual(0, validationResults.Count);
+
 
         }
-            [TestMethod]
+        [TestMethod]
+        public void TestUserNullEmail()
+        {
+            user.Email = null;
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+
+        }
+        [TestMethod]
+        public void TestUserWrongFormatEmail()
+        {
+            user.Email = "andreea@";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+
+        }
+        [TestMethod]
+        public void TestUserCorrectFormatEmail()
+        {
+            user.Email = "andreea@gmail.com";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreEqual(0, validationResults.Count);
+
+        }
+        [TestMethod]
+        public void TestUserAgeUnderEighteen()
+        {
+            user.BirthDate = "10.10.2010";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+
+        }
+        [TestMethod]
+        public void TestUserAgeOverEighteen()
+        {
+            user.BirthDate = "10.10.2000";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreEqual(0, validationResults.Count);
+
+        }
+        [TestMethod]
+        public void TestUserScoreOutOfRange()
+        {
+            user.Score = 6.00;
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+
+        }
+
+        [TestMethod]
+        public void TestUserScoreInRange()
+        {
+            user.Score = 4.50;
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreEqual(0, validationResults.Count);
+
+        }
+
+        [TestMethod]
+        public void TestUserStatusNull()
+        {
+            user.Status = null;
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+
+        }
+
+        [TestMethod]
+        public void TestUserStatusInRange()
+        {
+            user.Status = "Active";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreEqual(0, validationResults.Count);
+
+        }
+
+        [TestMethod]
+        public void TestUserStatusOutOfRange()
+        {
+            user.Status = "incert";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+
+        }
+        [TestMethod]
+        public void TestUserProductsNull()
+        {
+            user.Products = null;
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+
+        }
+
+
+        [TestMethod]
         public void TestUserAuctionNullPrice()
         {
             userAuction.Price = null;
             ValidationResults validationResults = Validation.Validate(userAuction);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
+        [TestMethod]
+        public void TestUserAuctionNullProduct()
+        {
+            userAuction.Product = null;
+            ValidationResults validationResults = Validation.Validate(userAuction);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+
+        [TestMethod]
+        public void TestUserAuctionNullUser()
+        {
+            userAuction.User = null;
+            ValidationResults validationResults = Validation.Validate(userAuction);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+
+        [TestMethod]
+        public void TestConfigurationNegativeAuctions()
+        {
+            configuration.MaxAuctions = -2;
+            ValidationResults validationResults = Validation.Validate(configuration);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+
+        [TestMethod]
+        public void TestConfigurationOutOfRangeInitialScore()
+        {
+            configuration.InitialScore = 7;
+            ValidationResults validationResults = Validation.Validate(configuration);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+
+        [TestMethod]
+        public void TestConfigurationOutOfRangeMinScore()
+        {
+            configuration.MinScore = 10;
+            ValidationResults validationResults = Validation.Validate(configuration);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+
+        [TestMethod]
+        public void TestConfigurationOutOfRangeDays()
+        {
+            configuration.Days = 400;
+            ValidationResults validationResults = Validation.Validate(configuration);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+
+        [TestMethod]
+        public void TestCategoryConfigurationNullParentCategory()
+        {
+            relation.ParentCategory = null;
+            ValidationResults validationResults = Validation.Validate(relation);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestCategoryConfigurationNullChildCategory()
+        {
+            relation.ChildCategory = null;
+            ValidationResults validationResults = Validation.Validate(relation);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+
     }
 }

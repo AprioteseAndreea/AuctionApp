@@ -26,6 +26,7 @@ namespace DomainModel
             set;
         }
 
+        [NotNullValidator(MessageTemplate = "The description cannot be null")]
         [StringLengthValidator(3, 100)]
         public string Description
         {
@@ -70,7 +71,8 @@ namespace DomainModel
             set;
         }
 
-        [DomainValidator("Opened", "Closed", MessageTemplate = "Unknown status")]
+        [NotNullValidator(MessageTemplate ="The status can not be null")]
+        [DomainValidator("Open", "Closed", MessageTemplate = "Unknown status")]
         public string Status
         {
             get;

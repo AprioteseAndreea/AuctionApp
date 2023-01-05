@@ -26,6 +26,7 @@ namespace DomainModel
             set;
         }
 
+        [NotNullValidator]
         public virtual ICollection<Product> Products
         {
             get;

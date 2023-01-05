@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,13 +14,15 @@ namespace DomainModel
             get;
             set;
         }
-        public int ParentCategory
+        [NotNullValidator]
+        public Category ParentCategory
         {
             get;
             set;
         }
 
-        public int ChildCategory
+        [NotNullValidator]
+        public Category ChildCategory
         {
             get;
             set;

@@ -91,16 +91,16 @@ namespace TestsServiceLayer
 
             this.userAuction_one = new UserAuction
             {
-                Product = 1,
-                User = 1,
+                Product = product_one,
+                User = user,
                 Price = this.money_two,
 
             };
 
             this.userAuction_two = new UserAuction
             {
-                Product = 1,
-                User = 1,
+                Product = product_one,
+                User = user,
                 Price = new Money
                 {
                     Amount = 100,
@@ -110,8 +110,8 @@ namespace TestsServiceLayer
             };
             this.userAuction_three = new UserAuction
             {
-                Product = 1,
-                User = 1,
+                Product = product_one,
+                User = user,
                 Price = this.money_one,
 
             };
@@ -139,8 +139,8 @@ namespace TestsServiceLayer
             userProducts.Add(this.product_one);
             userAuctions.Add(new UserAuction
             {
-                Product = 1,
-                User = 1,
+                Product = product_one,
+                User = user,
                 Price = new Money
                 {
                     Amount = 100,

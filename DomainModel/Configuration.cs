@@ -1,10 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace DomainModel
 {
     public class Configuration
     {
+        public Configuration()
+        {
+
+        }
         public int Id
         {
             get;
@@ -17,22 +22,24 @@ namespace DomainModel
             get;
             set;
         }
-        [Range(0, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
-
-        public int InitialScore
+        [NotNullValidator]
+        [Range(1, 5, ErrorMessage = "Please enter a value bigger than {1}")]
+        public double InitialScore
         {
             get;
             set;
         }
-        [Range(0, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
 
-        public int MinScore
+        [NotNullValidator]
+        [Range(1, 5, ErrorMessage = "Please enter a value bigger than {1}")]
+        public double MinScore
         {
             get;
             set;
         }
-        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
 
+        [NotNullValidator]
+        [Range(1, 365, ErrorMessage = "Please enter a value bigger than {1}")]
         public int Days
         {
             get;

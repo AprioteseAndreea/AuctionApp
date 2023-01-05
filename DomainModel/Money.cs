@@ -10,6 +10,7 @@ namespace DomainModel
 {
     public class Money
     {
+        
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
         public decimal Amount
         {

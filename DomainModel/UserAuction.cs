@@ -14,13 +14,15 @@ namespace DomainModel
             get;
             set;
         }
-        public int Product
+        [NotNullValidator]
+        public Product Product
         {
             get;
             set;
         }
-        
-        public int User
+
+        [NotNullValidator]
+        public User User
         {
             get;
             set;

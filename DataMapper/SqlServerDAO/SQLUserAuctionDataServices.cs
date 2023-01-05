@@ -48,7 +48,7 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                return context.UserAuctions.Where(user => user.User == userId).ToList();
+                return context.UserAuctions.Where(user => user.User.Id == userId).ToList();
             }
         }
 
@@ -56,7 +56,7 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                return context.UserAuctions.Where(user => user.User == userId && user.Product == productId).ToList();
+                return context.UserAuctions.Where(user => user.User.Id == userId && user.Product.Id == productId).ToList();
             }
         }
 

@@ -28,7 +28,7 @@ namespace MyConsoleApplication
 
         }
 
-        private static void addProduct()
+       /* private static void addProduct()
         {
             // IProductServices productServices = new ProductServicesImplementation();
             User user = new User
@@ -124,6 +124,6 @@ namespace MyConsoleApplication
             {
                 Console.WriteLine(item.Name);
             }
-        }
+        }*/
     }
 }

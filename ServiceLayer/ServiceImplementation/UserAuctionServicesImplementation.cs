@@ -26,9 +26,9 @@ namespace ServiceLayer.ServiceImplementation
         {
             log.Info("In AddUserAuction method");
 
-            var product = productDataServices.GetProductById(userAuction.Product);
+            var product = productDataServices.GetProductById(userAuction.Product.Id);
 
-            IList<UserAuction> userAuctions = userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction.User, userAuction.Product);
+            IList<UserAuction> userAuctions = userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction.User.Id, userAuction.Product.Id);
             if (product.StartingPrice.Currency != userAuction.Price.Currency)
             {
                 log.Warn("The currency of the product and the currency of the offer are incompatible.");
