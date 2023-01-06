@@ -142,6 +142,10 @@
     <Compile Include="Migrations\202301031948324_restore-status.designer.cs">
       <DependentUpon>202301031948324_restore-status.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301062258366_added-fields.cs" />
+    <Compile Include="Migrations\202301062258366_added-fields.designer.cs">
+      <DependentUpon>202301062258366_added-fields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202301031948324_restore-status.resx">
       <DependentUpon>202301031948324_restore-status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301062258366_added-fields.resx">
+      <DependentUpon>202301062258366_added-fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

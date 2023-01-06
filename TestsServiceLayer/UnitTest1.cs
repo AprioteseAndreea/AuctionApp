@@ -63,7 +63,7 @@ namespace TestsServiceLayer
                 Currency = "USD"
             };
 
-            this.product_one = new Product
+            /*this.product_one = new Product
             {
                 Id = 1,
                 Name = "primul produs",
@@ -87,7 +87,7 @@ namespace TestsServiceLayer
                 StartingPrice = this.money_two,
                 Category = this.category,
                 Status = "Opened",
-            };
+            };*/
 
             this.userAuction_one = new UserAuction
             {

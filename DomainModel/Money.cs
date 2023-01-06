@@ -43,10 +43,5 @@ namespace DomainModel
             }
             return x.Amount > y.Amount;
         }
-
-        public override string ToString()
-        {
-            return Amount.ToString() + " " + Currency.ToString();
-        }
     }
 }

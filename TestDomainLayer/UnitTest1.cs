@@ -18,6 +18,8 @@ namespace TestDomainLayer
         private UserAuction userAuction;
         private Money money_one;
         private Money money_two;
+        private Money money_three;
+
         private Configuration configuration;
 
         [TestInitialize]
@@ -31,7 +33,7 @@ namespace TestDomainLayer
 
             this.category_two = new Category
             {
-                Id=6,
+                Id = 6,
                 Name = "Laptopuri"
             };
 
@@ -44,6 +46,7 @@ namespace TestDomainLayer
 
             this.user = new User
             {
+                Id=1,
                 Name = "Andreea Apriotese",
                 Status = "Active",
                 Email = "andreea.apriotese@gmail.com",
@@ -56,6 +59,11 @@ namespace TestDomainLayer
                 Amount = 100,
                 Currency = "RON"
             };
+            this.money_three = new Money
+            {
+                Amount = 1000,
+                Currency = "RON"
+            };
 
             this.money_two = new Money
             {
@@ -65,6 +73,7 @@ namespace TestDomainLayer
 
             this.product = new Product
             {
+                Id=1,
                 Name = "a product",
                 Description = "o descriere foarte interesanta",
                 OwnerUser = this.user,
@@ -76,10 +85,11 @@ namespace TestDomainLayer
             };
             this.userAuction = new UserAuction
             {
+                Id=2,
                 Product = product,
                 User = user,
                 Price = this.money_two,
-               
+
             };
             this.configuration = new Configuration
             {
@@ -94,7 +104,13 @@ namespace TestDomainLayer
         [TestMethod]
         public void TestCorrectProduct()
         {
-            ValidationResults validationResults = Validation.Validate(product);                
+            Assert.IsNotNull(product);
+        }
+
+        [TestMethod]
+        public void TestProductConstructor()
+        {
+            ValidationResults validationResults = Validation.Validate(product);
             Assert.AreEqual(0, validationResults.Count);
         }
 
@@ -211,7 +227,7 @@ namespace TestDomainLayer
         [TestMethod]
         public void TestEndDateBeforeNow()
         {
-            product.EndDate = new DateTime(2022, 12, 10); 
+            product.EndDate = new DateTime(2022, 12, 10);
             ValidationResults validationResults = Validation.Validate(product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
@@ -430,6 +446,13 @@ namespace TestDomainLayer
             ValidationResults validationResults = Validation.Validate(userAuction);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+        [TestMethod]
+        public void TestUserAuctionNotNullPrice()
+        {
+            userAuction.Price = money_one;
+            ValidationResults validationResults = Validation.Validate(userAuction);
+            Assert.AreEqual(0, validationResults.Count);
+        }
 
         [TestMethod]
         public void TestUserAuctionNullProduct()
@@ -438,6 +461,13 @@ namespace TestDomainLayer
             ValidationResults validationResults = Validation.Validate(userAuction);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+        [TestMethod]
+        public void TestUserAuctionNotNullProduct()
+        {
+            userAuction.Product = product;
+            ValidationResults validationResults = Validation.Validate(userAuction);
+            Assert.AreEqual(0, validationResults.Count);
+        }
 
         [TestMethod]
         public void TestUserAuctionNullUser()
@@ -445,6 +475,13 @@ namespace TestDomainLayer
             userAuction.User = null;
             ValidationResults validationResults = Validation.Validate(userAuction);
             Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestUserAuctionNotNullUser()
+        {
+            userAuction.User = user;
+            ValidationResults validationResults = Validation.Validate(userAuction);
+            Assert.AreEqual(0, validationResults.Count);
         }
 
         [TestMethod]
@@ -492,6 +529,30 @@ namespace TestDomainLayer
             relation.ChildCategory = null;
             ValidationResults validationResults = Validation.Validate(relation);
             Assert.AreNotEqual(0, validationResults.Count);
+        }
+
+        [TestMethod()]
+        public void TestMoneySmallerThanAnotherMoney_DifferentCurrency()
+        {
+            Assert.ThrowsException<Exception>(() => money_one < money_two);
+        }
+
+        [TestMethod()]
+        public void TestMoneyGreaterThanAnotherMoney_DifferentCurrency()
+        {
+            Assert.ThrowsException<Exception>(() => money_one > money_two);
+        }
+
+        [TestMethod()]
+        public void TestMoneySmallerThanAnotherMoney_SameCurrency()
+        {
+            Assert.IsTrue(money_one < money_three);
+        }
+
+        [TestMethod()]
+        public void TestMoneyGreaterThanAnotherMoney_SameCurrency()
+        {
+            Assert.IsTrue(money_three > money_one);
         }
 
     }
