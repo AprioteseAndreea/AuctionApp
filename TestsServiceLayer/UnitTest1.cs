@@ -31,9 +31,9 @@ namespace TestsServiceLayer
         private List<Product> userProducts;
         private List<UserAuction> userAuctions;
 
-        private Mock<IProductDataServices> productDataServicesMock;
-        private Mock<IUserAuctionDataServices> userAuctionDataServicesMock;
-        private Mock<IConfigurationDataServices> configurationDataServicesMock;
+        private Mock<IProductDataServices> productDataServicesStub;
+        private Mock<IUserAuctionDataServices> userAuctionDataServiceStub;
+        private Mock<IConfigurationDataServices> configurationDataServicesStub;
 
 
         [TestInitialize]
@@ -43,27 +43,23 @@ namespace TestsServiceLayer
             {
                 Name = "Produse alimentare pentru oameni",
             };
-
             this.user = new User
             {
                 Id = 1,
                 Name = "Andreea Apriotese",
                 Status = "activ",
             };
-
             this.money_one = new Money
             {
                 Amount = 100,
                 Currency = "RON"
             };
-
             this.money_two = new Money
             {
                 Amount = 50,
                 Currency = "USD"
             };
-
-            /*this.product_one = new Product
+            this.product_one = new Product
             {
                 Id = 1,
                 Name = "primul produs",
@@ -75,7 +71,6 @@ namespace TestsServiceLayer
                 Category = this.category,
                 Status = "Opened",
             };
-
             this.product_two = new Product
             {
                 Id = 2,
@@ -87,8 +82,7 @@ namespace TestsServiceLayer
                 StartingPrice = this.money_two,
                 Category = this.category,
                 Status = "Opened",
-            };*/
-
+            };
             this.userAuction_one = new UserAuction
             {
                 Product = product_one,
@@ -96,7 +90,6 @@ namespace TestsServiceLayer
                 Price = this.money_two,
 
             };
-
             this.userAuction_two = new UserAuction
             {
                 Product = product_one,
@@ -115,8 +108,6 @@ namespace TestsServiceLayer
                 Price = this.money_one,
 
             };
-
-
             this.configuration_one = new Configuration
             {
                 MaxAuctions = 0,
@@ -124,7 +115,6 @@ namespace TestsServiceLayer
                 MinScore = 2,
                 Days = 7
             };
-
             this.configuration_two = new Configuration
             {
                 MaxAuctions = 5,
@@ -132,7 +122,6 @@ namespace TestsServiceLayer
                 MinScore = 2,
                 Days = 7
             };
-
             this.userProducts = new List<Product>();
             this.userAuctions = new List<UserAuction>();
 
@@ -148,125 +137,94 @@ namespace TestsServiceLayer
                 },
             });
 
-            this.productDataServicesMock = new Mock<IProductDataServices>();
-            this.userAuctionDataServicesMock= new Mock<IUserAuctionDataServices>();
-            this.configurationDataServicesMock = new Mock<IConfigurationDataServices>();
+            this.productDataServicesStub = new Mock<IProductDataServices>();
+            this.userAuctionDataServiceStub = new Mock<IUserAuctionDataServices>();
+            this.configurationDataServicesStub = new Mock<IConfigurationDataServices>();
         }
 
-       /* [TestMethod]
+        [TestMethod]
         [ExpectedException(typeof(MaxAuctionsException), "")]
         public void TestAddProduct_MaxAuctionsException()
         {
+            productDataServicesStub
+                .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
+                .Returns(new List<Product>());
+            productDataServicesStub
+               .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
+               .Returns(new List<Product>());
 
-            using (mocks.Record())
-            {
-                Expect.Call(configurationDataServices.GetConfigurationById(1)).Return(this.configuration_one);
-                Expect.Call(productDataServices.GetOpenProductsByUserId(product_one.OwnerUser.Id)).Return(new List<Product>());
-                Expect.Call(productDataServices.GetProductsByUserId(product_one.OwnerUser.Id)).Return(new List<Product>());
+            configurationDataServicesStub
+                .Setup(c => c.GetConfigurationById(It.IsAny<int>()))
+                .Returns(configuration_one);
 
-            }
-            using (mocks.Playback())
-            {
-                var prod = new ProductServicesImplementation(productDataServices, configurationDataServices);
-                prod.AddProduct(product_one);
-            }
+            var prod = new ProductServicesImplementation(productDataServicesStub.Object, configurationDataServicesStub.Object);
+            prod.AddProduct(product_one);
 
         }
+
         [TestMethod]
         [ExpectedException(typeof(SimilarDescriptionException), "")]
         public void TestAddProduct_SimilarDescriptionException()
-        {
+        { 
+            productDataServicesStub
+                .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
+                .Returns(this.userProducts);
+            productDataServicesStub
+               .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
+               .Returns(new List<Product>());
 
-            using (mocks.Record())
-            {
-                Expect.Call(configurationDataServices.GetConfigurationById(1)).Return(this.configuration_two);
-                Expect.Call(productDataServices.GetOpenProductsByUserId(product_one.OwnerUser.Id)).Return(new List<Product>());
-                Expect.Call(productDataServices.GetProductsByUserId(product_one.OwnerUser.Id)).Return(this.userProducts);
+            configurationDataServicesStub
+                .Setup(c => c.GetConfigurationById(It.IsAny<int>()))
+                .Returns(configuration_two);
 
-            }
-            using (mocks.Playback())
-            {
-                var prod = new ProductServicesImplementation(productDataServices, configurationDataServices);
-                prod.AddProduct(product_two);
-
-            }
-
-        }
-        [TestMethod]
-        public void TestAddProduct_Successfully()
-        {
-
-            using (mocks.Record())
-            {
-                Expect.Call(configurationDataServices.GetConfigurationById(1)).Return(this.configuration_two);
-                Expect.Call(productDataServices.GetOpenProductsByUserId(product_one.OwnerUser.Id)).Return(new List<Product>());
-                Expect.Call(productDataServices.GetProductsByUserId(product_one.OwnerUser.Id)).Return(new List<Product>());
-              
-            }
-            using (mocks.Playback())
-            {
-                
-                var prod = new ProductServicesImplementation(productDataServices, configurationDataServices);
-                Expect.Call(() => productDataServices.AddProduct(product_one));
-
-                prod.AddProduct(product_two);
-
-                //productDataServices.VerifyAllExpectations();
-
-            }
+            var prod = new ProductServicesImplementation(productDataServicesStub.Object, configurationDataServicesStub.Object);
+            prod.AddProduct(product_one);
 
         }
         [TestMethod]
         [ExpectedException(typeof(IncompatibleCurrencyException), "")]
         public void TestAddUserAuction_IncompatibleCurrencyException()
         {
-            using (mocks.Record())
-            {
-                Expect.Call(productDataServices.GetProductById(userAuction_one.Product)).Return(product_one);
-                Expect.Call(userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction_one.User, userAuction_one.Product)).Return(new List<UserAuction>());
+            productDataServicesStub
+                .Setup(x => x.GetProductById(It.IsAny<int>()))
+                .Returns(product_one);
+            userAuctionDataServiceStub
+                .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new List<UserAuction>());
 
-            }
-            using (mocks.Playback())
-            {
-                var prod = new UserAuctionServicesImplementation(userAuctionDataServices, productDataServices);
-                prod.AddUserAuction(userAuction_one);
-
-            }
+            var prod = new UserAuctionServicesImplementation(userAuctionDataServiceStub.Object, productDataServicesStub.Object);
+            prod.AddUserAuction(userAuction_one);
         }
+
         [TestMethod]
         [ExpectedException(typeof(MinimumBidException), "")]
         public void TestAddUserAuction_MinimumBidException()
         {
-            using (mocks.Record())
-            {
-                Expect.Call(productDataServices.GetProductById(userAuction_three.Product)).Return(product_one);
-                Expect.Call(userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction_three.User, userAuction_one.Product)).Return(new List<UserAuction>());
+            productDataServicesStub
+                .Setup(x => x.GetProductById(It.IsAny<int>()))
+                .Returns(product_one);
+            userAuctionDataServiceStub
+                .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new List<UserAuction>());
 
-            }
-            using (mocks.Playback())
-            {
-                var prod = new UserAuctionServicesImplementation(userAuctionDataServices, productDataServices);
-                prod.AddUserAuction(userAuction_three);
-
-            }
+            var prod = new UserAuctionServicesImplementation(userAuctionDataServiceStub.Object, productDataServicesStub.Object);
+            prod.AddUserAuction(userAuction_three);
         }
 
         [TestMethod]
         [ExpectedException(typeof(OverbiddingException), "")]
         public void TestAddUserAuction_OverbiddingException()
         {
-            using (mocks.Record())
-            {
-                Expect.Call(productDataServices.GetProductById(userAuction_three.Product)).Return(product_one);
-                Expect.Call(userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction_three.User, userAuction_one.Product)).Return(userAuctions);
+            productDataServicesStub
+              .Setup(x => x.GetProductById(It.IsAny<int>()))
+              .Returns(product_one);
+            userAuctionDataServiceStub
+                .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(userAuctions);
 
-            }
-            using (mocks.Playback())
-            {
-                var prod = new UserAuctionServicesImplementation(userAuctionDataServices, productDataServices);
-                prod.AddUserAuction(userAuction_three);
-
-            }
-        }*/
+            var prod = new UserAuctionServicesImplementation(userAuctionDataServiceStub.Object, productDataServicesStub.Object);
+            prod.AddUserAuction(userAuction_three);
+          
+        }
     }
 }
