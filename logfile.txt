@@ -76,3 +76,4 @@
 2023-01-03 01:01:51,111 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
 2023-01-03 01:02:50,121 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
 2023-01-03 01:04:33,421 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddUserAuction method
+2023-01-08 12:55:50,903 [1] INFO  ServiceLayer.ServiceImplementation.ProductServicesImplementation [(null)] – In AddProduct method

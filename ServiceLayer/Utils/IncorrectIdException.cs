@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 namespace ServiceLayer.Utils
 {
 
-    public class MaxAuctionsException : Exception
+    public class IncorrectIdException : Exception
     {
-
-        public MaxAuctionsException()
-            : base(String.Format("The maximum number of licitations has been reached!"))
+        public IncorrectIdException()
+                        : base(String.Format("The id has an incorrect format"))
         {
 
         }
+
     }
 }

@@ -20,7 +20,7 @@ namespace MyConsoleApplication
         static void Main(string[] args)
         {
              //addUser();
-           // addProduct();
+            //addProduct();
            // addUserAuction();
             //addCategory();
             // listAllCategories();
@@ -28,12 +28,12 @@ namespace MyConsoleApplication
 
         }
 
-       /* private static void addProduct()
+       /*private static void addProduct()
         {
-            // IProductServices productServices = new ProductServicesImplementation();
+             IProductServices productServices = new ProductServicesImplementation(new SQLProductDataServices(), new SQLConfigurationDataServices());
             User user = new User
             {
-                Id = 1,
+                Id = 3,
                 Name = "Apriotese Andreea",
                 Status = "Activ",
 
@@ -51,7 +51,7 @@ namespace MyConsoleApplication
 
             Product product = new Product
             {
-                Id = 23,
+                Id = 27,
                 Name = "test update 3Ian",
                 Description = "test1234",
                 OwnerUser = user,
@@ -63,67 +63,67 @@ namespace MyConsoleApplication
 
             };
 
-            // productServices.UpdateProduct(product);
+             productServices.DeleteProduct(product);
 
 
-        }
-
-        private static void addUserAuction()
-        {
-            IUserAuctionServices userAuctionServices = new UserAuctionServicesImplementation();
-            Money money = new Money
-            {
-                Amount = 25000,
-                Currency = "RON"
-            };
-            UserAuction userAuction = new UserAuction
-            {
-                Product = 23,
-                User = 1,
-                Price = money,
-
-            };
-            userAuctionServices.AddUserAuction(userAuction);
-
-        }
-
-        private static void addCategory()
-        {
-            ICategoryServices service = new CategoryServicesImplementation();
-            Category category = new Category();
-            category.Name = "Bijuterii";
-            service.AddCategory(category);
-
-
-        }
-        private static void addUser()
-        {
-            IUserServices userServices = new UserServicesImplementation();
-            User user = new User
-            {
-                Id = 3,
-                Name = "Dinu Ionut-Alin",
-                Status = "Inactiv",
-
-            };
-            userServices.UpdateUser(user);
-
-        }
-        private static void listAllProducts()
-        {
-            IProductServices service = new ProductServicesImplementation(new SQLProductDataServices(), new SQLConfigurationDataServices());
-            foreach (var item in service.GetListOfProducts())
-            {
-                Console.WriteLine(item.Name);
-            }
-        }
-        private static void listAllCategories()
-        {
-            ICategoryServices service = new CategoryServicesImplementation();
-            foreach (var item in service.GetListOfCategories())
-            {
-                Console.WriteLine(item.Name);
-            }
         }*/
+        /*
+       private static void addUserAuction()
+       {
+           IUserAuctionServices userAuctionServices = new UserAuctionServicesImplementation();
+           Money money = new Money
+           {
+               Amount = 25000,
+               Currency = "RON"
+           };
+           UserAuction userAuction = new UserAuction
+           {
+               Product = 23,
+               User = 1,
+               Price = money,
+
+           };
+           userAuctionServices.AddUserAuction(userAuction);
+
+       }
+
+       private static void addCategory()
+       {
+           ICategoryServices service = new CategoryServicesImplementation();
+           Category category = new Category();
+           category.Name = "Bijuterii";
+           service.AddCategory(category);
+
+
+       }
+       private static void addUser()
+       {
+           IUserServices userServices = new UserServicesImplementation();
+           User user = new User
+           {
+               Id = 3,
+               Name = "Dinu Ionut-Alin",
+               Status = "Inactiv",
+
+           };
+           userServices.UpdateUser(user);
+
+       }
+       private static void listAllProducts()
+       {
+           IProductServices service = new ProductServicesImplementation(new SQLProductDataServices(), new SQLConfigurationDataServices());
+           foreach (var item in service.GetListOfProducts())
+           {
+               Console.WriteLine(item.Name);
+           }
+       }
+       private static void listAllCategories()
+       {
+           ICategoryServices service = new CategoryServicesImplementation();
+           foreach (var item in service.GetListOfCategories())
+           {
+               Console.WriteLine(item.Name);
+           }
+       }*/
     }
 }

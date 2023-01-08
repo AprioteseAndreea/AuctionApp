@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Utils
 {
-
-    public class MaxAuctionsException : Exception
+    public class InvalidObjectException: Exception
     {
-
-        public MaxAuctionsException()
-            : base(String.Format("The maximum number of licitations has been reached!"))
+        public InvalidObjectException()
+           : base(String.Format("The object is not valid!"))
         {
 
         }

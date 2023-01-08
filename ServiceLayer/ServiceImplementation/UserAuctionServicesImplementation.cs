@@ -16,11 +16,14 @@ namespace ServiceLayer.ServiceImplementation
         private static readonly ILog log = LogManager.GetLogger(typeof(ProductServicesImplementation));
         private readonly IUserAuctionDataServices userAuctionDataServices;
         private readonly IProductDataServices productDataServices;
+        private readonly IUserDataServices userDataServices;
 
-        public UserAuctionServicesImplementation(IUserAuctionDataServices userAuctionDataServices, IProductDataServices productDataServices)
+        public UserAuctionServicesImplementation(IUserAuctionDataServices userAuctionDataServices, IProductDataServices productDataServices, IUserDataServices userDataServices)
         {
             this.userAuctionDataServices = userAuctionDataServices;
             this.productDataServices = productDataServices;
+            this.userDataServices = userDataServices;
+
         }
         public void AddUserAuction(UserAuction userAuction)
         {
@@ -56,32 +59,127 @@ namespace ServiceLayer.ServiceImplementation
 
         public void DeleteUserAuction(UserAuction userAuction)
         {
-            userAuctionDataServices.DeleteUserAuction(userAuction);
+            log.Info("In DeleteUserAuction method");
+
+            if (userAuction != null)
+            {
+                var currentUserAuction = userAuctionDataServices.GetUserAuctionById(userAuction.Id);
+                if (currentUserAuction != null)
+                {
+                    log.Info("The user auction have been deleted!");
+                    userAuctionDataServices.DeleteUserAuction(userAuction);
+                }
+                else
+                {
+                    log.Warn("The user auction that you want to delete can not be found!");
+                    throw new ObjectNotFoundException(userAuction.Id.ToString());
+                }
+            }
+            else
+            {
+                log.Warn("The object passed by parameter is null.");
+                throw new NullReferenceException("The object can not be null.");
+            }
         }
 
         public IList<UserAuction> GetListOfUserAuctions()
         {
+            log.Info("In GetListOfUserAuctions method.");
             return userAuctionDataServices.GetListOfUserAuctions();
         }
 
         public UserAuction GetUserAuctionById(int id)
         {
-            return (userAuctionDataServices.GetUserAuctionById(id));
+            log.Info("In GetUserAuctionById method.");
+
+            if (id < 0 || id == 0)
+            {
+                log.Warn("The id is less than 0 or is equal with 0.");
+                throw new IncorrectIdException();
+
+            }
+            else
+            {
+                log.Info("The function GetUserAuctionById was successfully called.");
+                return userAuctionDataServices.GetUserAuctionById(id);
+
+
+            }
         }
 
         public IList<UserAuction> GetUserAuctionsByUserId(int userId)
         {
-            return userAuctionDataServices.GetUserAuctionsByUserId((int)userId);
+            log.Info("In GetUserAuctionsByUserId method");
+
+            if (userId < 0 || userId == 0)
+            {
+                log.Warn("The IncorrectIdException was thrown!");
+                throw new IncorrectIdException();
+
+            }
+            else
+            {
+                var currentUser = userDataServices.GetUserById(userId);
+                if (currentUser != null)
+                {
+                    log.Info("The function GetProductsByUserId was successfully called.");
+                    return userAuctionDataServices.GetUserAuctionsByUserId((int)userId);
+
+                }
+                else
+                {
+                    log.Warn("The ObjectNotFoundException was thrown!");
+                    throw new ObjectNotFoundException(userId.ToString());
+
+                }
+
+            }
         }
 
         public IList<UserAuction> GetUserAuctionsByUserIdandProductId(int userId, int productId)
         {
-            return userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userId, productId);
+          
+            log.Info("In GetUserAuctionsByUserIdandProductId method.");
+
+            if (userId < 0 || userId == 0 || productId < 0 || productId == 0)
+            {
+                log.Warn("The userId or productId is less than 0 or is equal with 0.");
+                throw new IncorrectIdException();
+
+            }
+            else
+            {
+                log.Info("The function GetUserAuctionById was successfully called.");
+                return userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userId, productId);
+
+            }
         }
 
         public void UpdateUserAuction(UserAuction userAuction)
         {
             userAuctionDataServices.UpdateUserAuction(userAuction);
+            log.Info("In UpdateProduct method");
+
+            if (userAuction != null)
+            {
+                var currentUserAuction = userAuctionDataServices.GetUserAuctionById(userAuction.Id);
+                if (currentUserAuction != null)
+                {
+                    log.Info("The function UpdateUserAuction was successfully called.");
+                    userAuctionDataServices.UpdateUserAuction(userAuction);
+
+                }
+                else
+                {
+                    log.Warn("The ObjectNotFoundException was thrown!");
+                    throw new ObjectNotFoundException(userAuction.Id.ToString());
+                }
+            }
+            else
+            {
+                log.Warn("The NullReferenceException was thrown!");
+                throw new NullReferenceException("The object can not be null.");
+            }
         }
     }
 }

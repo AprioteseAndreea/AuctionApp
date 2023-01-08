@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +26,22 @@ namespace DataMapper.SqlServerDAO
                 context.CategoryRelations.Attach(category);
                 context.CategoryRelations.Remove(category);
                 context.SaveChanges();
+            }
+        }
+
+        public IList<CategoryRelation> GetCategoryRelationByChildId(int id)
+        {
+            using (var context = new MyApplicationContext())
+            {
+                return context.CategoryRelations.Where(category => category.ChildCategory.Id == id).ToList();
+            }
+        }
+
+        public CategoryRelation GetCategoryRelationById(int id)
+        {
+            using (var context = new MyApplicationContext())
+            {
+                return context.CategoryRelations.Where(cat => cat.Id == id).SingleOrDefault();
             }
         }
 
