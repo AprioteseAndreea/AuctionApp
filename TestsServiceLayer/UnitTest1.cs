@@ -20,6 +20,11 @@ namespace TestsServiceLayer
         private Category category;
         private Category invalidCategory;
 
+        private Category childCategory;
+        private Category parentCategory;
+
+        private CategoryRelation categoryRelation;
+
         private Product productFirst;
         private Product productSecond;
         private Product invalidProduct;
@@ -31,6 +36,7 @@ namespace TestsServiceLayer
         private UserAuction userAuctionSecond;
         private UserAuction userAuctionThird;
         private UserAuction userAuctionFourth;
+        private UserAuction invalidUserAuction;
 
 
         private Money moneyFirst;
@@ -55,11 +61,13 @@ namespace TestsServiceLayer
         private Mock<IConfigurationDataServices> configurationDataServicesStub;
         private Mock<IUserDataServices> userDataServicesStub;
         private Mock<ICategoryDataServices> categoryDataServicesStub;
+        private Mock<ICategoryRelationDataServices> categoryRelationDataServicesStub;
 
         private ProductServicesImplementation prod;
         private UserAuctionServicesImplementation userAuction;
         private UserServicesImplementation userService;
         private CategoryServicesImplementation categoryServices;
+        private CategoryRelationServicesImplementation categoryRelationServices;
         private ConfigurationServicesImplementation configurationServices;
 
         [TestInitialize]
@@ -67,8 +75,26 @@ namespace TestsServiceLayer
         {
             this.category = new Category
             {
+                Id=4,
                 Name = "Produse alimentare pentru oameni",
             };
+            this.childCategory = new Category
+            {
+                Id=5,
+                Name = "Produse alimentare pentru oameni",
+            };
+            this.parentCategory = new Category
+            {
+                Id=6,
+                Name = "Produse alimentare pentru oameni",
+            };
+            this.categoryRelation = new CategoryRelation
+            {
+                Id = 10,
+                ParentCategory = parentCategory,
+                ChildCategory = childCategory,
+            };
+
             this.invalidCategory = new Category
             {
                 Name = "a",
@@ -174,6 +200,13 @@ namespace TestsServiceLayer
                 },
 
             };
+            this.invalidUserAuction = new UserAuction
+            {
+                Product = productFirst,
+                User = null,
+                Price = moneyThird,
+
+            };
             this.configurationFirst = new Configuration
             {
                 MaxAuctions = 0,
@@ -215,11 +248,14 @@ namespace TestsServiceLayer
             this.configurationDataServicesStub = new Mock<IConfigurationDataServices>();
             this.userDataServicesStub = new Mock<IUserDataServices>();
             this.categoryDataServicesStub = new Mock<ICategoryDataServices>();
+            this.categoryRelationDataServicesStub = new Mock<ICategoryRelationDataServices>();
+
             prod = new ProductServicesImplementation(productDataServicesStub.Object, configurationDataServicesStub.Object, userDataServicesStub.Object);
             userAuction = new UserAuctionServicesImplementation(userAuctionDataServiceStub.Object, productDataServicesStub.Object, userDataServicesStub.Object);
             userService = new UserServicesImplementation(userDataServicesStub.Object, configurationDataServicesStub.Object);
             categoryServices = new CategoryServicesImplementation(categoryDataServicesStub.Object);
             configurationServices = new ConfigurationServicesImplementation(configurationDataServicesStub.Object);
+            categoryRelationServices = new CategoryRelationServicesImplementation(categoryRelationDataServicesStub.Object, categoryDataServicesStub.Object);
         }
 
         [TestMethod]
@@ -668,7 +704,7 @@ namespace TestsServiceLayer
               .Setup(x => x.GetUserAuctionById(It.IsAny<int>()))
               .Equals(null);
 
-            prod.UpdateProduct(productSecond);
+            userAuction.UpdateUserAuction(userAuctionFirst);
         }
 
         [TestMethod]
@@ -824,7 +860,6 @@ namespace TestsServiceLayer
             categoryServices.GetCategoryById(POSITIVE_USER_ID);
         }
 
-
         [TestMethod]
         public void TestGetListOfCategories_Successfully()
         {
@@ -865,6 +900,20 @@ namespace TestsServiceLayer
         public void TestAddConfiguration_InvalidObjectException()
         {
             configurationServices.AddConfiguration(invalidConfiguration);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidObjectException), "")]
+        public void TestAddUserAuction_InvalidObjectException()
+        {
+            productDataServicesStub
+                .Setup(x => x.GetProductById(It.IsAny<int>()))
+                .Returns(productFirst);
+            userAuctionDataServiceStub
+                .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new List<UserAuction>());
+
+            userAuction.AddUserAuction(invalidUserAuction);
         }
 
         [TestMethod]
@@ -952,5 +1001,156 @@ namespace TestsServiceLayer
             configurationServices.UpdateConfiguration(configurationFirst);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidObjectException), "")]
+        public void TestAddCategoryRelation_InvalidObjectException()
+        {
+            categoryRelationServices.AddCategoryRelation(new CategoryRelation { ChildCategory = null, ParentCategory = null});
+        }
+
+        [TestMethod]
+        public void TestAddCategoryRelation_Successfully()
+        {
+
+            categoryDataServicesStub
+              .Setup(x => x.GetCategoryById(It.IsAny<int>()))
+              .Returns(childCategory);
+
+            categoryDataServicesStub
+              .Setup(x => x.GetCategoryById(It.IsAny<int>()))
+              .Returns(parentCategory);
+
+            categoryRelationServices.AddCategoryRelation(categoryRelation);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ObjectNotFoundException), "")]
+        public void TestAddCategoryRelation_CategoriesNotFound()
+        {
+
+            categoryDataServicesStub
+              .Setup(x => x.GetCategoryById(It.IsAny<int>()))
+              .Equals(null);
+
+            categoryDataServicesStub
+              .Setup(x => x.GetCategoryById(It.IsAny<int>()))
+              .Equals(null);
+
+            categoryRelationServices.AddCategoryRelation(categoryRelation);
+        }
+
+        [TestMethod]
+        public void TestDeleteCategoryRelation_Successfully()
+        {
+            categoryRelationDataServicesStub
+              .Setup(x => x.GetCategoryRelationById(It.IsAny<int>()))
+              .Returns(categoryRelation);
+
+            categoryRelationServices.DeleteCategoryRelation(categoryRelation);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ObjectNotFoundException), "")]
+        public void TestDeleteCategoryRelation_CategoryNotFound()
+        {
+            categoryRelationDataServicesStub
+              .Setup(x => x.GetCategoryRelationById(It.IsAny<int>()))
+              .Equals(null);
+
+            categoryRelationServices.DeleteCategoryRelation(categoryRelation);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException), "The object can not be null.")]
+        public void TestDeleteCategoryRelation_NullProduct()
+        {
+            categoryRelationServices.DeleteCategoryRelation(null);
+        }
+
+        [TestMethod]
+        public void TestGetCategoryRelationByParentId_Successfully()
+        {
+            categoryRelationServices.GetCategoryRelationByParentId(parentCategory.Id);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectIdException), "")]
+        public void TestGetCategoryRelationByParentId_NegativeId()
+        {
+            categoryRelationServices.GetCategoryRelationByParentId(NEGATIVE_PRODUCT_ID);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectIdException), "")]
+        public void TestGetCategoryRelationByParentId_ZeroId()
+        {
+            categoryRelationServices.GetCategoryRelationByParentId(0);
+        }
+
+        [TestMethod]
+        public void TestGetCategoryRelationByChildId_Successfully()
+        {
+            categoryRelationServices.GetCategoryRelationByChildId(childCategory.Id);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectIdException), "")]
+        public void TestGetCategoryRelationByChildId_NegativeId()
+        {
+            categoryRelationServices.GetCategoryRelationByChildId(NEGATIVE_PRODUCT_ID);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectIdException), "")]
+        public void TestGetCategoryRelationByChildId_ZeroId()
+        {
+            categoryRelationServices.GetCategoryRelationByChildId(0);
+        }
+        [TestMethod]
+        public void TestGetListOfCategoriesRelation_Successfully()
+        {
+            categoryRelationServices.GetListOfCategoriesRelation();
+        }
+
+
+        [TestMethod]
+        public void TestUpdateCategoryRelation_Successfully()
+        {
+            categoryRelationDataServicesStub
+            .Setup(x => x.GetCategoryRelationById(It.IsAny<int>()))
+            .Returns(categoryRelation);
+
+            categoryRelationServices.UpdateCategoryRelation(categoryRelation);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException), "The object can not be null.")]
+        public void TestUpdateCategoryRelation_NullProduct()
+        {
+            categoryRelationServices.UpdateCategoryRelation(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
+        public void TestUpdateCategoryRelation_ObjectNotFoundException()
+        {
+            categoryRelationDataServicesStub
+            .Setup(x => x.GetCategoryRelationById(It.IsAny<int>()))
+            .Equals(null);
+
+            categoryRelationServices.UpdateCategoryRelation(categoryRelation);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectIdException), "")]
+        public void TestGetCategoryRelationById_IncorrectIdException()
+        {
+
+            categoryRelationServices.GetCategoryRelationById(NEGATIVE_USER_ID);
+        }
+
+        [TestMethod]
+        public void TestGetCategoryRelationById_Successfully()
+        {
+            categoryRelationServices.GetCategoryRelationById(POSITIVE_USER_ID);
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ServiceLayer.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Validation;
 
 namespace ServiceLayer.ServiceImplementation
 {
@@ -30,9 +31,19 @@ namespace ServiceLayer.ServiceImplementation
             log.Info("In AddUserAuction method");
 
             var product = productDataServices.GetProductById(userAuction.Product.Id);
+            IList<UserAuction> userAuctions = new List<UserAuction>();
 
-            IList<UserAuction> userAuctions = userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction.User.Id, userAuction.Product.Id);
-            if (product.StartingPrice.Currency != userAuction.Price.Currency)
+            if (userAuction.Product!=null && userAuction.User != null)
+            {
+               userAuctions = userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction.User.Id, userAuction.Product.Id);
+            }
+  
+            ValidationResults validationResults = Validation.Validate(userAuction);
+            if(validationResults.Count != 0)
+            {
+                throw new InvalidObjectException();
+            }
+            else if (product.StartingPrice.Currency != userAuction.Price.Currency)
             {
                 log.Warn("The currency of the product and the currency of the offer are incompatible.");
                 throw new IncompatibleCurrencyException(product.Name);
