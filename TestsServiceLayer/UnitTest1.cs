@@ -166,7 +166,7 @@ namespace TestsServiceLayer
                 EndDate = new DateTime(2022, 12, 31),
                 StartingPrice = this.moneySecond,
                 Category = this.category,
-                Status = "Open",
+                Status = "Closed",
             };
             this.userAuctionFirst = new UserAuction
             {
@@ -528,6 +528,20 @@ namespace TestsServiceLayer
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ClosedAuctionException), "")]
+        public void TestAddUserAuction_ClosedAuctionException()
+        {
+            productDataServicesStub
+                .Setup(x => x.GetProductById(It.IsAny<int>()))
+                .Returns(invalidProduct);
+            userAuctionDataServiceStub
+                .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new List<UserAuction>());
+
+            userAuction.AddUserAuction(userAuctionThird);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(OverbiddingException), "")]
         public void TestAddUserAuction_OverbiddingException()
         {
@@ -827,6 +841,15 @@ namespace TestsServiceLayer
             categoryServices.DeleteCategory(category);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ObjectNotFoundException), "The object can not be null.")]
+        public void TestDeleteCategory_ObjectNotFoundException()
+        {
+            categoryDataServicesStub
+              .Setup(x => x.GetCategoryById(It.IsAny<int>()))
+              .Equals(null);
+            categoryServices.DeleteCategory(category);
+        }
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException), "The object can not be null.")]
@@ -931,18 +954,6 @@ namespace TestsServiceLayer
 
             configurationServices.DeleteConfiguration(configurationFirst);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(ObjectNotFoundException), "")]
-        public void TestDeleteCategory_ObjectNotFoundException()
-        {
-            configurationDataServicesStub 
-              .Setup(x => x.GetConfigurationById(It.IsAny<int>()))
-              .Equals(null);
-
-            configurationServices.DeleteConfiguration(configurationFirst);
-        }
-
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException), "The object can not be null.")]

@@ -4,9 +4,6 @@ using DomainModel;
 using log4net;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ServiceLayer.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 
@@ -42,6 +39,10 @@ namespace ServiceLayer.ServiceImplementation
             if(validationResults.Count != 0)
             {
                 throw new InvalidObjectException();
+            }
+            else if (product.Status == "Closed")
+            {
+                throw new ClosedAuctionException(product.Name);
             }
             else if (product.StartingPrice.Currency != userAuction.Price.Currency)
             {

@@ -386,6 +386,14 @@ namespace TestDomainLayer
 
         }
         [TestMethod]
+        public void TestUserAgeInTheFuture()
+        {
+            user.BirthDate = "10.10.2040";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+
+        }
+        [TestMethod]
         public void TestUserScoreOutOfRange()
         {
             user.Score = 6.00;

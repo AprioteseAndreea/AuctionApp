@@ -57,7 +57,6 @@ namespace DomainModel
 
         [NotNullValidator]
         [DomainValidator("Active", "Inactive", MessageTemplate = "Unknown status")]
-
         public string Status
         {
             get;
@@ -83,6 +82,15 @@ namespace DomainModel
                         "BirthDate",
                         null,
                         null));
+            }
+            if (DateTime.Now < DateTime.Parse(BirthDate))
+            {
+                validationResults.AddResult(
+                  new ValidationResult("You can not set a birth date in the future!",
+                      this,
+                      "BirthDate",
+                      null,
+                      null));
             }
         }
     }

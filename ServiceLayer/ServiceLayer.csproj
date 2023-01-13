@@ -72,6 +72,7 @@
     <Compile Include="ServiceImplementation\ProductServicesImplementation.cs" />
     <Compile Include="ServiceImplementation\UserAuctionServicesImplementation.cs" />
     <Compile Include="ServiceImplementation\UserServicesImplementation.cs" />
+    <Compile Include="Utils\ClosedAuctionException.cs" />
     <Compile Include="Utils\IncompatibleCurrencyException.cs" />
     <Compile Include="Utils\IncorrectIdException.cs" />
     <Compile Include="Utils\InvalidObjectException.cs" />
