@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using log4net;
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
+using DomainModel.DTO;
 
 namespace ServiceLayer.ServiceImplementation
 {
@@ -19,30 +20,53 @@ namespace ServiceLayer.ServiceImplementation
         private readonly IProductDataServices productDataServices;
         private readonly IConfigurationDataServices configurationDataServices;
         private readonly IUserDataServices userDataServices;
+        private readonly ICategoryDataServices categoryDataServices;
 
-        public ProductServicesImplementation(IProductDataServices productDataServices, IConfigurationDataServices configurationDataServices, IUserDataServices userDataServices)
+
+        public ProductServicesImplementation(IProductDataServices productDataServices, IConfigurationDataServices configurationDataServices, IUserDataServices userDataServices, ICategoryDataServices categoryDataServices)
         {
             this.productDataServices = productDataServices;
             this.configurationDataServices = configurationDataServices;
             this.userDataServices = userDataServices;
+            this.categoryDataServices = categoryDataServices;
         }
 
-        public void AddProduct(Product product)
+        public void AddProduct(ProductDTO product)
         {
             log.Info("In AddProduct method");
 
-            var userProducts = productDataServices.GetProductsByUserId(product.OwnerUser.Id);
-            IList<Product> openAuctions = productDataServices.GetOpenProductsByUserId(product.OwnerUser.Id);
-            var maxAuctions = configurationDataServices.GetConfigurationById(1);
-            ValidationResults validationResults = Validation.Validate(product);
+            ValidateProduct(product);
+            CheckMaxAuctionsPerUser(product);
+            CheckLevenshteinDistance(product);
 
-            if (product == null) throw new NullReferenceException("The object can not be null.");
-            else if (validationResults.Count != 0) throw new InvalidObjectException();
-            else if (openAuctions.Count == maxAuctions.MaxAuctions)
+            log.Info("The new product was added!");
+
+            productDataServices.AddProduct(GetProductFromProductDto(product));
+
+        }
+        private Product GetProductFromProductDto(ProductDTO product)
+        {
+            var currentUser = userDataServices.GetUserById(product.OwnerUserId);
+            var currentCategory = categoryDataServices.GetCategoryById(product.CategoryId);
+           
+            Product currentProduct = new Product
             {
-                log.Warn("The maximum number of licitations has been reached!");
-                throw new MaxAuctionsException();
-            }
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                OwnerUser = currentUser,
+                StartDate = product.StartDate,
+                EndDate = product.EndDate,
+                StartingPrice = product.StartingPrice,
+                Category = currentCategory,
+                Status = product.Status
+            };
+
+            return currentProduct;
+        }
+        private void CheckLevenshteinDistance(ProductDTO product)
+        {
+            var userProducts = productDataServices.GetProductsByUserId(product.OwnerUserId);
             if (userProducts.Count != 0)
             {
                 log.Info("User products have been found.");
@@ -63,7 +87,7 @@ namespace ServiceLayer.ServiceImplementation
                 }
                 if (!hasFound)
                 {
-                    productDataServices.AddProduct(product);
+                    productDataServices.AddProduct(GetProductFromProductDto(product));
                     log.Info("The new product was added!");
                 }
                 else
@@ -72,45 +96,52 @@ namespace ServiceLayer.ServiceImplementation
                     throw new SimilarDescriptionException(product.Name);
                 }
             }
-            else
+
+        }
+        private void CheckMaxAuctionsPerUser(ProductDTO product)
+        {
+            var openAuctions = productDataServices.GetOpenProductsByUserId(product.OwnerUserId);
+            var maxAuctions = configurationDataServices.GetConfigurationById(1);
+
+            if (openAuctions.Count == maxAuctions.MaxAuctions)
             {
-                productDataServices.AddProduct(product);
-                log.Info("The new product was added!");
+                log.Warn("The maximum number of licitations has been reached!");
+                throw new MaxAuctionsException();
             }
         }
+        private void ValidateProduct(ProductDTO product)
+        {
+            ValidationResults validationResults = Validation.Validate(product);
+            if (validationResults.Count != 0) throw new InvalidObjectException();
+        }
 
-        public void DeleteProduct(Product product)
+        public void DeleteProduct(ProductDTO product)
         {
             log.Info("In DeleteProduct method");
 
-            if (product != null)
+            ValidateProduct(product);
+
+            var currentProduct = productDataServices.GetProductById(product.Id);
+
+            if (currentProduct == null)
             {
-                var currentProduct = productDataServices.GetProductById(product.Id);
-                if (currentProduct != null)
-                {
-                    log.Info("The product have been deleted!");
-                    productDataServices.DeleteProduct(product);
-                }
-                else
-                {
-                    log.Warn("The product that you want to delete can not be found!");
-                    throw new ObjectNotFoundException(product.Name);
-                }
+                log.Warn("The product that you want to delete can not be found!");
+                throw new ObjectNotFoundException(product.Name);
+
             }
-            else
-            {
-                log.Warn("The object passed by parameter is null.");
-                throw new NullReferenceException("The object can not be null.");
-            }
+
+            log.Info("The product have been deleted!");
+            productDataServices.DeleteProduct(GetProductFromProductDto(product));
+
         }
 
-        public IList<Product> GetListOfProducts()
+        public IList<ProductDTO> GetListOfProducts()
         {
             log.Info("In GetListOfProducts method.");
-            return productDataServices.GetAllProducts();
+            return productDataServices.GetAllProducts().Select(c => new ProductDTO(c)).ToList();
         }
 
-        public IList<Product> GetOpenProductsByUserId(int userId)
+        public IList<ProductDTO> GetOpenProductsByUserId(int userId)
         {
             log.Info("In GetOpenProductsByUserId method.");
 
@@ -118,7 +149,7 @@ namespace ServiceLayer.ServiceImplementation
             {
                 log.Warn("The user id is less than 0 or is equal with 0.");
                 throw new IncorrectIdException();
-
+                
             }
             else
             {
@@ -126,7 +157,7 @@ namespace ServiceLayer.ServiceImplementation
                 if (currentUser != null)
                 {
                     log.Info("The open open products were searched.");
-                    return productDataServices.GetOpenProductsByUserId(userId);
+                    return productDataServices.GetOpenProductsByUserId(userId).Select(c => new ProductDTO(c)).ToList();
 
                 }
                 else
@@ -139,7 +170,7 @@ namespace ServiceLayer.ServiceImplementation
             }
         }
 
-        public Product GetProductById(int id)
+        public ProductDTO GetProductById(int id)
         {
             log.Info("In GetProductById method");
 
@@ -149,16 +180,13 @@ namespace ServiceLayer.ServiceImplementation
                 throw new IncorrectIdException();
 
             }
-            else
-            {
-                log.Info("The function GetProductById was successfully called.");
-                return productDataServices.GetProductById(id);
 
-            }
+            log.Info("The function GetProductById was successfully called.");
+            return new ProductDTO(productDataServices.GetProductById(id));
 
         }
 
-        public IList<Product> GetProductsByUserId(int userId)
+        public IList<ProductDTO> GetProductsByUserId(int userId)
         {
             log.Info("In GetProductsByUserId method");
 
@@ -171,47 +199,34 @@ namespace ServiceLayer.ServiceImplementation
             else
             {
                 var currentUser = userDataServices.GetUserById(userId);
-                if (currentUser != null)
+                if (currentUser == null)
                 {
-                    log.Info("The function GetProductsByUserId was successfully called.");
-                    return productDataServices.GetProductsByUserId(userId);
 
-                }
-                else
-                {
                     log.Warn("The ObjectNotFoundException was thrown!");
                     throw new ObjectNotFoundException(userId.ToString());
 
                 }
 
+                log.Info("The function GetProductsByUserId was successfully called.");
+                return productDataServices.GetProductsByUserId(userId).Select(p => new ProductDTO(p)).ToList();
+
             }
         }
 
-        public void UpdateProduct(Product product)
+        public void UpdateProduct(ProductDTO product)
         {
             log.Info("In UpdateProduct method");
 
-            if (product != null)
+            ValidateProduct(product);
+            var currentProduct = productDataServices.GetProductById(product.Id);
+            if (currentProduct == null)
             {
-                var currentProduct = productDataServices.GetProductById(product.Id);
-                if (currentProduct != null)
-                {
-                    log.Info("The function UpdateProduct was successfully called.");
-                    productDataServices.UpdateProduct(product);
+                log.Warn("The ObjectNotFoundException was thrown!");
+                throw new ObjectNotFoundException(product.Name);
 
-                }
-                else
-                {
-                    log.Warn("The ObjectNotFoundException was thrown!");
-                    throw new ObjectNotFoundException(product.Name);
-                }
             }
-            else
-            {
-                log.Warn("The NullReferenceException was thrown!");
-                throw new NullReferenceException("The object can not be null.");
-            }
-
+            log.Info("The function UpdateProduct was successfully called.");
+            productDataServices.UpdateProduct(GetProductFromProductDto(product));
         }
     }
 }

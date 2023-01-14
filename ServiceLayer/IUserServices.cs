@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using DomainModel.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace ServiceLayer
 {
    public interface IUserServices
     {
-        IList<User> GetListOfUsers();
+        IList<UserDTO> GetListOfUsers();
 
-        void DeleteUser(User user);
+        void DeleteUser(UserDTO user);
 
-        void UpdateUser(User user);
+        void UpdateUser(UserDTO user);
 
-        User GetUserById(int id);
+        UserDTO GetUserById(int id);
 
-        void AddUser(User user);
+        void AddUser(UserDTO user);
     }
 }

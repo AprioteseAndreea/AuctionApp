@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using DomainModel.enums;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -60,7 +61,7 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                return context.Products.Where(product => product.OwnerUser.Id == userId && product.Status == "Open").ToList();
+                return context.Products.Where(product => product.OwnerUser.Id == userId && product.Status == AuctionStatus.Open).ToList();
             }
         }
        

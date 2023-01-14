@@ -1,79 +1,44 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Validation;
+﻿using DomainModel.enums;
+using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 using System;
+using System.ComponentModel.DataAnnotations;
+using ValidationResult = Microsoft.Practices.EnterpriseLibrary.Validation.ValidationResult;
 
 namespace DomainModel
 {
     [HasSelfValidation]
     public class Product
     {
-       
-        public int Id
-        {
-            get;
-            set;
-        }
+
+        public int Id { get; set; }
 
         [NotNullValidator(MessageTemplate = "The name cannot be null")]
         [StringLengthValidator(2, RangeBoundaryType.Inclusive, 40, RangeBoundaryType.Inclusive, ErrorMessage = "The name should have between {3} and {5} letters")]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         [NotNullValidator(MessageTemplate = "The description cannot be null")]
         [StringLengthValidator(3, 100)]
-        public string Description
-        {
-            get;
-            set;
-        }
+        public string Description { get; set; }
 
         [NotNullValidator]
-        public User OwnerUser
-        {
-            get;
-            set;
-        }
-
+        public User OwnerUser { get; set; }
 
         [NotNullValidator]
-        public DateTime StartDate
-        {
-            get;
-            set;
-        }
-
+        public DateTime StartDate { get; set; }
 
         [NotNullValidator]
-        public DateTime EndDate
-        {
-            get;
-            set;
-        }
+        public DateTime EndDate { get; set; }
 
         [NotNullValidator(MessageTemplate = "The sell price cannot be null")]
-        public Money StartingPrice
-        {
-            get;
-            set;
-        }
+        public Money StartingPrice { get; set; }
 
         [NotNullValidator]
-        public Category Category
-        {
-            get;
-            set;
-        }
+        public Category Category { get; set; }
 
-        [NotNullValidator(MessageTemplate = "The status can not be null")]
-        [DomainValidator("Open", "Closed", MessageTemplate = "Unknown status")]
-        public string Status
-        {
-            get;
-            set;
-        }
+        [NotNullValidator]
+        [EnumDataType(typeof(AuctionStatus))]
+        public AuctionStatus Status { get; set; }
 
         [SelfValidation]
         public void ValidateStartAndEndDate(ValidationResults validationResults)

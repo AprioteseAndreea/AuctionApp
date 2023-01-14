@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using DomainModel.DTO;
 using System;
 using System.Collections.Generic;
 
@@ -6,12 +7,12 @@ namespace ServiceLayer
 {
     public interface IUserAuctionServices
     {
-        IList<UserAuction> GetListOfUserAuctions();
-        void DeleteUserAuction(UserAuction userAuction);
-        void UpdateUserAuction(UserAuction userAuction);
-        UserAuction GetUserAuctionById(int id);
-        IList<UserAuction> GetUserAuctionsByUserId(int userId);
-        IList<UserAuction> GetUserAuctionsByUserIdandProductId(int userId, int productId);
-        void AddUserAuction(UserAuction userAuction);
+        IList<UserAuctionDTO> GetListOfUserAuctions();
+        void DeleteUserAuction(UserAuctionDTO userAuction);
+        void UpdateUserAuction(UserAuctionDTO userAuction);
+        UserAuctionDTO GetUserAuctionById(int id);
+        IList<UserAuctionDTO> GetUserAuctionsByUserId(int userId);
+        IList<UserAuctionDTO> GetUserAuctionsByUserIdandProductId(int userId, int productId);
+        void AddUserAuction(UserAuctionDTO userAuction);
     }
 }

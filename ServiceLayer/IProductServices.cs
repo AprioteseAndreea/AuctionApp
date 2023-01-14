@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using DomainModel.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,16 @@ namespace ServiceLayer
 {
     public interface IProductServices
     {
-        IList<Product> GetListOfProducts();
+        IList<ProductDTO> GetListOfProducts();
 
-        void DeleteProduct(Product product);
+        void DeleteProduct(ProductDTO product);
 
-        void UpdateProduct(Product product);
+        void UpdateProduct(ProductDTO product);
 
-        Product GetProductById(int id);
-        IList<Product> GetProductsByUserId(int userId);
-        IList<Product> GetOpenProductsByUserId(int userId);
+        ProductDTO GetProductById(int id);
+        IList<ProductDTO> GetProductsByUserId(int userId);
+        IList<ProductDTO> GetOpenProductsByUserId(int userId);
 
-        void AddProduct(Product product);
+        void AddProduct(ProductDTO product);
     }
 }

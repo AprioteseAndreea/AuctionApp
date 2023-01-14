@@ -5,32 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DomainModel
+namespace DomainModel.DTO
 {
-    public class Category
+    public class CategoryDTO
     {
-        public Category()
+        public CategoryDTO() { }
+        public CategoryDTO(Category category)
         {
-            Products = new List<Product>();
+
+            Id = category.Id;
+            Name = category.Name;
+
         }
-        public int Id
-        {
-            get;
-            set;
-        }
+        public int Id { get; set; }
+
         [NotNullValidator(MessageTemplate = "The name cannot be null")]
         [StringLengthValidator(2, RangeBoundaryType.Inclusive, 40, RangeBoundaryType.Inclusive, ErrorMessage = "The name should have between {3} and {5} letters")]
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        [NotNullValidator]
-        public virtual ICollection<Product> Products
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
     }
 }

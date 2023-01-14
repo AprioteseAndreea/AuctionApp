@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using ServiceLayer.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
+using DomainModel.enums;
+using DomainModel.DTO;
+using System.Linq;
 
 namespace ServiceLayer.ServiceImplementation
 {
@@ -23,84 +26,103 @@ namespace ServiceLayer.ServiceImplementation
             this.userDataServices = userDataServices;
 
         }
-        public void AddUserAuction(UserAuction userAuction)
+        public void AddUserAuction(UserAuctionDTO userAuction)
         {
             log.Info("In AddUserAuction method");
+           
 
-            var product = productDataServices.GetProductById(userAuction.Product.Id);
-            IList<UserAuction> userAuctions = new List<UserAuction>();
+            var product = productDataServices.GetProductById(userAuction.ProductId);
+            if (product == null) throw new NullReferenceException("");
 
-            if (userAuction.Product!=null && userAuction.User != null)
+            ValidateUserAuction(userAuction);
+            var userAuctions = userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction.UserId, userAuction.ProductId);
+
+            CheckProductStatus(product);
+            CheckAuctionCurrency(product, userAuction);
+            CheckFirstAuction(userAuction, userAuctions, product);
+            CheckAmountRangeForAuction(userAuction, userAuctions);
+
+
+            log.Info("A new auction was successfully added!");
+            userAuctionDataServices.AddUserAuction(GetUserAuctionFromUserAuctionDto(userAuction));
+        }
+        public void CheckAmountRangeForAuction(UserAuctionDTO userAuction, IList<UserAuction> userAuctions)
+        {
+            if (userAuctions.Count != 0 && (userAuction.Price.Amount > 3 * userAuctions[userAuctions.Count - 1].Price.Amount || userAuction.Price.Amount <= userAuctions[userAuctions.Count - 1].Price.Amount))
             {
-               userAuctions = userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction.User.Id, userAuction.Product.Id);
+                log.Warn("The amount of the offer is too small or equal to the value of the product or more than 300% of the previous offer.");
+                throw new OverbiddingException("");
+
             }
-  
-            ValidationResults validationResults = Validation.Validate(userAuction);
-            if(validationResults.Count != 0)
-            {
-                throw new InvalidObjectException();
-            }
-            else if (product.Status == "Closed")
-            {
-                throw new ClosedAuctionException(product.Name);
-            }
-            else if (product.StartingPrice.Currency != userAuction.Price.Currency)
-            {
-                log.Warn("The currency of the product and the currency of the offer are incompatible.");
-                throw new IncompatibleCurrencyException(product.Name);
-            }
-            else if (userAuctions.Count == 0 && userAuction.Price.Amount <= product.StartingPrice.Amount)
+        }
+
+        public void CheckFirstAuction(UserAuctionDTO userAuction, IList<UserAuction> userAuctions, Product product)
+        {
+            if (userAuctions.Count == 0 && userAuction.Price.Amount <= product.StartingPrice.Amount)
             {
                 log.Warn("The amount of the offer is too small or equal to the value of the product.");
                 throw new MinimumBidException(product.Name);
 
             }
-            else if (userAuctions.Count != 0 && (userAuction.Price.Amount > 3 * userAuctions[userAuctions.Count - 1].Price.Amount || userAuction.Price.Amount <= userAuctions[userAuctions.Count - 1].Price.Amount))
-            {
-                log.Warn("The amount of the offer is too small or equal to the value of the product or more than 300% of the previous offer.");
-                throw new OverbiddingException(product.Name);
 
-            }
-            else
+        }
+        public void CheckAuctionCurrency(Product product, UserAuctionDTO userAuction)
+        {
+            if (product.StartingPrice.Currency != userAuction.Price.Currency)
             {
-                userAuctionDataServices.AddUserAuction(userAuction);
-                log.Info("A new auction was successfully added!");
+                log.Warn("The currency of the product and the currency of the offer are incompatible.");
+                throw new IncompatibleCurrencyException(product.Name);
+            }
+        }
+        public void CheckProductStatus(Product product)
+        {
+            if (product.Status == AuctionStatus.Closed)
+            {
+                throw new ClosedAuctionException(product.Name);
             }
 
         }
+        private UserAuction GetUserAuctionFromUserAuctionDto(UserAuctionDTO userAuction)
+        {
+            var currentUser = userDataServices.GetUserById(userAuction.UserId);
+            var product = productDataServices.GetProductById(userAuction.ProductId);
 
-        public void DeleteUserAuction(UserAuction userAuction)
+            UserAuction currentUserAuction = new UserAuction
+            {
+                Id = userAuction.Id,
+                Product = product,
+                User = currentUser,
+                Price = userAuction.Price,
+            };
+
+            return currentUserAuction;
+        }
+
+        public void DeleteUserAuction(UserAuctionDTO userAuction)
         {
             log.Info("In DeleteUserAuction method");
 
-            if (userAuction != null)
+            ValidateUserAuction(userAuction);
+
+            var currentUserAuction = userAuctionDataServices.GetUserAuctionById(userAuction.Id);
+            if (currentUserAuction == null)
             {
-                var currentUserAuction = userAuctionDataServices.GetUserAuctionById(userAuction.Id);
-                if (currentUserAuction != null)
-                {
-                    log.Info("The user auction have been deleted!");
-                    userAuctionDataServices.DeleteUserAuction(userAuction);
-                }
-                else
-                {
-                    log.Warn("The user auction that you want to delete can not be found!");
-                    throw new ObjectNotFoundException(userAuction.Id.ToString());
-                }
+                log.Warn("The user auction that you want to delete can not be found!");
+                throw new ObjectNotFoundException(userAuction.Id.ToString());
             }
-            else
-            {
-                log.Warn("The object passed by parameter is null.");
-                throw new NullReferenceException("The object can not be null.");
-            }
+
+            log.Info("The user auction have been deleted!");
+            userAuctionDataServices.DeleteUserAuction(GetUserAuctionFromUserAuctionDto(userAuction));
+
         }
 
-        public IList<UserAuction> GetListOfUserAuctions()
+        public IList<UserAuctionDTO> GetListOfUserAuctions()
         {
             log.Info("In GetListOfUserAuctions method.");
-            return userAuctionDataServices.GetListOfUserAuctions();
+            return userAuctionDataServices.GetListOfUserAuctions().Select(ua => new UserAuctionDTO(ua)).ToList();
         }
 
-        public UserAuction GetUserAuctionById(int id)
+        public UserAuctionDTO GetUserAuctionById(int id)
         {
             log.Info("In GetUserAuctionById method.");
 
@@ -110,16 +132,12 @@ namespace ServiceLayer.ServiceImplementation
                 throw new IncorrectIdException();
 
             }
-            else
-            {
-                log.Info("The function GetUserAuctionById was successfully called.");
-                return userAuctionDataServices.GetUserAuctionById(id);
 
-
-            }
+            log.Info("The function GetUserAuctionById was successfully called.");
+            return new UserAuctionDTO(userAuctionDataServices.GetUserAuctionById(id));
         }
 
-        public IList<UserAuction> GetUserAuctionsByUserId(int userId)
+        public IList<UserAuctionDTO> GetUserAuctionsByUserId(int userId)
         {
             log.Info("In GetUserAuctionsByUserId method");
 
@@ -129,28 +147,20 @@ namespace ServiceLayer.ServiceImplementation
                 throw new IncorrectIdException();
 
             }
-            else
+
+            var currentUser = userDataServices.GetUserById(userId);
+            if (currentUser == null)
             {
-                var currentUser = userDataServices.GetUserById(userId);
-                if (currentUser != null)
-                {
-                    log.Info("The function GetProductsByUserId was successfully called.");
-                    return userAuctionDataServices.GetUserAuctionsByUserId((int)userId);
-
-                }
-                else
-                {
-                    log.Warn("The ObjectNotFoundException was thrown!");
-                    throw new ObjectNotFoundException(userId.ToString());
-
-                }
-
+                log.Warn("The ObjectNotFoundException was thrown!");
+                throw new ObjectNotFoundException(userId.ToString());
             }
-        }
 
-        public IList<UserAuction> GetUserAuctionsByUserIdandProductId(int userId, int productId)
+            log.Info("The function GetProductsByUserId was successfully called.");
+            return userAuctionDataServices.GetUserAuctionsByUserId(userId).Select(ua => new UserAuctionDTO(ua)).ToList();
+        }
+        public IList<UserAuctionDTO> GetUserAuctionsByUserIdandProductId(int userId, int productId)
         {
-          
+
             log.Info("In GetUserAuctionsByUserIdandProductId method.");
 
             if (userId < 0 || userId == 0 || productId < 0 || productId == 0)
@@ -159,39 +169,33 @@ namespace ServiceLayer.ServiceImplementation
                 throw new IncorrectIdException();
 
             }
-            else
-            {
-                log.Info("The function GetUserAuctionById was successfully called.");
-                return userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userId, productId);
 
-            }
+            log.Info("The function GetUserAuctionById was successfully called.");
+            return userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userId, productId).Select(ua => new UserAuctionDTO(ua)).ToList();
+
         }
 
-        public void UpdateUserAuction(UserAuction userAuction)
+        public void UpdateUserAuction(UserAuctionDTO userAuction)
         {
-            userAuctionDataServices.UpdateUserAuction(userAuction);
             log.Info("In UpdateProduct method");
 
-            if (userAuction != null)
-            {
-                var currentUserAuction = userAuctionDataServices.GetUserAuctionById(userAuction.Id);
-                if (currentUserAuction != null)
-                {
-                    log.Info("The function UpdateUserAuction was successfully called.");
-                    userAuctionDataServices.UpdateUserAuction(userAuction);
+            ValidateUserAuction(userAuction);
 
-                }
-                else
-                {
-                    log.Warn("The ObjectNotFoundException was thrown!");
-                    throw new ObjectNotFoundException(userAuction.Id.ToString());
-                }
-            }
-            else
+            var currentUserAuction = userAuctionDataServices.GetUserAuctionById(userAuction.Id);
+            if (currentUserAuction == null)
             {
                 log.Warn("The NullReferenceException was thrown!");
                 throw new NullReferenceException("The object can not be null.");
             }
+
+            log.Info("The function UpdateUserAuction was successfully called.");
+            userAuctionDataServices.UpdateUserAuction(GetUserAuctionFromUserAuctionDto(userAuction));
+
+        }
+        private void ValidateUserAuction(UserAuctionDTO userAuction)
+        {
+            ValidationResults validationResults = Validation.Validate(userAuction);
+            if (validationResults.Count != 0) throw new InvalidObjectException();
         }
     }
 }

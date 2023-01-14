@@ -12,8 +12,7 @@ namespace DataMapper
         IList<CategoryRelation> GetListOfCategoriesRelation();
 
         void DeleteCategoryRelation(CategoryRelation category);
-        CategoryRelation GetCategoryRelationById(int id);
-
+        CategoryRelation GetCategoryRelationByChildAndParentId(int parentId, int childId);
 
         void UpdateCategoryRelation(CategoryRelation category);
 

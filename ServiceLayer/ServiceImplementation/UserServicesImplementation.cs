@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using ServiceLayer.Utils;
 using log4net;
+using DomainModel.DTO;
+using System.Linq;
 
 namespace ServiceLayer.ServiceImplementation
 {
@@ -20,53 +22,58 @@ namespace ServiceLayer.ServiceImplementation
             this.configurationDataServices = configurationDataServices;
         }
 
-        public void AddUser(User user)
+        public void AddUser(UserDTO user)
+        {
+            ValidateUser(user);
+
+            var configuration = configurationDataServices.GetConfigurationById(1);
+            if (configuration != null) user.Score = configuration.InitialScore;
+
+            userDataServices.AddUser(GetUserFromUserDto(user));
+        }
+
+        private User GetUserFromUserDto(UserDTO user)
+        {
+            User currentUser = new User
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                BirthDate = user.BirthDate,
+                Score = user.Score,
+                Status = user.Status,
+            };
+
+            return currentUser;
+        }
+        private void ValidateUser(UserDTO user)
         {
             ValidationResults validationResults = Validation.Validate(user);
-            if(validationResults.Count == 0)
-            {
-                var configuration = configurationDataServices.GetConfigurationById(1);
-                if (configuration != null) user.Score = configuration.InitialScore;
-                userDataServices.AddUser(user);
-            }
-            else
-            {
-                throw new InvalidObjectException();
-            }
+            if (validationResults.Count != 0) throw new InvalidObjectException();
         }
-
-        public void DeleteUser(User user)
+        public void DeleteUser(UserDTO user)
         {
-            log.Info("In DeleteUser method");
+            ValidateUser(user);
 
-            if (user != null)
+            var currentUser = userDataServices.GetUserById(user.Id);
+            if (currentUser == null)
             {
-                var currentUser = userDataServices.GetUserById(user.Id);
-                if (currentUser != null)
-                {
-                    log.Info("The user have been deleted!");
-                    userDataServices.DeleteUser(user);
-                }
-                else
-                {
-                    log.Warn("The user that you want to delete can not be found!");
-                    throw new ObjectNotFoundException(user.Name);
-                }
+                log.Warn("The user that you want to delete can not be found!");
+                throw new ObjectNotFoundException(user.FirstName + user.LastName);
+
             }
-            else
-            {
-                log.Warn("The object passed by parameter is null.");
-                throw new NullReferenceException("The object can not be null.");
-            }
+            log.Info("The user have been deleted!");
+            userDataServices.DeleteUser(GetUserFromUserDto(user));
         }
 
-        public IList<User> GetListOfUsers()
+        public IList<UserDTO> GetListOfUsers()
         {
             log.Info("In GetListOfUsers method.");
-            return userDataServices.GetAllUsers();
+            return userDataServices.GetAllUsers().Select(u => new UserDTO(u)).ToList();
         }
 
-        public User GetUserById(int id)
+        public UserDTO GetUserById(int id)
         {
             log.Info("In GetUserById method");
 
@@ -76,39 +83,24 @@ namespace ServiceLayer.ServiceImplementation
                 throw new IncorrectIdException();
 
             }
-            else
-            {
-                log.Info("The function GetUserById was successfully called.");
-                return userDataServices.GetUserById(id);
 
-            }
+            log.Info("The function GetUserById was successfully called.");
+            return new UserDTO(userDataServices.GetUserById(id));
         }
 
-        public void UpdateUser(User user)
+        public void UpdateUser(UserDTO user)
         {
-            log.Info("In UpdateUser method");
-            ValidationResults validationResults = Validation.Validate(user);
+            ValidateUser(user);
 
-            if (user != null && validationResults.Count == 0)
+            var currentUser = userDataServices.GetUserById(user.Id);
+            if (currentUser == null)
             {
-                var currentUser = userDataServices.GetUserById(user.Id);
-                if (currentUser != null)
-                {
-                    log.Info("The function UpdateUser was successfully called.");
-                    userDataServices.UpdateUser(user);
+                log.Warn("The ObjectNotFoundException was thrown!");
+                throw new ObjectNotFoundException(user.FirstName + user.LastName);
+            }
 
-                }
-                else
-                {
-                    log.Warn("The ObjectNotFoundException was thrown!");
-                    throw new ObjectNotFoundException(user.Name);
-                }
-            }
-            else
-            {
-                log.Warn("The NullReferenceException was thrown!");
-                throw new NullReferenceException("The object can not be null.");
-            }
+            log.Info("The function UpdateUser was successfully called.");
+            userDataServices.UpdateUser(GetUserFromUserDto(user));
         }
     }
 }

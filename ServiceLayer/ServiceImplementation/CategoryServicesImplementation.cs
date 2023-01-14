@@ -1,11 +1,11 @@
 ﻿using DataMapper;
 using DomainModel;
+using DomainModel.DTO;
 using log4net;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using ServiceLayer.Utils;
-using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace ServiceLayer.ServiceImplementation
 {
@@ -18,47 +18,43 @@ namespace ServiceLayer.ServiceImplementation
             this.categoryDataServices = categoryDataServices;
         }
 
-        public void AddCategory(Category category)
+        public void AddCategory(CategoryDTO category)
         {
-            log.Info("In AddCategory method.");
-            ValidationResults validationResults = Validation.Validate(category);
-            if (validationResults.Count == 0)
-            {
-                categoryDataServices.AddCategory(category);
-            }
-            else
-            {
-                throw new InvalidObjectException();
-
-            }
+            ValidateCategory(category);
+            categoryDataServices.AddCategory(GetCategoryFromCategoryDto(category));
         }
+        private Category GetCategoryFromCategoryDto(CategoryDTO category)
+        {
+            Category currentCategory = new Category
+            {
+                Id = category.Id,
+                Name = category.Name,
+            };
 
-        public void DeleteCategory(Category category)
+            return currentCategory;
+        }
+        private void ValidateCategory(CategoryDTO category)
+        {
+            ValidationResults validationResults = Validation.Validate(category);
+            if (validationResults.Count != 0) throw new InvalidObjectException();
+        }
+        public void DeleteCategory(CategoryDTO category)
         {
             log.Info("In DeleteCategory method");
+            ValidateCategory(category);
 
-            if (category != null)
+            var currentCategory = categoryDataServices.GetCategoryById(category.Id);
+            if (currentCategory == null)
             {
-                var currentCategory = categoryDataServices.GetCategoryById(category.Id);
-                if (currentCategory != null)
-                {
-                    log.Info("The user have been deleted!");
-                    categoryDataServices.DeleteCategory(category);
-                }
-                else
-                {
-                    log.Warn("The user that you want to delete can not be found!");
-                    throw new ObjectNotFoundException(category.Name);
-                }
+                log.Warn("The user that you want to delete can not be found!");
+                throw new ObjectNotFoundException(category.Name);
             }
-            else
-            {
-                log.Warn("The object passed by parameter is null.");
-                throw new NullReferenceException("The object can not be null.");
-            }
+
+            log.Info("The user have been deleted!");
+            categoryDataServices.DeleteCategory(GetCategoryFromCategoryDto(category));
         }
 
-        public Category GetCategoryById(int id)
+        public CategoryDTO GetCategoryById(int id)
         {
             log.Info("In GetCategoryById method");
 
@@ -68,45 +64,36 @@ namespace ServiceLayer.ServiceImplementation
                 throw new IncorrectIdException();
 
             }
-            else
-            {
-                log.Info("The function GetCategoryById was successfully called.");
-                return categoryDataServices.GetCategoryById(id);
 
-            }
+            log.Info("The function GetCategoryById was successfully called.");
+            return new CategoryDTO(categoryDataServices.GetCategoryById(id));
+
         }
 
-        public IList<Category> GetListOfCategories()
+        public IList<CategoryDTO> GetListOfCategories()
         {
             log.Info("In GetListOfCategories method");
-            return categoryDataServices.GetListOfCategories();
+            return categoryDataServices.GetListOfCategories().Select(c => new CategoryDTO(c)).ToList();
 
         }
 
-        public void UpdateCategory(Category category)
+        public void UpdateCategory(CategoryDTO category)
         {
             log.Info("In UpdateCategory method");
+            ValidateCategory(category);
 
-            if (category != null)
+            var currentCategory = categoryDataServices.GetCategoryById(category.Id);
+            if (currentCategory == null)
             {
-                var currentCategory = categoryDataServices.GetCategoryById(category.Id);
-                if (currentCategory != null)
-                {
-                    log.Info("The function UpdateCategory was successfully called.");
-                    categoryDataServices.UpdateCategory(category);
+                log.Warn("The ObjectNotFoundException was thrown!");
+                throw new ObjectNotFoundException(category.Name);
 
-                }
-                else
-                {
-                    log.Warn("The ObjectNotFoundException was thrown!");
-                    throw new ObjectNotFoundException(category.Name);
-                }
             }
-            else 
-            {
-                log.Warn("The NullReferenceException was thrown!");
-                throw new NullReferenceException("The object can not be null.");
-            }
+
+            log.Info("The function UpdateCategory was successfully called.");
+            categoryDataServices.UpdateCategory(GetCategoryFromCategoryDto(category));
         }
+
+
     }
 }

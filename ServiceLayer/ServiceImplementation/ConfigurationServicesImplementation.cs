@@ -1,14 +1,12 @@
 ﻿using DataMapper;
-using DataMapper.SqlServerDAO;
 using DomainModel;
+using DomainModel.DTO;
 using log4net;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using ServiceLayer.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ServiceLayer.ServiceImplementation
 {
@@ -21,47 +19,47 @@ namespace ServiceLayer.ServiceImplementation
             this.configurationDataServices = configurationDataServices;
         }
 
-        public void AddConfiguration(Configuration configuration)
+        public void AddConfiguration(ConfigurationDTO configuration)
         {
-            log.Info("In AddConfiguration method.");
-            ValidationResults validationResults = Validation.Validate(configuration);
-            if (validationResults.Count == 0)
-            {
-                configurationDataServices.AddConfiguration(configuration);
-            }
-            else
-            {
-                throw new InvalidObjectException();
-
-            }
+            ValidateConfiguration(configuration);
+            configurationDataServices.AddConfiguration(GetConfigurationFromConfigurationDTO(configuration));
         }
+        private Configuration GetConfigurationFromConfigurationDTO(ConfigurationDTO configuration)
+        {
+            Configuration currentConfiguration = new Configuration
+            {
+                Id = configuration.Id,
+                MaxAuctions = configuration.MaxAuctions,
+                InitialScore = configuration.InitialScore,
+                MinScore = configuration.MinScore,
+                Days = configuration.Days,           
+            };
 
-        public void DeleteConfiguration(Configuration configuration)
+            return currentConfiguration;
+        }
+        private void ValidateConfiguration(ConfigurationDTO configuration)
+        {
+            ValidationResults validationResults = Validation.Validate(configuration);
+            if (validationResults.Count != 0) throw new InvalidObjectException();
+        }
+        public void DeleteConfiguration(ConfigurationDTO configuration)
         {
             log.Info("In DeleteCategory method");
+            ValidateConfiguration(configuration);
 
-            if (configuration != null)
+            var currentConfiguration = configurationDataServices.GetConfigurationById(configuration.Id);
+            if (currentConfiguration == null)
             {
-                var currentConfiguration = configurationDataServices.GetConfigurationById(configuration.Id);
-                if (currentConfiguration != null)
-                {
-                    log.Info("The configuration have been deleted!");
-                    configurationDataServices.DeleteConfiguration(configuration);
-                }
-                else
-                {
-                    log.Warn("The configuration that you want to delete can not be found!");
-                    throw new ObjectNotFoundException("");
-                }
+                log.Warn("The configuration that you want to delete can not be found!");
+                throw new ObjectNotFoundException("");
+
             }
-            else
-            {
-                log.Warn("The object passed by parameter is null.");
-                throw new NullReferenceException("The object can not be null.");
-            }
+
+            log.Info("The configuration have been deleted!");
+            configurationDataServices.DeleteConfiguration(GetConfigurationFromConfigurationDTO(configuration));
         }
 
-        public Configuration GetConfigurationById(int id)
+        public ConfigurationDTO GetConfigurationById(int id)
         {
             log.Info("In GetConfigurationById method");
 
@@ -71,45 +69,35 @@ namespace ServiceLayer.ServiceImplementation
                 throw new IncorrectIdException();
 
             }
-            else
-            {
-                log.Info("The function GetConfigurationById was successfully called.");
-                return configurationDataServices.GetConfigurationById(id);
 
-            }
+            log.Info("The function GetConfigurationById was successfully called.");
+            return new ConfigurationDTO(configurationDataServices.GetConfigurationById(id));
+
         }
 
-        public IList<Configuration> GetListOfConfiguration()
+        public IList<ConfigurationDTO> GetListOfConfiguration()
         {
             log.Info("In GetListOfConfiguration method");
-            return configurationDataServices.GetListOfConfiguration();
+            return configurationDataServices.GetListOfConfiguration().Select(c => new ConfigurationDTO(c)).ToList();
         }
 
-        public void UpdateConfiguration(Configuration configuration)
+        public void UpdateConfiguration(ConfigurationDTO configuration)
         {
 
             log.Info("In UpdateConfiguration method");
 
-            if (configuration != null)
-            {
-                var currentConfiguration = configurationDataServices.GetConfigurationById(configuration.Id);
-                if (currentConfiguration != null)
-                {
-                    log.Info("The function UpdateConfiguration was successfully called.");
-                    configurationDataServices.UpdateConfiguration(configuration);
+            ValidateConfiguration(configuration);
 
-                }
-                else
-                {
-                    log.Warn("The ObjectNotFoundException was thrown!");
-                    throw new ObjectNotFoundException("");
-                }
-            }
-            else
+            var currentConfiguration = configurationDataServices.GetConfigurationById(configuration.Id);
+            if (currentConfiguration == null)
             {
-                log.Warn("The NullReferenceException was thrown!");
-                throw new NullReferenceException("The object can not be null.");
+                log.Warn("The ObjectNotFoundException was thrown!");
+                throw new ObjectNotFoundException("");
+
+
             }
+            log.Info("The function UpdateConfiguration was successfully called.");
+            configurationDataServices.UpdateConfiguration(GetConfigurationFromConfigurationDTO(configuration));
         }
     }
 }

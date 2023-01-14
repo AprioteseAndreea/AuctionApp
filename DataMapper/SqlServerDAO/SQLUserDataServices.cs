@@ -52,7 +52,8 @@ namespace DataMapper.SqlServerDAO
                 var result = context.Users.First(u => u.Id == user.Id);
                 if (result != null)
                 {
-                    result.Name = user.Name;
+                    result.FirstName = user.FirstName;
+                    result.LastName = user.LastName;
                     result.Status = user.Status;
                     context.SaveChanges();
                 }

@@ -1,4 +1,6 @@
 ﻿using DomainModel;
+using DomainModel.enums;
+using DomainModel.Enums;
 using Microsoft.Practices.EnterpriseLibrary.Common.Utility;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,7 +10,7 @@ using System.Collections.Generic;
 namespace TestDomainLayer
 {
     [TestClass]
-    public class ProductTests
+    public class EntitiesTests
     {
         private Category category;
         private Category category_two;
@@ -39,7 +41,6 @@ namespace TestDomainLayer
 
             this.relation = new CategoryRelation
             {
-                Id = 1,
                 ParentCategory = this.category,
                 ChildCategory = this.category_two,
             };
@@ -47,8 +48,9 @@ namespace TestDomainLayer
             this.user = new User
             {
                 Id=1,
-                Name = "Andreea Apriotese",
-                Status = "Active",
+                FirstName = "Andreea",
+                LastName = "Apriotese",
+                Status = UserStatus.Active,
                 Email = "andreea.apriotese@gmail.com",
                 Score = 4.00,
                 BirthDate = "12.12.2000"
@@ -57,18 +59,18 @@ namespace TestDomainLayer
             this.money_one = new Money
             {
                 Amount = 100,
-                Currency = "RON"
+                Currency = Currency.RON
             };
             this.money_three = new Money
             {
                 Amount = 1000,
-                Currency = "RON"
+                Currency = Currency.RON
             };
 
             this.money_two = new Money
             {
                 Amount = 50,
-                Currency = "USD"
+                Currency = Currency.USD
             };
 
             this.product = new Product
@@ -81,7 +83,7 @@ namespace TestDomainLayer
                 EndDate = new DateTime(2023, 12, 31),
                 StartingPrice = this.money_one,
                 Category = this.category,
-                Status = "Open",
+                Status = AuctionStatus.Open,
             };
             this.userAuction = new UserAuction
             {
@@ -203,24 +205,18 @@ namespace TestDomainLayer
             ValidationResults validationResults = Validation.Validate(product);
             Assert.AreEqual(0, validationResults.Count);
         }
-        [TestMethod]
-        public void TestProductNullStatus()
-        {
-            product.Status = null;
-            ValidationResults validationResults = Validation.Validate(product);
-            Assert.AreNotEqual(0, validationResults.Count);
-        }
+      
         [TestMethod]
         public void TestProductWrongStatusRange()
         {
-            product.Status = "opened";
+            product.Status = (AuctionStatus)23;
             ValidationResults validationResults = Validation.Validate(product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
         [TestMethod]
         public void TestProductCorrectStatusRange()
         {
-            product.Status = "Open";
+            product.Status = AuctionStatus.Open;
             ValidationResults validationResults = Validation.Validate(product);
             Assert.AreEqual(0, validationResults.Count);
         }
@@ -268,30 +264,25 @@ namespace TestDomainLayer
         public void TestCorrectAmmount()
         {
             money_one.Amount = 30;
+            money_one.Currency = Currency.RON;
             ValidationResults validationResults = Validation.Validate(money_one);
             Assert.AreEqual(0, validationResults.Count);
         }
         [TestMethod]
         public void TestCorrectMoneyCurrencyDomain()
         {
-            money_one.Currency = "RON";
+            money_one.Currency = Currency.RON;
             ValidationResults validationResults = Validation.Validate(money_one);
             Assert.AreEqual(0, validationResults.Count);
         }
         [TestMethod]
         public void TestMoneyCurrencyDomain()
         {
-            money_one.Currency = "TL";
+            money_one.Currency = (Currency)34;
             ValidationResults validationResults = Validation.Validate(money_one);
             Assert.AreNotEqual(0, validationResults.Count);
         }
-        [TestMethod]
-        public void TestMoneyNullCurrency()
-        {
-            money_one.Currency = null;
-            ValidationResults validationResults = Validation.Validate(money_one);
-            Assert.AreNotEqual(0, validationResults.Count);
-        }
+       
         [TestMethod]
         public void TestCategoryEnoughName()
         {
@@ -315,31 +306,62 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
         [TestMethod]
-        public void TestUserNullName()
+        public void TestUserNullFirstName()
         {
-            user.Name = null;
+            user.FirstName = null;
             ValidationResults validationResults = Validation.Validate(user);
             Assert.AreNotEqual(0, validationResults.Count);
         }
         [TestMethod]
-        public void TestUserNameContainsNumbers()
+        public void TestUserFirstNameContainsNumbers()
         {
-            user.Name = "Andreea1234";
+            user.FirstName = "Andreea1234";
             ValidationResults validationResults = Validation.Validate(user);
             Assert.AreEqual(0, validationResults.Count);
         }
         [TestMethod]
-        public void TestUserShortName()
+        public void TestUserShortFirstName()
         {
-            user.Name = "b";
+            user.FirstName = "b";
             ValidationResults validationResults = Validation.Validate(user);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
-        public void TestUserEnoughLongName()
+        public void TestUserEnoughLongFirstName()
         {
-            user.Name = "Andreea";
+            user.FirstName = "Andreea";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreEqual(0, validationResults.Count);
+
+
+        }
+        [TestMethod]
+        public void TestUserNullLastName()
+        {
+            user.LastName = null;
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestUserLastNameContainsNumbers()
+        {
+            user.LastName = "Andreea1234";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreEqual(0, validationResults.Count);
+        }
+        [TestMethod]
+        public void TestUserShortLastName()
+        {
+            user.LastName = "b";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+        }
+
+        [TestMethod]
+        public void TestUserEnoughLongLastName()
+        {
+            user.LastName = "Andreea";
             ValidationResults validationResults = Validation.Validate(user);
             Assert.AreEqual(0, validationResults.Count);
 
@@ -357,6 +379,14 @@ namespace TestDomainLayer
         public void TestUserWrongFormatEmail()
         {
             user.Email = "andreea@";
+            ValidationResults validationResults = Validation.Validate(user);
+            Assert.AreNotEqual(0, validationResults.Count);
+
+        }
+        [TestMethod]
+        public void TestUserWrongFormatEmail2()
+        {
+            user.Email = "andreea";
             ValidationResults validationResults = Validation.Validate(user);
             Assert.AreNotEqual(0, validationResults.Count);
 
@@ -412,18 +442,9 @@ namespace TestDomainLayer
         }
 
         [TestMethod]
-        public void TestUserStatusNull()
-        {
-            user.Status = null;
-            ValidationResults validationResults = Validation.Validate(user);
-            Assert.AreNotEqual(0, validationResults.Count);
-
-        }
-
-        [TestMethod]
         public void TestUserStatusInRange()
         {
-            user.Status = "Active";
+            user.Status = UserStatus.Active;
             ValidationResults validationResults = Validation.Validate(user);
             Assert.AreEqual(0, validationResults.Count);
 
@@ -432,7 +453,7 @@ namespace TestDomainLayer
         [TestMethod]
         public void TestUserStatusOutOfRange()
         {
-            user.Status = "incert";
+            user.Status = (UserStatus)3234;
             ValidationResults validationResults = Validation.Validate(user);
             Assert.AreNotEqual(0, validationResults.Count);
 

@@ -1,5 +1,6 @@
 ﻿using DataMapper;
 using DomainModel;
+using DomainModel.DTO;
 using log4net;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using ServiceLayer.Utils;
@@ -16,64 +17,67 @@ namespace ServiceLayer.ServiceImplementation
         private readonly ICategoryRelationDataServices categoryRelationServices;
         private readonly ICategoryDataServices categoryDataServices;
         private static readonly ILog log = LogManager.GetLogger(typeof(CategoryServicesImplementation));
- 
+
         public CategoryRelationServicesImplementation(ICategoryRelationDataServices categoryRelationServices, ICategoryDataServices categoryDataServices)
         {
             this.categoryRelationServices = categoryRelationServices;
             this.categoryDataServices = categoryDataServices;
         }
 
-        public void AddCategoryRelation(CategoryRelation category)
+        public void AddCategoryRelation(CategoryRelationDTO category)
         {
-            log.Info("In AddCategoryRelation method.");
-            ValidationResults validationResults = Validation.Validate(category);
-            if (validationResults.Count == 0)
-            {
-                var childCategory = categoryDataServices.GetCategoryById(category.ChildCategory.Id);
-                var parentCategory = categoryDataServices.GetCategoryById(category.ParentCategory.Id);
-                if(childCategory != null && parentCategory != null)
-                {
-                    categoryRelationServices.AddCategoryRelation(category);
+            ValidateCategoryRelation(category);
+            CheckIfChildAndParentCategoryExist(category);
 
-                }
-                else
-                {
-                    throw new ObjectNotFoundException("");
-                }
-            }
-            else
-            {
-                throw new InvalidObjectException();
+            categoryRelationServices.AddCategoryRelation(GetCategoryFromCategoryDto(category));
 
-            }
+        }
+        private CategoryRelation GetCategoryFromCategoryDto(CategoryRelationDTO category)
+        {
+            var childCategory = categoryDataServices.GetCategoryById(category.ChildCategoryId);
+            var parentCategory = categoryDataServices.GetCategoryById(category.ParentCategoryId);
+
+            CategoryRelation currentCategory = new CategoryRelation
+            {
+
+                ParentCategory = parentCategory,
+                ChildCategory = childCategory,
+            };
+
+            return currentCategory;
+        }
+        public void CheckIfChildAndParentCategoryExist(CategoryRelationDTO category)
+        {
+            var childCategory = categoryDataServices.GetCategoryById(category.ChildCategoryId);
+            var parentCategory = categoryDataServices.GetCategoryById(category.ParentCategoryId);
+
+            if (childCategory == null || parentCategory == null) throw new ObjectNotFoundException("");
+
         }
 
-        public void DeleteCategoryRelation(CategoryRelation category)
+        public void DeleteCategoryRelation(CategoryRelationDTO category)
         {
             log.Info("In DeleteCategoryRelation method");
-            if (category != null)
+
+            ValidateCategoryRelation(category);
+
+            var currentCategory = categoryRelationServices
+                .GetCategoryRelationByChildAndParentId(category.ChildCategoryId, category.ParentCategoryId);
+
+            if (currentCategory == null)
             {
-                var currentCategory = categoryRelationServices.GetCategoryRelationById(category.Id);
-                if (currentCategory != null)
-                {
-                    log.Info("The category relation have been deleted!");
-                    categoryRelationServices.DeleteCategoryRelation(category);
-                }
-                else
-                {
-                    log.Warn("The category relation that you want to delete can not be found!");
-                    throw new ObjectNotFoundException("");
-                }
+                log.Warn("The category relation that you want to delete can not be found!");
+                throw new ObjectNotFoundException("");
+
             }
-            else
-            {
-                log.Warn("The object passed by parameter is null.");
-                throw new NullReferenceException("The object can not be null.");
-            }
+
+            log.Info("The category relation have been deleted!");
+            categoryRelationServices.DeleteCategoryRelation(GetCategoryFromCategoryDto(category));
+
 
         }
 
-        public IList<CategoryRelation> GetCategoryRelationByParentId(int id)
+        public IList<CategoryRelationDTO> GetCategoryRelationByParentId(int id)
         {
             log.Info("In GetCategoryRelationByParentId method");
 
@@ -83,65 +87,59 @@ namespace ServiceLayer.ServiceImplementation
                 throw new IncorrectIdException();
 
             }
-            else
-            {
-                log.Info("The function GetCategoryRelationByParentId was successfully called.");
-                return categoryRelationServices.GetCategoryRelationByParentId(id);
 
-            }
+            log.Info("The function GetCategoryRelationByParentId was successfully called.");
+            return categoryRelationServices.GetCategoryRelationByParentId(id)
+                .Select(c => new CategoryRelationDTO(c)).ToList();
+
+
         }
 
-        public IList<CategoryRelation> GetListOfCategoriesRelation()
+        public IList<CategoryRelationDTO> GetListOfCategoriesRelation()
         {
             log.Info("In GetListOfCategoriesRelation method");
-            return categoryRelationServices.GetListOfCategoriesRelation();
+            return categoryRelationServices.GetListOfCategoriesRelation()
+                .Select(c => new CategoryRelationDTO(c)).ToList();
         }
 
-        public void UpdateCategoryRelation(CategoryRelation category)
+        public void UpdateCategoryRelation(CategoryRelationDTO category)
         {
             log.Info("In UpdateCategoryRelation method");
 
-            if (category != null)
-            {
-                var currentCategory = categoryRelationServices.GetCategoryRelationById(category.Id);
-                if (currentCategory != null)
-                {
-                    log.Info("The function UpdateCategoryRelation was successfully called.");
-                    categoryRelationServices.UpdateCategoryRelation(category);
+            ValidateCategoryRelation(category);
 
-                }
-                else
-                {
-                    log.Warn("The ObjectNotFoundException was thrown!");
-                    throw new ObjectNotFoundException("");
-                }
-            }
-            else
+            var currentCategory = categoryRelationServices
+                .GetCategoryRelationByChildAndParentId(category.ChildCategoryId, category.ParentCategoryId);
+            if (currentCategory == null)
             {
-                log.Warn("The NullReferenceException was thrown!");
-                throw new NullReferenceException("The object can not be null.");
+                log.Warn("The ObjectNotFoundException was thrown!");
+                throw new ObjectNotFoundException("");
+
             }
+
+            log.Info("The function UpdateCategoryRelation was successfully called.");
+            categoryRelationServices.UpdateCategoryRelation(GetCategoryFromCategoryDto(category));
+
         }
 
-        public CategoryRelation GetCategoryRelationById(int id)
+        public CategoryRelationDTO GetCategoryRelationByChildAndParentId(int parentId, int childId)
         {
             log.Info("In GetCategoryRelationById method");
 
-            if (id < 0 || id == 0)
+            if (parentId < 0 || childId == 0)
             {
                 log.Warn("The IncorrectIdException was thrown!");
                 throw new IncorrectIdException();
 
             }
-            else
-            {
-                log.Info("The function GetCategoryById was successfully called.");
-                return categoryRelationServices.GetCategoryRelationById(id);
 
-            }
+            log.Info("The function GetCategoryById was successfully called.");
+            return new CategoryRelationDTO(categoryRelationServices.GetCategoryRelationByChildAndParentId(parentId, childId));
+
+
         }
 
-        public IList<CategoryRelation> GetCategoryRelationByChildId(int id)
+        public IList<CategoryRelationDTO> GetCategoryRelationByChildId(int id)
         {
             log.Info("In GetCategoryRelationByChildId method");
 
@@ -151,13 +149,15 @@ namespace ServiceLayer.ServiceImplementation
                 throw new IncorrectIdException();
 
             }
-            else
-            {
-                log.Info("The function GetCategoryRelationByChildId was successfully called.");
-                return categoryRelationServices.GetCategoryRelationByChildId(id);
 
-            }
-
+            log.Info("The function GetCategoryRelationByChildId was successfully called.");
+            return categoryRelationServices
+                .GetCategoryRelationByChildId(id).Select(c => new CategoryRelationDTO(c)).ToList();
+        }
+        private void ValidateCategoryRelation(CategoryRelationDTO category)
+        {
+            ValidationResults validationResults = Validation.Validate(category);
+            if (validationResults.Count != 0) throw new InvalidObjectException();
         }
     }
 }

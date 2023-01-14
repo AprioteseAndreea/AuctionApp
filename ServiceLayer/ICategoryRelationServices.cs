@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using DomainModel.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,18 @@ namespace ServiceLayer
 {
    public interface ICategoryRelationServices
     {
-        IList<CategoryRelation> GetListOfCategoriesRelation();
+        IList<CategoryRelationDTO> GetListOfCategoriesRelation();
 
-        void DeleteCategoryRelation(CategoryRelation category);
-        CategoryRelation GetCategoryRelationById(int id);
-
-
-        void UpdateCategoryRelation(CategoryRelation category);
-
-        IList<CategoryRelation> GetCategoryRelationByParentId(int id);
-        IList<CategoryRelation> GetCategoryRelationByChildId(int id);
+        void DeleteCategoryRelation(CategoryRelationDTO category);
+        CategoryRelationDTO GetCategoryRelationByChildAndParentId(int parentId, int childId);
 
 
-        void AddCategoryRelation(CategoryRelation category);
+        void UpdateCategoryRelation(CategoryRelationDTO category);
+
+        IList<CategoryRelationDTO> GetCategoryRelationByParentId(int id);
+        IList<CategoryRelationDTO> GetCategoryRelationByChildId(int id);
+
+
+        void AddCategoryRelation(CategoryRelationDTO category);
     }
 }

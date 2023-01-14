@@ -37,11 +37,11 @@ namespace DataMapper.SqlServerDAO
             }
         }
 
-        public CategoryRelation GetCategoryRelationById(int id)
+        public CategoryRelation GetCategoryRelationByChildAndParentId(int parentId, int childId)
         {
             using (var context = new MyApplicationContext())
             {
-                return context.CategoryRelations.Where(cat => cat.Id == id).SingleOrDefault();
+                return context.CategoryRelations.Where(cat => cat.ChildCategory.Id == childId && cat.ParentCategory.Id == parentId).SingleOrDefault();
             }
         }
 
@@ -65,7 +65,7 @@ namespace DataMapper.SqlServerDAO
         {
             using (var context = new MyApplicationContext())
             {
-                var result = context.CategoryRelations.First(c => c.Id == category.Id);
+                var result = context.CategoryRelations.First(c => c.ChildCategory.Id == category.ChildCategory.Id && c.ParentCategory.Id == category.ParentCategory.Id);
                 if (result != null)
                 {
                     result = category;

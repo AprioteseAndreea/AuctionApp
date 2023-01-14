@@ -1,22 +1,18 @@
-﻿using DomainModel;
-using System;
+﻿using DomainModel.DTO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
    public interface ICategoryServices
     {
-        IList<Category> GetListOfCategories();
+        IList<CategoryDTO> GetListOfCategories();
 
-        void DeleteCategory(Category category);
+        void DeleteCategory(CategoryDTO category);
 
-        void UpdateCategory(Category category);
+        void UpdateCategory(CategoryDTO category);
 
-        Category GetCategoryById(int id);
+        CategoryDTO GetCategoryById(int id);
 
-        void AddCategory(Category category);
+        void AddCategory(CategoryDTO category);
     }
 }

@@ -9,23 +9,11 @@ namespace DomainModel
 {
     public class CategoryRelation
     {
-        public int Id
-        {
-            get;
-            set;
-        }
+       
         [NotNullValidator]
-        public Category ParentCategory
-        {
-            get;
-            set;
-        }
+        public Category ParentCategory { get; set; }
 
         [NotNullValidator]
-        public Category ChildCategory
-        {
-            get;
-            set;
-        }
+        public Category ChildCategory { get; set; }
     }
 }

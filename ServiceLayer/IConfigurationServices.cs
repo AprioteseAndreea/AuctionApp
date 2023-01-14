@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using DomainModel.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ namespace ServiceLayer
 {
     public interface IConfigurationServices
     {
-        IList<Configuration> GetListOfConfiguration();
-        Configuration GetConfigurationById(int id);
+        IList<ConfigurationDTO> GetListOfConfiguration();
+        ConfigurationDTO GetConfigurationById(int id);
 
-        void DeleteConfiguration(Configuration configuration);
+        void DeleteConfiguration(ConfigurationDTO configuration);
 
-        void UpdateConfiguration(Configuration configuration);
+        void UpdateConfiguration(ConfigurationDTO configuration);
 
-        void AddConfiguration(Configuration configuration);
+        void AddConfiguration(ConfigurationDTO configuration);
     }
 }
