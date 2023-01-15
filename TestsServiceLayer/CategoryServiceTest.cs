@@ -3,6 +3,7 @@ using DomainModel;
 using DomainModel.DTO;
 using DomainModel.enums;
 using DomainModel.Enums;
+using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ServiceLayer.ServiceImplementation;
@@ -31,7 +32,8 @@ namespace TestsServiceLayer
         private List<UserAuction> userAuctions;
 
         private Mock<ICategoryDataServices> categoryDataServicesStub;
-      
+        private Mock<ILog> loggerMock;
+
         private CategoryServicesImplementation categoryServices;
         
         [TestInitialize]
@@ -76,6 +78,7 @@ namespace TestsServiceLayer
            
             this.userProducts = new List<Product>();
             this.userAuctions = new List<UserAuction>();
+            this.invalidCategoryDTO = null;
 
             userProducts.Add(this.productFirst);
             userAuctions.Add(new UserAuction
@@ -89,8 +92,12 @@ namespace TestsServiceLayer
                 },
             });
          
-            this.categoryDataServicesStub = new Mock<ICategoryDataServices>();        
-            categoryServices = new CategoryServicesImplementation(categoryDataServicesStub.Object);           
+            this.categoryDataServicesStub = new Mock<ICategoryDataServices>();
+            this.loggerMock = new Mock<ILog>();
+
+            categoryServices = new CategoryServicesImplementation(
+                categoryDataServicesStub.Object,
+                loggerMock.Object);           
         }
 
         [TestMethod]

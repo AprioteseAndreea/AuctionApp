@@ -12,14 +12,18 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class UserServicesImplementation : IUserServices
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(UserServicesImplementation));
+        private readonly ILog log;
         private readonly IUserDataServices userDataServices;
         private readonly IConfigurationDataServices configurationDataServices;
 
-        public UserServicesImplementation(IUserDataServices userDataServices, IConfigurationDataServices configurationDataServices)
+        public UserServicesImplementation(
+            IUserDataServices userDataServices,
+            IConfigurationDataServices configurationDataServices,
+            ILog log)
         {
             this.userDataServices = userDataServices;
             this.configurationDataServices = configurationDataServices;
+            this.log = log;
         }
 
         public void AddUser(UserDTO user)

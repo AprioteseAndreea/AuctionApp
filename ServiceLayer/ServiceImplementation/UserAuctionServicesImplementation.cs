@@ -14,17 +14,21 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class UserAuctionServicesImplementation : IUserAuctionServices
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(ProductServicesImplementation));
+        private readonly ILog log;
         private readonly IUserAuctionDataServices userAuctionDataServices;
         private readonly IProductDataServices productDataServices;
         private readonly IUserDataServices userDataServices;
 
-        public UserAuctionServicesImplementation(IUserAuctionDataServices userAuctionDataServices, IProductDataServices productDataServices, IUserDataServices userDataServices)
+        public UserAuctionServicesImplementation(
+            IUserAuctionDataServices userAuctionDataServices,
+            IProductDataServices productDataServices,
+            IUserDataServices userDataServices,
+            ILog log)
         {
             this.userAuctionDataServices = userAuctionDataServices;
             this.productDataServices = productDataServices;
             this.userDataServices = userDataServices;
-
+            this.log = log;
         }
         public void AddUserAuction(UserAuctionDTO userAuction)
         {
@@ -41,7 +45,6 @@ namespace ServiceLayer.ServiceImplementation
             CheckAuctionCurrency(product, userAuction);
             CheckFirstAuction(userAuction, userAuctions, product);
             CheckAmountRangeForAuction(userAuction, userAuctions);
-
 
             log.Info("A new auction was successfully added!");
             userAuctionDataServices.AddUserAuction(GetUserAuctionFromUserAuctionDto(userAuction));

@@ -3,6 +3,7 @@ using DomainModel;
 using DomainModel.DTO;
 using DomainModel.enums;
 using DomainModel.Enums;
+using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ServiceLayer.ServiceImplementation;
@@ -42,6 +43,7 @@ namespace TestsServiceLayer
         private List<Product> userProducts;
         private List<UserAuction> userAuctions;
 
+        private Mock<ILog> loggerMock;
         private Mock<IProductDataServices> productDataServicesStub;
         private Mock<IConfigurationDataServices> configurationDataServicesStub;
         private Mock<IUserDataServices> userDataServicesStub;
@@ -155,8 +157,15 @@ namespace TestsServiceLayer
             this.configurationDataServicesStub = new Mock<IConfigurationDataServices>();
             this.userDataServicesStub = new Mock<IUserDataServices>();
             this.categoryDataServicesStub = new Mock<ICategoryDataServices>();
+            this.loggerMock = new Mock<ILog>();
 
-            prod = new ProductServicesImplementation(productDataServicesStub.Object, configurationDataServicesStub.Object, userDataServicesStub.Object, categoryDataServicesStub.Object);
+            prod = new ProductServicesImplementation(
+                productDataServicesStub.Object,
+                configurationDataServicesStub.Object,
+                userDataServicesStub.Object,
+                categoryDataServicesStub.Object,
+                loggerMock.Object
+                );
 
         }
         [TestMethod]

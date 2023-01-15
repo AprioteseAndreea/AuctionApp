@@ -8,8 +8,7 @@ namespace ServiceLayer.Utils
 {
      public class IncompatibleCurrencyException: Exception
     {
-        public IncompatibleCurrencyException() { }
-
+        
         public IncompatibleCurrencyException(string product)
             : base(String.Format("Incompatible currency between auction and product: {0}", product))
         {

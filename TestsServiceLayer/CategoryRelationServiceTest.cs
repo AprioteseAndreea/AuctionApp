@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using ServiceLayer.Utils;
 using DomainModel.DTO;
+using log4net;
 
 namespace TestsServiceLayer
 {
@@ -17,7 +18,6 @@ namespace TestsServiceLayer
     {
 
         private Category category;
-
         private Category childCategory;
         private Category parentCategory;
 
@@ -30,38 +30,23 @@ namespace TestsServiceLayer
         private Product productFirst;
 
         private User user;
-
         private Money moneyFirst;
-        private Money moneySecond;
-        private Money moneyThird;
-
+      
         private const int POSITIVE_USER_ID = 5;
         private const int NEGATIVE_USER_ID = -5;
 
         private const int POSITIVE_PRODUCT_ID = 4;
         private const int NEGATIVE_PRODUCT_ID = -4;
 
-        private Configuration configurationFirst;
-        private Configuration configurationSecond;
-        private Configuration invalidConfiguration;
-
         private List<Product> userProducts;
         private List<UserAuction> userAuctions;
-
-        private Mock<IProductDataServices> productDataServicesStub;
-        private Mock<IUserAuctionDataServices> userAuctionDataServiceStub;
-        private Mock<IConfigurationDataServices> configurationDataServicesStub;
-        private Mock<IUserDataServices> userDataServicesStub;
+     
         private Mock<ICategoryDataServices> categoryDataServicesStub;
         private Mock<ICategoryRelationDataServices> categoryRelationDataServicesStub;
-
-        private ProductServicesImplementation prod;
-        private UserAuctionServicesImplementation userAuction;
-        private UserServicesImplementation userService;
-        private CategoryServicesImplementation categoryServices;
+        private Mock<ILog> loggerMock;
+       
         private CategoryRelationServicesImplementation categoryRelationServices;
-        private ConfigurationServicesImplementation configurationServices;
-
+       
         [TestInitialize]
         public void SetUp()
         {
@@ -117,16 +102,7 @@ namespace TestsServiceLayer
                 Amount = 100,
                 Currency = Currency.RON
             };
-            this.moneySecond = new Money
-            {
-                Amount = 50,
-                Currency = Currency.USD
-            };
-            this.moneyThird = new Money
-            {
-                Amount = 150,
-                Currency = Currency.RON,
-            };
+         
             this.productFirst = new Product
             {
                 Id = 1,
@@ -138,29 +114,7 @@ namespace TestsServiceLayer
                 StartingPrice = this.moneyFirst,
                 Category = this.category,
                 Status = AuctionStatus.Open,
-            };
-
-            this.configurationFirst = new Configuration
-            {
-                MaxAuctions = 1,
-                InitialScore = 4,
-                MinScore = 2,
-                Days = 7
-            };
-            this.configurationSecond = new Configuration
-            {
-                MaxAuctions = 5,
-                InitialScore = 4,
-                MinScore = 2,
-                Days = 7
-            };
-            this.invalidConfiguration = new Configuration
-            {
-                MaxAuctions = 5,
-                InitialScore = 8,
-                MinScore = 2,
-                Days = 7
-            };
+            };          
 
             this.userProducts = new List<Product>();
             this.userAuctions = new List<UserAuction>();
@@ -177,19 +131,14 @@ namespace TestsServiceLayer
                 },
             });
 
-            this.productDataServicesStub = new Mock<IProductDataServices>();
-            this.userAuctionDataServiceStub = new Mock<IUserAuctionDataServices>();
-            this.configurationDataServicesStub = new Mock<IConfigurationDataServices>();
-            this.userDataServicesStub = new Mock<IUserDataServices>();
             this.categoryDataServicesStub = new Mock<ICategoryDataServices>();
             this.categoryRelationDataServicesStub = new Mock<ICategoryRelationDataServices>();
+            this.loggerMock = new Mock<ILog>();
 
-            prod = new ProductServicesImplementation(productDataServicesStub.Object, configurationDataServicesStub.Object, userDataServicesStub.Object, categoryDataServicesStub.Object);
-            userAuction = new UserAuctionServicesImplementation(userAuctionDataServiceStub.Object, productDataServicesStub.Object, userDataServicesStub.Object);
-            userService = new UserServicesImplementation(userDataServicesStub.Object, configurationDataServicesStub.Object);
-            categoryServices = new CategoryServicesImplementation(categoryDataServicesStub.Object);
-            configurationServices = new ConfigurationServicesImplementation(configurationDataServicesStub.Object);
-            categoryRelationServices = new CategoryRelationServicesImplementation(categoryRelationDataServicesStub.Object, categoryDataServicesStub.Object);
+            categoryRelationServices = new CategoryRelationServicesImplementation(
+                categoryRelationDataServicesStub.Object,
+                categoryDataServicesStub.Object,
+                loggerMock.Object);
         }
 
         [TestMethod]

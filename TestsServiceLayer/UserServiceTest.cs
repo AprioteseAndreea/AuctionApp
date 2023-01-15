@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ServiceLayer.Utils;
 using DomainModel.DTO;
+using log4net;
 
 namespace TestsServiceLayer
 {
@@ -37,9 +38,10 @@ namespace TestsServiceLayer
 
         private List<Product> userProducts;
         private List<UserAuction> userAuctions;
-  
-        private Mock<IConfigurationDataServices> configurationDataServicesStub;
+
+        private Mock<ILog> loggerMock;
         private Mock<IUserDataServices> userDataServicesStub;
+        private Mock<IConfigurationDataServices> configurationDataServicesStub;
      
         private UserServicesImplementation userService;
 
@@ -121,8 +123,13 @@ namespace TestsServiceLayer
           
             this.configurationDataServicesStub = new Mock<IConfigurationDataServices>();
             this.userDataServicesStub = new Mock<IUserDataServices>();
-           
-            userService = new UserServicesImplementation(userDataServicesStub.Object, configurationDataServicesStub.Object);
+            this.loggerMock = new Mock<ILog>();
+
+            userService = new UserServicesImplementation(
+                userDataServicesStub.Object,
+                configurationDataServicesStub.Object,
+                loggerMock.Object
+                );
         }
 
         [TestMethod]

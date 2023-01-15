@@ -9,8 +9,7 @@ namespace ServiceLayer.Utils
     public class OverbiddingException
     : Exception
     {
-        public OverbiddingException() { }
-
+      
         public OverbiddingException(string name)
             : base(String.Format("Overbidding was detected for product: {0}", name))
         {

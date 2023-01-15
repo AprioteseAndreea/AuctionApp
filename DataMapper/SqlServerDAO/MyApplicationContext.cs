@@ -1,11 +1,5 @@
 ﻿using DomainModel;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataMapper.SqlServerDAO
 {
@@ -20,7 +14,6 @@ namespace DataMapper.SqlServerDAO
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CategoryRelation> CategoryRelations { get; set; }
-
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<UserAuction> UserAuctions { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }

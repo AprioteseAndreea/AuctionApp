@@ -7,11 +7,9 @@ using Moq;
 using ServiceLayer.ServiceImplementation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ServiceLayer.Utils;
 using DomainModel.DTO;
+using log4net;
 
 namespace TestsServiceLayer
 {
@@ -24,7 +22,6 @@ namespace TestsServiceLayer
         private User user;
         private Money moneyFirst;
     
-
         private const int POSITIVE_USER_ID = 5;
         private const int NEGATIVE_USER_ID = -5;  
 
@@ -42,6 +39,7 @@ namespace TestsServiceLayer
    
         private Mock<IConfigurationDataServices> configurationDataServicesStub;
         private Mock<ICategoryDataServices> categoryDataServicesStub;
+        private Mock<ILog> loggerMock;
 
         private ConfigurationServicesImplementation configurationServices;
 
@@ -126,8 +124,12 @@ namespace TestsServiceLayer
           
             this.configurationDataServicesStub = new Mock<IConfigurationDataServices>();
             this.categoryDataServicesStub = new Mock<ICategoryDataServices>();
-         
-            configurationServices = new ConfigurationServicesImplementation(configurationDataServicesStub.Object);
+            this.loggerMock = new Mock<ILog>();
+
+            configurationServices = new ConfigurationServicesImplementation(
+                configurationDataServicesStub.Object,
+                loggerMock.Object
+                );
         }
 
         [TestMethod]

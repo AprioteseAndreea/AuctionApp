@@ -11,11 +11,14 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class CategoryServicesImplementation : ICategoryServices
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(CategoryServicesImplementation));
+        private readonly ILog log;
         private readonly ICategoryDataServices categoryDataServices;
-        public CategoryServicesImplementation(ICategoryDataServices categoryDataServices)
+        public CategoryServicesImplementation(
+            ICategoryDataServices categoryDataServices,
+            ILog log)
         {
             this.categoryDataServices = categoryDataServices;
+            this.log = log;
         }
 
         public void AddCategory(CategoryDTO category)
@@ -93,7 +96,5 @@ namespace ServiceLayer.ServiceImplementation
             log.Info("The function UpdateCategory was successfully called.");
             categoryDataServices.UpdateCategory(GetCategoryFromCategoryDto(category));
         }
-
-
     }
 }

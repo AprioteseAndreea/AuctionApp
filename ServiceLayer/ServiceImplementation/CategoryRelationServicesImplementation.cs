@@ -4,11 +4,9 @@ using DomainModel.DTO;
 using log4net;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using ServiceLayer.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ServiceLayer.ServiceImplementation
 {
@@ -16,12 +14,16 @@ namespace ServiceLayer.ServiceImplementation
     {
         private readonly ICategoryRelationDataServices categoryRelationServices;
         private readonly ICategoryDataServices categoryDataServices;
-        private static readonly ILog log = LogManager.GetLogger(typeof(CategoryServicesImplementation));
+        private readonly ILog log;
 
-        public CategoryRelationServicesImplementation(ICategoryRelationDataServices categoryRelationServices, ICategoryDataServices categoryDataServices)
+        public CategoryRelationServicesImplementation(
+            ICategoryRelationDataServices categoryRelationServices,
+            ICategoryDataServices categoryDataServices,
+            ILog log)
         {
             this.categoryRelationServices = categoryRelationServices;
             this.categoryDataServices = categoryDataServices;
+            this.log = log;
         }
 
         public void AddCategoryRelation(CategoryRelationDTO category)
@@ -73,8 +75,6 @@ namespace ServiceLayer.ServiceImplementation
 
             log.Info("The category relation have been deleted!");
             categoryRelationServices.DeleteCategoryRelation(GetCategoryFromCategoryDto(category));
-
-
         }
 
         public IList<CategoryRelationDTO> GetCategoryRelationByParentId(int id)
@@ -91,8 +91,6 @@ namespace ServiceLayer.ServiceImplementation
             log.Info("The function GetCategoryRelationByParentId was successfully called.");
             return categoryRelationServices.GetCategoryRelationByParentId(id)
                 .Select(c => new CategoryRelationDTO(c)).ToList();
-
-
         }
 
         public IList<CategoryRelationDTO> GetListOfCategoriesRelation()
@@ -119,7 +117,6 @@ namespace ServiceLayer.ServiceImplementation
 
             log.Info("The function UpdateCategoryRelation was successfully called.");
             categoryRelationServices.UpdateCategoryRelation(GetCategoryFromCategoryDto(category));
-
         }
 
         public CategoryRelationDTO GetCategoryRelationByChildAndParentId(int parentId, int childId)
@@ -135,8 +132,6 @@ namespace ServiceLayer.ServiceImplementation
 
             log.Info("The function GetCategoryById was successfully called.");
             return new CategoryRelationDTO(categoryRelationServices.GetCategoryRelationByChildAndParentId(parentId, childId));
-
-
         }
 
         public IList<CategoryRelationDTO> GetCategoryRelationByChildId(int id)

@@ -12,11 +12,13 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class ConfigurationServicesImplementation : IConfigurationServices
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(CategoryServicesImplementation));
+        private readonly ILog log;
         private readonly IConfigurationDataServices configurationDataServices;
-        public ConfigurationServicesImplementation(IConfigurationDataServices configurationDataServices)
+        public ConfigurationServicesImplementation(
+            IConfigurationDataServices configurationDataServices, ILog log)
         {
             this.configurationDataServices = configurationDataServices;
+            this.log = log;
         }
 
         public void AddConfiguration(ConfigurationDTO configuration)

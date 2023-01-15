@@ -7,11 +7,9 @@ using Moq;
 using ServiceLayer.ServiceImplementation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ServiceLayer.Utils;
 using DomainModel.DTO;
+using log4net;
 
 namespace TestsServiceLayer
 {
@@ -22,8 +20,6 @@ namespace TestsServiceLayer
 
         private Product productFirst;
         private Product closedProduct;
-
-        private Product invalidProduct;
 
         private User user;
 
@@ -56,6 +52,7 @@ namespace TestsServiceLayer
         private Mock<IProductDataServices> productDataServicesStub;
         private Mock<IUserAuctionDataServices> userAuctionDataServiceStub;
         private Mock<IUserDataServices> userDataServicesStub;
+        private Mock<ILog> loggerMock;
 
         private UserAuctionServicesImplementation userAuction;
 
@@ -119,19 +116,7 @@ namespace TestsServiceLayer
                 Category = this.category,
                 Status = AuctionStatus.Closed,
             };
-
-            this.invalidProduct = new Product
-            {
-                Id = 2,
-                Name = "a",
-                Description = "licitez un produs rar",
-                OwnerUser = this.user,
-                StartDate = DateTime.Now,
-                EndDate = new DateTime(2022, 12, 31),
-                StartingPrice = this.moneySecond,
-                Category = this.category,
-                Status = AuctionStatus.Closed,
-            };
+           
             this.userAuctionFirst = new UserAuction
             {
                 Id=1,
@@ -201,8 +186,13 @@ namespace TestsServiceLayer
             this.productDataServicesStub = new Mock<IProductDataServices>();
             this.userAuctionDataServiceStub = new Mock<IUserAuctionDataServices>();
             this.userDataServicesStub = new Mock<IUserDataServices>();
-
-            userAuction = new UserAuctionServicesImplementation(userAuctionDataServiceStub.Object, productDataServicesStub.Object, userDataServicesStub.Object);
+            this.loggerMock = new Mock<ILog>();
+            userAuction = new UserAuctionServicesImplementation(
+                userAuctionDataServiceStub.Object,
+                productDataServicesStub.Object,
+                userDataServicesStub.Object,
+                loggerMock.Object
+                );
 
         }
 

@@ -8,8 +8,7 @@ namespace ServiceLayer.Utils
 {
      public class SimilarDescriptionException: Exception
     {
-        public SimilarDescriptionException() { }
-
+     
         public SimilarDescriptionException(string name)
             : base(String.Format("Invalid Description for product: {0}", name))
         {

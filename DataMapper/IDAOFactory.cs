@@ -10,31 +10,16 @@ namespace DataMapper
     {
         /// <summary>Gets the customer data services.</summary>
         /// <value>The customer data services.</value>
-        IUserDataServices UserDataServices
-        {
-            get;
-        }
+        IUserDataServices UserDataServices { get; }
 
         /// <summary>Gets the produc data services.</summary>
         /// <value>The produc data services.</value>
-        IProductDataServices ProducDataServices
-        {
-            get;
-        }
+        IProductDataServices ProducDataServices { get; }
 
-        IUserAuctionDataServices UserAuctionDataServices
-        {
-            get;
-        }
+        IUserAuctionDataServices UserAuctionDataServices { get; }
 
-        ICategoryDataServices CategoryDataServices
-        {
-            get;
-        }
+        ICategoryDataServices CategoryDataServices { get; }
 
-        ICategoryRelationDataServices CategoryRelationDataServices
-        {
-            get;
-        }
+        ICategoryRelationDataServices CategoryRelationDataServices { get; }
     }
 }

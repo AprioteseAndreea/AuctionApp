@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace ServiceLayer.Utils
 {
     public class ObjectNotFoundException: Exception
-    {
-        public ObjectNotFoundException() { }
+    {     
         public ObjectNotFoundException(string name)
                         : base(String.Format("Product: {0} was noit found!", name))
         {

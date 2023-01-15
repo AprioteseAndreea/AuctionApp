@@ -1,14 +1,9 @@
 ﻿using DataMapper;
-using DataMapper.SqlServerDAO;
 using DomainModel;
 using ServiceLayer.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using log4net;
-using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using DomainModel.DTO;
 
@@ -16,19 +11,25 @@ namespace ServiceLayer.ServiceImplementation
 {
     public class ProductServicesImplementation : IProductServices
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(ProductServicesImplementation));
+        private readonly ILog log;
         private readonly IProductDataServices productDataServices;
         private readonly IConfigurationDataServices configurationDataServices;
         private readonly IUserDataServices userDataServices;
         private readonly ICategoryDataServices categoryDataServices;
 
 
-        public ProductServicesImplementation(IProductDataServices productDataServices, IConfigurationDataServices configurationDataServices, IUserDataServices userDataServices, ICategoryDataServices categoryDataServices)
+        public ProductServicesImplementation(
+            IProductDataServices productDataServices,
+            IConfigurationDataServices configurationDataServices,
+            IUserDataServices userDataServices,
+            ICategoryDataServices categoryDataServices,
+            ILog log)
         {
             this.productDataServices = productDataServices;
             this.configurationDataServices = configurationDataServices;
             this.userDataServices = userDataServices;
             this.categoryDataServices = categoryDataServices;
+            this.log = log;
         }
 
         public void AddProduct(ProductDTO product)
