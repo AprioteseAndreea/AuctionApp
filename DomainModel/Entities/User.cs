@@ -1,25 +1,28 @@
-﻿using DomainModel.enums;
-using Microsoft.Practices.EnterpriseLibrary.Validation;
-using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ValidationResult = Microsoft.Practices.EnterpriseLibrary.Validation.ValidationResult;
-
-namespace DomainModel
+﻿namespace DomainModel
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using DomainModel.Enums;
+    using Microsoft.Practices.EnterpriseLibrary.Validation;
+    using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+    using ValidationResult = Microsoft.Practices.EnterpriseLibrary.Validation.ValidationResult;
+
     [HasSelfValidation]
     public class User
     {
-        public User() {}
+        public User()
+        {
+        }
+
         public int Id { get; set; }
 
-        [NotNullValidator(MessageTemplate = "The name cannot be null")]
+        [NotNullValidator(MessageTemplate = "The first name cannot be null")]
         [RegexValidator("[A-Za-z]")]
         [StringLengthValidator(2, RangeBoundaryType.Inclusive, 40, RangeBoundaryType.Inclusive, ErrorMessage = "The name should have between {3} and {5} letters")]
         public string FirstName { get; set; }
 
-        [NotNullValidator(MessageTemplate = "The name cannot be null")]
+        [NotNullValidator(MessageTemplate = "The last name cannot be null")]
         [RegexValidator("[A-Za-z]")]
         [StringLengthValidator(2, RangeBoundaryType.Inclusive, 40, RangeBoundaryType.Inclusive, ErrorMessage = "The name should have between {3} and {5} letters")]
         public string LastName { get; set; }
@@ -40,26 +43,28 @@ namespace DomainModel
         public UserStatus Status { get; set; }
 
         [NotNullValidator]
-        public virtual ICollection<Product> Products { get; set; } =  new List<Product>();
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
         [SelfValidation]
         public void Validate(ValidationResults validationResults)
         {
-            var age = DateTime.Now.Year - DateTime.Parse(BirthDate).Year;
+            var age = DateTime.Now.Year - DateTime.Parse(this.BirthDate).Year;
             if (age < 18)
             {
-
                 validationResults.AddResult(
-                    new ValidationResult("Customer must be older than 18",
+                    new ValidationResult(
+                        "Customer must be older than 18",
                         this,
                         "BirthDate",
                         null,
                         null));
             }
-            if (DateTime.Now < DateTime.Parse(BirthDate))
+
+            if (DateTime.Now < DateTime.Parse(this.BirthDate))
             {
                 validationResults.AddResult(
-                  new ValidationResult("You can not set a birth date in the future!",
+                  new ValidationResult(
+                      "You can not set a birth date in the future!",
                       this,
                       "BirthDate",
                       null,

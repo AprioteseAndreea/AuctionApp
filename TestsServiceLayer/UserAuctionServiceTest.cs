@@ -1,26 +1,29 @@
-﻿using DataMapper;
-using DomainModel.enums;
-using DomainModel.Enums;
-using DomainModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using ServiceLayer.ServiceImplementation;
-using System;
-using System.Collections.Generic;
-using ServiceLayer.Utils;
-using DomainModel.DTO;
-using log4net;
-
-namespace TestsServiceLayer
+﻿namespace TestsServiceLayer
 {
+    using System;
+    using System.Collections.Generic;
+    using DataMapper;
+    using DomainModel;
+    using DomainModel.DTO;
+    using DomainModel.Enums;
+    using log4net;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using ServiceLayer.ServiceImplementation;
+    using ServiceLayer.Utils;
+
     [TestClass]
     public class UserAuctionServiceTest
     {
-        private Category category;
+        private const int POSITIVEUSERID = 5;
+        private const int NEGATIVEUSERID = -5;
 
+        private const int POSITIVEPRODUCTID = 4;
+        private const int NEGATIVEPRODUCTID = -4;
+
+        private Category category;
         private Product productFirst;
         private Product closedProduct;
-
         private User user;
 
         private UserAuction userAuctionFirst;
@@ -28,23 +31,15 @@ namespace TestsServiceLayer
         private UserAuction userAuctionThird;
         private UserAuction userAuctionFourth;
         private UserAuction invalidUserAuction;
-
         private UserAuctionDTO userAuctionFirstDTO;
         private UserAuctionDTO userAuctionSecondDTO;
         private UserAuctionDTO userAuctionThirdDTO;
         private UserAuctionDTO userAuctionFourthDTO;
         private UserAuctionDTO invalidUserAuctionDTO;
 
-
         private Money moneyFirst;
         private Money moneySecond;
         private Money moneyThird;
-
-        private const int POSITIVE_USER_ID = 5;
-        private const int NEGATIVE_USER_ID = -5;
-
-        private const int POSITIVE_PRODUCT_ID = 4;
-        private const int NEGATIVE_PRODUCT_ID = -4;
 
         private List<Product> userProducts;
         private List<UserAuction> userAuctions;
@@ -55,7 +50,6 @@ namespace TestsServiceLayer
         private Mock<ILog> loggerMock;
 
         private UserAuctionServicesImplementation userAuction;
-
 
         [TestInitialize]
         public void SetUp()
@@ -74,18 +68,18 @@ namespace TestsServiceLayer
                 Status = UserStatus.Active,
                 Email = "andreea.apriotese@gmail.com",
                 Score = 4.00,
-                BirthDate = "12.12.2000"
+                BirthDate = "12.12.2000",
             };
 
             this.moneyFirst = new Money
             {
                 Amount = 100,
-                Currency = Currency.RON
+                Currency = Currency.RON,
             };
             this.moneySecond = new Money
             {
                 Amount = 50,
-                Currency = Currency.USD
+                Currency = Currency.USD,
             };
             this.moneyThird = new Money
             {
@@ -116,66 +110,60 @@ namespace TestsServiceLayer
                 Category = this.category,
                 Status = AuctionStatus.Closed,
             };
-           
             this.userAuctionFirst = new UserAuction
             {
-                Id=1,
-                Product = productFirst,
-                User = user,
+                Id = 1,
+                Product = this.productFirst,
+                User = this.user,
                 Price = this.moneySecond,
-
             };
             this.userAuctionSecond = new UserAuction
             {
-                Id=2,
-                Product = productFirst,
-                User = user,
-                Price = moneyThird,
-
+                Id = 2,
+                Product = this.productFirst,
+                User = this.user,
+                Price = this.moneyThird,
             };
             this.userAuctionThird = new UserAuction
             {
                 Id = 3,
-                Product = productFirst,
-                User = user,
-                Price = moneyFirst,
-
+                Product = this.productFirst,
+                User = this.user,
+                Price = this.moneyFirst,
             };
             this.userAuctionFourth = new UserAuction
             {
                 Id = 4,
-                Product = productFirst,
-                User = user,
+                Product = this.productFirst,
+                User = this.user,
                 Price = new Money
                 {
                     Amount = 400,
                     Currency = Currency.RON,
                 },
-
             };
             this.invalidUserAuction = new UserAuction
             {
-                Id=0,
-                Product = productFirst,
+                Id = 0,
+                Product = this.productFirst,
                 User = null,
-                Price = moneyThird,
-
+                Price = this.moneyThird,
             };
 
-            userAuctionFirstDTO = new UserAuctionDTO(userAuctionFirst);
-            userAuctionSecondDTO = new UserAuctionDTO(userAuctionSecond);
-            userAuctionThirdDTO = new UserAuctionDTO(userAuctionThird);
-            userAuctionFourthDTO = new UserAuctionDTO(userAuctionFourth);
-            invalidUserAuctionDTO = new UserAuctionDTO(invalidUserAuction);
+            this.userAuctionFirstDTO = new UserAuctionDTO(this.userAuctionFirst);
+            this.userAuctionSecondDTO = new UserAuctionDTO(this.userAuctionSecond);
+            this.userAuctionThirdDTO = new UserAuctionDTO(this.userAuctionThird);
+            this.userAuctionFourthDTO = new UserAuctionDTO(this.userAuctionFourth);
+            this.invalidUserAuctionDTO = new UserAuctionDTO(this.invalidUserAuction);
 
             this.userProducts = new List<Product>();
             this.userAuctions = new List<UserAuction>();
 
-            userProducts.Add(this.productFirst);
-            userAuctions.Add(new UserAuction
+            this.userProducts.Add(this.productFirst);
+            this.userAuctions.Add(new UserAuction
             {
-                Product = productFirst,
-                User = user,
+                Product = this.productFirst,
+                User = this.user,
                 Price = new Money
                 {
                     Amount = 100,
@@ -187,264 +175,264 @@ namespace TestsServiceLayer
             this.userAuctionDataServiceStub = new Mock<IUserAuctionDataServices>();
             this.userDataServicesStub = new Mock<IUserDataServices>();
             this.loggerMock = new Mock<ILog>();
-            userAuction = new UserAuctionServicesImplementation(
-                userAuctionDataServiceStub.Object,
-                productDataServicesStub.Object,
-                userDataServicesStub.Object,
-                loggerMock.Object
-                );
-
+            this.userAuction = new UserAuctionServicesImplementation(
+                this.userAuctionDataServiceStub.Object,
+                this.productDataServicesStub.Object,
+                this.userDataServicesStub.Object,
+                this.loggerMock.Object);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncompatibleCurrencyException), "")]
         public void TestAddUserAuction_IncompatibleCurrencyException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductById(It.IsAny<int>()))
-                .Returns(productFirst);
-            userAuctionDataServiceStub
+                .Returns(this.productFirst);
+            this.userAuctionDataServiceStub
                 .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new List<UserAuction>());
-            userAuction.AddUserAuction(userAuctionFirstDTO);
+            this.userAuction.AddUserAuction(this.userAuctionFirstDTO);
         }
 
         [TestMethod]
         [ExpectedException(typeof(MinimumBidException), "")]
         public void TestAddUserAuction_MinimumBidException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductById(It.IsAny<int>()))
-                .Returns(productFirst);
-            userAuctionDataServiceStub
+                .Returns(this.productFirst);
+            this.userAuctionDataServiceStub
                 .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new List<UserAuction>());
 
-            userAuction.AddUserAuction(userAuctionThirdDTO);
+            this.userAuction.AddUserAuction(this.userAuctionThirdDTO);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ClosedAuctionException), "")]
         public void TestAddUserAuction_ClosedAuctionException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductById(It.IsAny<int>()))
-                .Returns(closedProduct);
-            userAuctionDataServiceStub
+                .Returns(this.closedProduct);
+            this.userAuctionDataServiceStub
                 .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new List<UserAuction>());
 
-            userAuction.AddUserAuction(userAuctionThirdDTO);
+            this.userAuction.AddUserAuction(this.userAuctionThirdDTO);
         }
 
         [TestMethod]
         [ExpectedException(typeof(OverbiddingException), "")]
         public void TestAddUserAuction_OverbiddingException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
               .Setup(x => x.GetProductById(It.IsAny<int>()))
-              .Returns(productFirst);
-            userAuctionDataServiceStub
+              .Returns(this.productFirst);
+            this.userAuctionDataServiceStub
                 .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(userAuctions);
+                .Returns(this.userAuctions);
 
-            userAuction.AddUserAuction(userAuctionThirdDTO);
+            this.userAuction.AddUserAuction(this.userAuctionThirdDTO);
         }
+
         [TestMethod]
         [ExpectedException(typeof(OverbiddingException), "")]
         public void TestAddUserAuction_OverbiddingException_AmountIsOver300Percent()
         {
-            productDataServicesStub
+            this.productDataServicesStub
               .Setup(x => x.GetProductById(It.IsAny<int>()))
-              .Returns(productFirst);
-            userAuctionDataServiceStub
+              .Returns(this.productFirst);
+            this.userAuctionDataServiceStub
                 .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(userAuctions);
+                .Returns(this.userAuctions);
 
-            userAuction.AddUserAuction(userAuctionFourthDTO);
+            this.userAuction.AddUserAuction(this.userAuctionFourthDTO);
         }
+
         [TestMethod]
         public void TestAddUserAuction_Successfully()
         {
-            productDataServicesStub
+            this.productDataServicesStub
               .Setup(x => x.GetProductById(It.IsAny<int>()))
-              .Returns(productFirst);
-            userAuctionDataServiceStub
+              .Returns(this.productFirst);
+            this.userAuctionDataServiceStub
                 .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new List<UserAuction>());
 
-            userAuction.AddUserAuction(userAuctionSecondDTO);
+            this.userAuction.AddUserAuction(this.userAuctionSecondDTO);
         }
 
         [TestMethod]
         public void TestDeleteUserAuction_Successfully()
         {
-            userAuctionDataServiceStub
+            this.userAuctionDataServiceStub
               .Setup(x => x.GetUserAuctionById(It.IsAny<int>()))
-              .Returns(userAuctionFirst);
+              .Returns(this.userAuctionFirst);
 
-            userAuction.DeleteUserAuction(userAuctionFirstDTO);
+            this.userAuction.DeleteUserAuction(this.userAuctionFirstDTO);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestDeleteUserAuction_NullProduct()
         {
-            userAuction.DeleteUserAuction(null);
+            this.userAuction.DeleteUserAuction(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestDeleteUserAuction_ObjectNotFoundException()
         {
-            userAuctionDataServiceStub
+            this.userAuctionDataServiceStub
            .Setup(x => x.GetUserAuctionById(It.IsAny<int>()))
            .Equals(null);
 
-            userAuction.DeleteUserAuction(userAuctionFirstDTO);
+            this.userAuction.DeleteUserAuction(this.userAuctionFirstDTO);
         }
 
         [TestMethod]
         public void TestGetListOfUserAuctions_Successfully()
         {
-            userAuctionDataServiceStub
+            this.userAuctionDataServiceStub
              .Setup(x => x.GetListOfUserAuctions())
              .Returns(new List<UserAuction>());
 
-            userAuction.GetListOfUserAuctions();
+            this.userAuction.GetListOfUserAuctions();
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionById_IncorrectIdException()
         {
-            userAuction.GetUserAuctionById(NEGATIVE_USER_ID);
+            this.userAuction.GetUserAuctionById(NEGATIVEUSERID);
         }
 
         [TestMethod]
         public void TestGetUserAuctionById_Successfully()
         {
-            userAuctionDataServiceStub
+            this.userAuctionDataServiceStub
             .Setup(x => x.GetUserAuctionById(It.IsAny<int>()))
-            .Returns(userAuctionFirst);
+            .Returns(this.userAuctionFirst);
 
-            userAuction.GetUserAuctionById(POSITIVE_USER_ID);
+            this.userAuction.GetUserAuctionById(POSITIVEUSERID);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserId_IncorrectIdException()
         {
-            userAuction.GetUserAuctionsByUserId(NEGATIVE_USER_ID);
+            this.userAuction.GetUserAuctionsByUserId(NEGATIVEUSERID);
         }
 
         [TestMethod]
         public void TestGetUserAuctionsByUserId_Successfully()
         {
-            userDataServicesStub
+            this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
-            .Returns(user);
-            userAuctionDataServiceStub
+            .Returns(this.user);
+            this.userAuctionDataServiceStub
                .Setup(x => x.GetUserAuctionsByUserId(It.IsAny<int>()))
                .Returns(new List<UserAuction>());
-            userAuction.GetUserAuctionsByUserId(POSITIVE_USER_ID);
+            this.userAuction.GetUserAuctionsByUserId(POSITIVEUSERID);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The ObjectNotFoundException was thrown!")]
         public void TestGetUserAuctionsByUserId_ObjectNotFoundException()
         {
-            userDataServicesStub
+            this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
             .Equals(null);
-            userAuction.GetUserAuctionsByUserId(POSITIVE_USER_ID);
+            this.userAuction.GetUserAuctionsByUserId(POSITIVEUSERID);
         }
 
         [TestMethod]
         public void TestGetUserAuctionsByUserIdandProductId_Successfully()
         {
-            userAuctionDataServiceStub
+            this.userAuctionDataServiceStub
             .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
             .Returns(new List<UserAuction>());
 
-            userAuction.GetUserAuctionsByUserIdandProductId(POSITIVE_USER_ID, POSITIVE_PRODUCT_ID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(POSITIVEUSERID, POSITIVEPRODUCTID);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_UserIdIsLessThan0()
         {
-            userAuction.GetUserAuctionsByUserIdandProductId(NEGATIVE_USER_ID, POSITIVE_PRODUCT_ID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(NEGATIVEUSERID, POSITIVEPRODUCTID);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_ProductIdIsLessThan0()
         {
-            userAuction.GetUserAuctionsByUserIdandProductId(POSITIVE_USER_ID, NEGATIVE_PRODUCT_ID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(POSITIVEUSERID, NEGATIVEPRODUCTID);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_ProductIdAndUserIdIsLessThan0()
         {
-            userAuction.GetUserAuctionsByUserIdandProductId(NEGATIVE_USER_ID, NEGATIVE_PRODUCT_ID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(NEGATIVEUSERID, NEGATIVEPRODUCTID);
         }
+
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_UserIdIs0()
         {
-            userAuction.GetUserAuctionsByUserIdandProductId(0, NEGATIVE_PRODUCT_ID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(0, NEGATIVEPRODUCTID);
         }
+
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_ProductIdIs0()
         {
-            userAuction.GetUserAuctionsByUserIdandProductId(POSITIVE_USER_ID, 0);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(POSITIVEUSERID, 0);
         }
+
         [TestMethod]
         public void TestUpdateUserAuction_Successfully()
         {
-            userAuctionDataServiceStub
+            this.userAuctionDataServiceStub
               .Setup(x => x.GetUserAuctionById(It.IsAny<int>()))
-              .Returns(userAuctionFirst);
+              .Returns(this.userAuctionFirst);
 
-            userAuction.UpdateUserAuction(userAuctionFirstDTO);
+            this.userAuction.UpdateUserAuction(this.userAuctionFirstDTO);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestUpdateUserAuction_NullProduct()
         {
-            userAuction.UpdateUserAuction(null);
+            this.userAuction.UpdateUserAuction(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException), "The product was not found!")]
         public void TestUpdateUserAuction_NullReferenceException()
         {
-            userAuctionDataServiceStub
+            this.userAuctionDataServiceStub
               .Setup(x => x.GetUserAuctionById(It.IsAny<int>()))
               .Equals(null);
 
-            userAuction.UpdateUserAuction(userAuctionFirstDTO);
+            this.userAuction.UpdateUserAuction(this.userAuctionFirstDTO);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddUserAuction_InvalidObjectException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductById(It.IsAny<int>()))
-                .Returns(productFirst);
-            userAuctionDataServiceStub
+                .Returns(this.productFirst);
+            this.userAuctionDataServiceStub
                 .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new List<UserAuction>());
 
-            userAuction.AddUserAuction(invalidUserAuctionDTO);
+            this.userAuction.AddUserAuction(this.invalidUserAuctionDTO);
         }
-
     }
 }

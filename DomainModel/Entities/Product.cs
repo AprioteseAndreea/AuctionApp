@@ -1,16 +1,15 @@
-﻿using DomainModel.enums;
-using Microsoft.Practices.EnterpriseLibrary.Validation;
-using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using System;
-using System.ComponentModel.DataAnnotations;
-using ValidationResult = Microsoft.Practices.EnterpriseLibrary.Validation.ValidationResult;
-
-namespace DomainModel
+﻿namespace DomainModel
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using DomainModel.Enums;
+    using Microsoft.Practices.EnterpriseLibrary.Validation;
+    using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+    using ValidationResult = Microsoft.Practices.EnterpriseLibrary.Validation.ValidationResult;
+
     [HasSelfValidation]
     public class Product
     {
-
         public int Id { get; set; }
 
         [NotNullValidator(MessageTemplate = "The name cannot be null")]
@@ -43,20 +42,30 @@ namespace DomainModel
         [SelfValidation]
         public void ValidateStartAndEndDate(ValidationResults validationResults)
         {
-            if (EndDate < StartDate)
+            if (this.EndDate < this.StartDate)
             {
-                validationResults.AddResult(new ValidationResult("The end date should not be less than start date", this, "ValidateStartAndEndDate", "error", null));
-
+                validationResults.AddResult(
+                    new ValidationResult(
+                        "The end date should not be less than start date",
+                        this,
+                        "ValidateStartAndEndDate",
+                        "error",
+                        null));
             }
         }
 
         [SelfValidation]
         public void ValidateStartDate(ValidationResults validationResults)
         {
-            if (StartDate < DateTime.Now.Date)
+            if (this.StartDate < DateTime.Now.Date)
             {
-                validationResults.AddResult(new ValidationResult("The start date should not be less than current date", this, "ValidateStartDate", "error", null));
-
+                validationResults.AddResult(
+                    new ValidationResult(
+                        "The start date should not be less than current date",
+                        this,
+                        "ValidateStartDate",
+                        "error",
+                        null));
             }
         }
     }

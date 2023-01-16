@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Utils
+﻿namespace ServiceLayer.Utils
 {
+    using System;
+
     public class OverbiddingException
     : Exception
     {
-      
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OverbiddingException"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
         public OverbiddingException(string name)
-            : base(String.Format("Overbidding was detected for product: {0}", name))
+            : base(string.Format("Overbidding was detected for product: {0}", name))
         {
-
         }
     }
 }

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Utils
+﻿namespace ServiceLayer.Utils
 {
+    using System;
+
     public class StringDistance
     {
         /// <summary>
-        /// Compute the distance between two strings.
+        /// Levenshteins the distance.
         /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="t">The t.</param>
+        /// <returns></returns>
         public static int LevenshteinDistance(string s, string t)
         {
             int n = s.Length;
@@ -40,7 +39,7 @@ namespace ServiceLayer.Utils
             // Step 3
             for (int i = 1; i <= n; i++)
             {
-                //Step 4
+            // Step 4
                 for (int j = 1; j <= m; j++)
                 {
                     // Step 5
@@ -52,6 +51,7 @@ namespace ServiceLayer.Utils
                         d[i - 1, j - 1] + cost);
                 }
             }
+
             // Step 7
             return d[n, m];
         }

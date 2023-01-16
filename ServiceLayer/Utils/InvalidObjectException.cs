@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Utils
+﻿namespace ServiceLayer.Utils
 {
-    public class InvalidObjectException: Exception
-    {
-        public InvalidObjectException()
-           : base(String.Format("The object is not valid!"))
-        {
+    using System;
 
+    public class InvalidObjectException : Exception
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvalidObjectException"/> class.
+        /// </summary>
+        public InvalidObjectException()
+           : base(string.Format("The object is not valid!"))
+        {
         }
     }
 }

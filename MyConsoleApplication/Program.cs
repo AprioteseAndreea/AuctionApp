@@ -1,31 +1,9 @@
-﻿using DataMapper.SqlServerDAO;
-using DomainModel;
-using log4net;
-using ServiceLayer;
-using ServiceLayer.ServiceImplementation;
-using ServiceLayer.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace MyConsoleApplication
+﻿namespace MyConsoleApplication
 {
-    class Program
+    public class Program
     {
-
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-             //addUser();
-            //addProduct();
-           // addUserAuction();
-            //addCategory();
-            // listAllCategories();
-
-
         }
 
        /*private static void addProduct()

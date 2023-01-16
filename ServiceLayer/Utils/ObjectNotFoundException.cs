@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Utils
+﻿namespace ServiceLayer.Utils
 {
-    public class ObjectNotFoundException: Exception
-    {     
+    using System;
+
+    public class ObjectNotFoundException : Exception
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectNotFoundException"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
         public ObjectNotFoundException(string name)
-                        : base(String.Format("Product: {0} was noit found!", name))
+                        : base(string.Format("Product: {0} was noit found!", name))
         {
-
         }
-
     }
 }

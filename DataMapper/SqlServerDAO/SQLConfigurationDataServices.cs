@@ -1,9 +1,9 @@
-﻿using DomainModel;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace DataMapper.SqlServerDAO
+﻿namespace DataMapper.SqlServerDAO
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using DomainModel;
+
     public class SQLConfigurationDataServices : IConfigurationDataServices
     {
         public void AddConfiguration(Configuration configuration)

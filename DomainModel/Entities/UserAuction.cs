@@ -1,7 +1,7 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-
-namespace DomainModel
+﻿namespace DomainModel
 {
+    using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+
     public class UserAuction
     {
         public int Id { get; set; }

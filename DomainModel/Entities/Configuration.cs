@@ -1,12 +1,13 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using System.ComponentModel.DataAnnotations;
-
-
-namespace DomainModel
+﻿namespace DomainModel
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Configuration
     {
-        public Configuration(){}
+        public Configuration()
+        {
+        }
+
         public int Id { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]

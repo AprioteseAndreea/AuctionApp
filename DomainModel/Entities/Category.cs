@@ -1,15 +1,14 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DomainModel
+﻿namespace DomainModel
 {
+    using System.Collections.Generic;
+    using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+
     public class Category
     {
-        public Category(){}
+        public Category()
+        {
+        }
+
         public int Id { get; set; }
 
         [NotNullValidator(MessageTemplate = "The name cannot be null")]

@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Utils
+﻿namespace ServiceLayer.Utils
 {
+    using System;
 
     public class MaxAuctionsException : Exception
     {
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MaxAuctionsException"/> class.
+        /// </summary>
         public MaxAuctionsException()
-            : base(String.Format("The maximum number of licitations has been reached!"))
+            : base(string.Format("The maximum number of licitations has been reached!"))
         {
-
         }
     }
 }

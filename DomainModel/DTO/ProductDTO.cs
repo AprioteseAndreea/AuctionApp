@@ -1,30 +1,30 @@
-﻿using DomainModel.enums;
-using Microsoft.Practices.EnterpriseLibrary.Validation;
-using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using System;
-using System.ComponentModel.DataAnnotations;
-using ValidationResult = Microsoft.Practices.EnterpriseLibrary.Validation.ValidationResult;
-
-namespace DomainModel.DTO
+﻿namespace DomainModel.DTO
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using DomainModel.Enums;
+    using Microsoft.Practices.EnterpriseLibrary.Validation;
+    using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+    using ValidationResult = Microsoft.Practices.EnterpriseLibrary.Validation.ValidationResult;
+
     [HasSelfValidation]
     public class ProductDTO
     {
         public ProductDTO() { }
+
         public ProductDTO(Product product)
         {
-
-            Id = product.Id;
-            Name = product.Name;
-            Description = product.Description;
-            OwnerUserId = product.OwnerUser.Id;
-            StartDate = product.StartDate;
-            EndDate = product.EndDate;
-            StartingPrice = product.StartingPrice;
-            CategoryId = product.Category.Id;
-            Status = product.Status;
-
+            this.Id = product.Id;
+            this.Name = product.Name;
+            this.Description = product.Description;
+            this.OwnerUserId = product.OwnerUser.Id;
+            this.StartDate = product.StartDate;
+            this.EndDate = product.EndDate;
+            this.StartingPrice = product.StartingPrice;
+            this.CategoryId = product.Category.Id;
+            this.Status = product.Status;
         }
+
         public int Id { get; set; }
 
         [NotNullValidator(MessageTemplate = "The name cannot be null")]
@@ -57,20 +57,18 @@ namespace DomainModel.DTO
         [SelfValidation]
         public void ValidateStartAndEndDate(ValidationResults validationResults)
         {
-            if (EndDate < StartDate)
+            if (this.EndDate < this.StartDate)
             {
                 validationResults.AddResult(new ValidationResult("The end date should not be less than start date", this, "ValidateStartAndEndDate", "error", null));
-
             }
         }
 
         [SelfValidation]
         public void ValidateStartDate(ValidationResults validationResults)
         {
-            if (StartDate < DateTime.Now.Date)
+            if (this.StartDate < DateTime.Now.Date)
             {
                 validationResults.AddResult(new ValidationResult("The start date should not be less than current date", this, "ValidateStartDate", "error", null));
-
             }
         }
     }

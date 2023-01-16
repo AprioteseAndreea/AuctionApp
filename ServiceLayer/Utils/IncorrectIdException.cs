@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Utils
+﻿namespace ServiceLayer.Utils
 {
+    using System;
 
     public class IncorrectIdException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IncorrectIdException"/> class.
+        /// </summary>
         public IncorrectIdException()
-                        : base(String.Format("The id has an incorrect format"))
+                        : base(string.Format("The id has an incorrect format"))
         {
-
         }
-
     }
 }

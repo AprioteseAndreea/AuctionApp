@@ -54,6 +54,9 @@
     <Reference Include="Npgsql, Version=4.1.3.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.4.1.3\lib\net461\Npgsql.dll</HintPath>
     </Reference>
+    <Reference Include="StyleCop, Version=6.2.0.0, Culture=neutral, PublicKeyToken=f904653c63bc2738, processorArchitecture=MSIL">
+      <HintPath>..\packages\StyleCop.6.2.0\lib\net40\StyleCop.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -118,34 +121,6 @@
     <Compile Include="IProductDataServices.cs" />
     <Compile Include="IUserAuctionDataServices.cs" />
     <Compile Include="IUserDataServices.cs" />
-    <Compile Include="Migrations\202212261712196_initmigration.cs" />
-    <Compile Include="Migrations\202212261712196_initmigration.designer.cs">
-      <DependentUpon>202212261712196_initmigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212271013058_secondmigration.cs" />
-    <Compile Include="Migrations\202212271013058_secondmigration.designer.cs">
-      <DependentUpon>202212271013058_secondmigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212301933481_update-fk.cs" />
-    <Compile Include="Migrations\202212301933481_update-fk.designer.cs">
-      <DependentUpon>202212301933481_update-fk.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301022231449_configclass.cs" />
-    <Compile Include="Migrations\202301022231449_configclass.designer.cs">
-      <DependentUpon>202301022231449_configclass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301022252065_status-column.cs" />
-    <Compile Include="Migrations\202301022252065_status-column.designer.cs">
-      <DependentUpon>202301022252065_status-column.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301031948324_restore-status.cs" />
-    <Compile Include="Migrations\202301031948324_restore-status.designer.cs">
-      <DependentUpon>202301031948324_restore-status.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301062258366_added-fields.cs" />
-    <Compile Include="Migrations\202301062258366_added-fields.designer.cs">
-      <DependentUpon>202301062258366_added-fields.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -166,33 +141,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212261712196_initmigration.resx">
-      <DependentUpon>202212261712196_initmigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212271013058_secondmigration.resx">
-      <DependentUpon>202212271013058_secondmigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212301933481_update-fk.resx">
-      <DependentUpon>202212301933481_update-fk.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301022231449_configclass.resx">
-      <DependentUpon>202301022231449_configclass.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301022252065_status-column.resx">
-      <DependentUpon>202301022252065_status-column.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301031948324_restore-status.resx">
-      <DependentUpon>202301031948324_restore-status.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301062258366_added-fields.resx">
-      <DependentUpon>202301062258366_added-fields.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DomainModel\DomainModel.csproj">
       <Project>{3104AFE4-F733-46D9-B9BC-192FA1236374}</Project>
       <Name>DomainModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

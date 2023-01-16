@@ -1,29 +1,24 @@
-﻿using DomainModel.enums;
-using DomainModel.Enums;
-using DomainModel;
-using Microsoft.Practices.EnterpriseLibrary.Validation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DomainModel.DTO;
-
-namespace TestDomainLayer
+﻿namespace TestDomainLayer
 {
+    using System;
+    using DomainModel;
+    using DomainModel.DTO;
+    using DomainModel.Enums;
+    using Microsoft.Practices.EnterpriseLibrary.Validation;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class DtoTests
     {
         private CategoryDTO category;
-        private CategoryDTO category_two;
+        private CategoryDTO categoryTwo;
         private CategoryRelationDTO relation;
         private ProductDTO product;
         private UserDTO user;
         private UserAuctionDTO userAuction;
-        private Money money_one;
-        private Money money_two;
-        private Money money_three;
+        private Money moneyOne;
+        private Money moneyTwo;
+        private Money moneyThree;
 
         private ConfigurationDTO configuration;
 
@@ -36,16 +31,16 @@ namespace TestDomainLayer
                 Name = "Electronice",
             };
 
-            this.category_two = new CategoryDTO
+            this.categoryTwo = new CategoryDTO
             {
                 Id = 6,
-                Name = "Laptopuri"
+                Name = "Laptopuri",
             };
 
             this.relation = new CategoryRelationDTO
             {
                 ParentCategoryId = this.category.Id,
-                ChildCategoryId = this.category_two.Id,
+                ChildCategoryId = this.categoryTwo.Id,
             };
 
             this.user = new UserDTO
@@ -56,24 +51,24 @@ namespace TestDomainLayer
                 Status = UserStatus.Active,
                 Email = "andreea.apriotese@gmail.com",
                 Score = 4.00,
-                BirthDate = "12.12.2000"
+                BirthDate = "12.12.2000",
             };
 
-            this.money_one = new Money
+            this.moneyOne = new Money
             {
                 Amount = 100,
-                Currency = Currency.RON
+                Currency = Currency.RON,
             };
-            this.money_three = new Money
+            this.moneyThree = new Money
             {
                 Amount = 1000,
-                Currency = Currency.RON
+                Currency = Currency.RON,
             };
 
-            this.money_two = new Money
+            this.moneyTwo = new Money
             {
                 Amount = 50,
-                Currency = Currency.USD
+                Currency = Currency.USD,
             };
 
             this.product = new ProductDTO
@@ -84,17 +79,16 @@ namespace TestDomainLayer
                 OwnerUserId = this.user.Id,
                 StartDate = DateTime.Now,
                 EndDate = new DateTime(2023, 12, 31),
-                StartingPrice = this.money_one,
+                StartingPrice = this.moneyOne,
                 CategoryId = this.category.Id,
                 Status = AuctionStatus.Open,
             };
             this.userAuction = new UserAuctionDTO
             {
                 Id = 2,
-                ProductId = product.Id,
-                UserId = user.Id,
-                Price = this.money_two,
-
+                ProductId = this.product.Id,
+                UserId = this.user.Id,
+                Price = this.moneyTwo,
             };
             this.configuration = new ConfigurationDTO
             {
@@ -109,524 +103,545 @@ namespace TestDomainLayer
         [TestMethod]
         public void TestCorrectProduct()
         {
-            Assert.IsNotNull(product);
+            Assert.IsNotNull(this.product);
         }
 
         [TestMethod]
         public void TestProductConstructor()
         {
-            ValidationResults validationResults = Validation.Validate(product);
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestProductNameNull()
         {
-            product.Name = null;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.Name = null;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestProductNameShortName()
         {
-            product.Name = "a";
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.Name = "a";
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestProductLongEnoughName()
         {
-            product.Name = "Daniela";
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.Name = "Daniela";
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestProductNullDescription()
         {
-            product.Description = null;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.Description = null;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestProductShortDescription()
         {
-            product.Description = "aa";
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.Description = "aa";
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestProductEnoughLongDescription()
         {
-            product.Description = "Masina de colectie";
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.Description = "Masina de colectie";
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreEqual(0, validationResults.Count);
         }
 
-        
         [TestMethod]
         public void TestProductOwnerUserIdInRange()
         {
-            product.OwnerUserId = 3;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.OwnerUserId = 3;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestProductOwnerIdUserZero()
         {
-            product.OwnerUserId = 0;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.OwnerUserId = 0;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestProductOwnerUserIdNegative()
         {
-            product.OwnerUserId = -473;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.OwnerUserId = -473;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestProductCategoryIdInRange()
         {
-            product.CategoryId = 3;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.CategoryId = 3;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestProductCategoryZero()
         {
-            product.CategoryId = 0;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.CategoryId = 0;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestProductCategoryIdNegative()
         {
-            product.CategoryId = -7;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.CategoryId = -7;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestProductStartingPriceNull()
         {
-            product.StartingPrice = null;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.StartingPrice = null;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestProductStartingPriceNotNull()
         {
-            product.StartingPrice = money_one;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.StartingPrice = this.moneyOne;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestProductWrongStatusRange()
         {
-            product.Status = (AuctionStatus)23;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.Status = (AuctionStatus)23;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestProductCorrectStatusRange()
         {
-            product.Status = AuctionStatus.Open;
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.Status = AuctionStatus.Open;
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestEndDateBeforeNow()
         {
-            product.EndDate = new DateTime(2022, 12, 10);
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.EndDate = new DateTime(2022, 12, 10);
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestStartDateBeforeNow()
         {
-            product.StartDate = new DateTime(2022, 12, 10);
-            ValidationResults validationResults = Validation.Validate(product);
+            this.product.StartDate = new DateTime(2022, 12, 10);
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestStartDateBeforeNowAndEndDateInFuture()
         {
-            product.StartDate = new DateTime(2022, 12, 10);
-            product.EndDate = new DateTime(2023, 12, 10);
+            this.product.StartDate = new DateTime(2022, 12, 10);
+            this.product.EndDate = new DateTime(2023, 12, 10);
 
-            ValidationResults validationResults = Validation.Validate(product);
+            ValidationResults validationResults = Validation.Validate(this.product);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestZeroMoneyAmount()
         {
-            money_one.Amount = 0;
-            ValidationResults validationResults = Validation.Validate(money_one);
+            this.moneyOne.Amount = 0;
+            ValidationResults validationResults = Validation.Validate(this.moneyOne);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestNegativeAmmount()
         {
-            money_one.Amount = -30;
-            ValidationResults validationResults = Validation.Validate(money_one);
+            this.moneyOne.Amount = -30;
+            ValidationResults validationResults = Validation.Validate(this.moneyOne);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestCorrectAmmount()
         {
-            money_one.Amount = 30;
-            money_one.Currency = Currency.RON;
-            ValidationResults validationResults = Validation.Validate(money_one);
+            this.moneyOne.Amount = 30;
+            this.moneyOne.Currency = Currency.RON;
+            ValidationResults validationResults = Validation.Validate(this.moneyOne);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestCorrectMoneyCurrencyDomain()
         {
-            money_one.Currency = Currency.RON;
-            ValidationResults validationResults = Validation.Validate(money_one);
+            this.moneyOne.Currency = Currency.RON;
+            ValidationResults validationResults = Validation.Validate(this.moneyOne);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestMoneyCurrencyDomain()
         {
-            money_one.Currency = (Currency)34;
-            ValidationResults validationResults = Validation.Validate(money_one);
+            this.moneyOne.Currency = (Currency)34;
+            ValidationResults validationResults = Validation.Validate(this.moneyOne);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestCategoryEnoughName()
         {
-            category.Name = "Electrocasnice";
-            ValidationResults validationResults = Validation.Validate(category);
+            this.category.Name = "Electrocasnice";
+            ValidationResults validationResults = Validation.Validate(this.category);
             Assert.AreEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestCategoryShortName()
         {
-            category.Name = "a";
-            ValidationResults validationResults = Validation.Validate(category);
+            this.category.Name = "a";
+            ValidationResults validationResults = Validation.Validate(this.category);
             Assert.AreNotEqual(0, validationResults.Count);
         }
-       
+
         [TestMethod]
         public void TestUserNullFirstName()
         {
-            user.FirstName = null;
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.FirstName = null;
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestUserFirstNameContainsNumbers()
         {
-            user.FirstName = "Andreea1234";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.FirstName = "Andreea1234";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestUserShortFirstName()
         {
-            user.FirstName = "b";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.FirstName = "b";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestUserEnoughLongFirstName()
         {
-            user.FirstName = "Andreea";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.FirstName = "Andreea";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreEqual(0, validationResults.Count);
-
-
         }
+
         [TestMethod]
         public void TestUserNullLastName()
         {
-            user.LastName = null;
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.LastName = null;
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestUserLastNameContainsNumbers()
         {
-            user.LastName = "Andreea1234";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.LastName = "Andreea1234";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestUserShortLastName()
         {
-            user.LastName = "b";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.LastName = "b";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestUserEnoughLongLastName()
         {
-            user.LastName = "Andreea";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.LastName = "Andreea";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreEqual(0, validationResults.Count);
-
-
         }
+
         [TestMethod]
         public void TestUserNullEmail()
         {
-            user.Email = null;
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.Email = null;
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
-
         }
+
         [TestMethod]
         public void TestUserWrongFormatEmail()
         {
-            user.Email = "andreea@";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.Email = "andreea@";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
-
         }
+
         [TestMethod]
         public void TestUserWrongFormatEmail2()
         {
-            user.Email = "andreea";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.Email = "andreea";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
-
         }
+
         [TestMethod]
         public void TestUserCorrectFormatEmail()
         {
-            user.Email = "andreea@gmail.com";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.Email = "andreea@gmail.com";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreEqual(0, validationResults.Count);
-
         }
+
         [TestMethod]
         public void TestUserAgeUnderEighteen()
         {
-            user.BirthDate = "10.10.2010";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.BirthDate = "10.10.2010";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
-
         }
+
         [TestMethod]
         public void TestUserAgeOverEighteen()
         {
-            user.BirthDate = "10.10.2000";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.BirthDate = "10.10.2000";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreEqual(0, validationResults.Count);
-
         }
+
         [TestMethod]
         public void TestUserAgeInTheFuture()
         {
-            user.BirthDate = "10.10.2040";
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.BirthDate = "10.10.2040";
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
-
         }
+
         [TestMethod]
         public void TestUserScoreOutOfRange()
         {
-            user.Score = 6.00;
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.Score = 6.00;
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
-
         }
 
         [TestMethod]
         public void TestUserScoreInRange()
         {
-            user.Score = 4.50;
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.Score = 4.50;
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreEqual(0, validationResults.Count);
-
         }
 
         [TestMethod]
         public void TestUserStatusInRange()
         {
-            user.Status = UserStatus.Active;
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.Status = UserStatus.Active;
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreEqual(0, validationResults.Count);
-
         }
 
         [TestMethod]
         public void TestUserStatusOutOfRange()
         {
-            user.Status = (UserStatus)3234;
-            ValidationResults validationResults = Validation.Validate(user);
+            this.user.Status = (UserStatus)3234;
+            ValidationResults validationResults = Validation.Validate(this.user);
             Assert.AreNotEqual(0, validationResults.Count);
-
         }
-       
+
         [TestMethod]
         public void TestUserAuctionNullPrice()
         {
-            userAuction.Price = null;
-            ValidationResults validationResults = Validation.Validate(userAuction);
+            this.userAuction.Price = null;
+            ValidationResults validationResults = Validation.Validate(this.userAuction);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestUserAuctionNotNullPrice()
         {
-            userAuction.Price = money_one;
-            ValidationResults validationResults = Validation.Validate(userAuction);
+            this.userAuction.Price = this.moneyOne;
+            ValidationResults validationResults = Validation.Validate(this.userAuction);
             Assert.AreEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestUserAuctionProductIdInRange()
         {
-            userAuction.ProductId = 3;
-            ValidationResults validationResults = Validation.Validate(userAuction);
+            this.userAuction.ProductId = 3;
+            ValidationResults validationResults = Validation.Validate(this.userAuction);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestUserAuctionProductIdZero()
         {
-            userAuction.ProductId = 0;
-            ValidationResults validationResults = Validation.Validate(userAuction);
+            this.userAuction.ProductId = 0;
+            ValidationResults validationResults = Validation.Validate(this.userAuction);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestUserAuctionProductIdNegative()
         {
-            userAuction.ProductId = -4;
-            ValidationResults validationResults = Validation.Validate(userAuction);
+            this.userAuction.ProductId = -4;
+            ValidationResults validationResults = Validation.Validate(this.userAuction);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestUserAuctionUserIdInRange()
         {
-            userAuction.UserId = 2;
-            ValidationResults validationResults = Validation.Validate(userAuction);
+            this.userAuction.UserId = 2;
+            ValidationResults validationResults = Validation.Validate(this.userAuction);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestUserAuctionUserIdZero()
         {
-            userAuction.UserId = 0;
-            ValidationResults validationResults = Validation.Validate(userAuction);
+            this.userAuction.UserId = 0;
+            ValidationResults validationResults = Validation.Validate(this.userAuction);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestUserAuctionUserIdNegative()
         {
-            userAuction.UserId = -4;
-            ValidationResults validationResults = Validation.Validate(userAuction);
+            this.userAuction.UserId = -4;
+            ValidationResults validationResults = Validation.Validate(this.userAuction);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestConfigurationNegativeAuctions()
         {
-            configuration.MaxAuctions = -2;
-            ValidationResults validationResults = Validation.Validate(configuration);
+            this.configuration.MaxAuctions = -2;
+            ValidationResults validationResults = Validation.Validate(this.configuration);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestConfigurationOutOfRangeInitialScore()
         {
-            configuration.InitialScore = 7;
-            ValidationResults validationResults = Validation.Validate(configuration);
+            this.configuration.InitialScore = 7;
+            ValidationResults validationResults = Validation.Validate(this.configuration);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestConfigurationOutOfRangeMinScore()
         {
-            configuration.MinScore = 10;
-            ValidationResults validationResults = Validation.Validate(configuration);
+            this.configuration.MinScore = 10;
+            ValidationResults validationResults = Validation.Validate(this.configuration);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestConfigurationOutOfRangeDays()
         {
-            configuration.Days = 400;
-            ValidationResults validationResults = Validation.Validate(configuration);
+            this.configuration.Days = 400;
+            ValidationResults validationResults = Validation.Validate(this.configuration);
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
         [TestMethod]
         public void TestCategoryRelationParentCategoryInRange()
         {
-            relation.ParentCategoryId = 1;
-            ValidationResults validationResults = Validation.Validate(relation);
+            this.relation.ParentCategoryId = 1;
+            ValidationResults validationResults = Validation.Validate(this.relation);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestCategoryRelationParentCategoryZero()
         {
-            relation.ParentCategoryId = 0;
-            ValidationResults validationResults = Validation.Validate(relation);
+            this.relation.ParentCategoryId = 0;
+            ValidationResults validationResults = Validation.Validate(this.relation);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestCategoryRelationParentCategoryNegative()
         {
-            relation.ParentCategoryId = -4;
-            ValidationResults validationResults = Validation.Validate(relation);
+            this.relation.ParentCategoryId = -4;
+            ValidationResults validationResults = Validation.Validate(this.relation);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestCategoryRelationChildCategoryInRange()
         {
-            relation.ChildCategoryId = 3;
-            ValidationResults validationResults = Validation.Validate(relation);
+            this.relation.ChildCategoryId = 3;
+            ValidationResults validationResults = Validation.Validate(this.relation);
             Assert.AreEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestCategoryRelationChildCategoryIdZero()
         {
-            relation.ChildCategoryId = 0;
-            ValidationResults validationResults = Validation.Validate(relation);
+            this.relation.ChildCategoryId = 0;
+            ValidationResults validationResults = Validation.Validate(this.relation);
             Assert.AreNotEqual(0, validationResults.Count);
         }
+
         [TestMethod]
         public void TestCategoryRelationChildCategoryIdNegative()
         {
-            relation.ChildCategoryId = -5;
-            ValidationResults validationResults = Validation.Validate(relation);
-            Assert.AreNotEqual(0, validationResults.Count);
+           this.relation.ChildCategoryId = -5;
+           ValidationResults validationResults = Validation.Validate(this.relation);
+           Assert.AreNotEqual(0, validationResults.Count);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TestMoneySmallerThanAnotherMoney_DifferentCurrency()
         {
-            Assert.ThrowsException<Exception>(() => money_one < money_two);
+            Assert.ThrowsException<Exception>(() => this.moneyOne < this.moneyTwo);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TestMoneyGreaterThanAnotherMoney_DifferentCurrency()
         {
-            Assert.ThrowsException<Exception>(() => money_one > money_two);
+            Assert.ThrowsException<Exception>(() => this.moneyOne > this.moneyTwo);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TestMoneySmallerThanAnotherMoney_SameCurrency()
         {
-            Assert.IsTrue(money_one < money_three);
+            Assert.IsTrue(this.moneyOne < this.moneyThree);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TestMoneyGreaterThanAnotherMoney_SameCurrency()
         {
-            Assert.IsTrue(money_three > money_one);
+            Assert.IsTrue(this.moneyThree > this.moneyOne);
         }
     }
 }

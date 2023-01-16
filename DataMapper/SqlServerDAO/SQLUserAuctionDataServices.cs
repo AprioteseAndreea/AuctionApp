@@ -1,12 +1,9 @@
-﻿using DomainModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataMapper.SqlServerDAO
+﻿namespace DataMapper.SqlServerDAO
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using DomainModel;
+
     public class SQLUserAuctionDataServices : IUserAuctionDataServices
     {
         public void AddUserAuction(UserAuction userAuction)

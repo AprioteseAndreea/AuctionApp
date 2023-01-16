@@ -1,8 +1,8 @@
-﻿using System;
-
-namespace DataMapper.SqlServerDAO
+﻿namespace DataMapper.SqlServerDAO
 {
-    class SQLServerDAOFactory : IDAOFactory
+    using System;
+
+    public class SQLServerDAOFactory : IDAOFactory
     {
         public IUserDataServices UserDataServices
         {

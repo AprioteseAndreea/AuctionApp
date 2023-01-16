@@ -1,22 +1,16 @@
-﻿using DomainModel;
-using DomainModel.enums;
-using System.Collections.Generic;
-using System.Linq;
-
-
-namespace DataMapper.SqlServerDAO
+﻿namespace DataMapper.SqlServerDAO
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using DomainModel;
+    using DomainModel.Enums;
+
     public class SQLProductDataServices : IProductDataServices
     {
-        /// <summary>
-        /// Adds the product.
-        /// </summary>
-        /// <param name="product">The product.</param>
         public void AddProduct(Product product)
         {
             using (var context = new MyApplicationContext())
             {
-                
                 User user = context.Users.FirstOrDefault(u => u.Id == product.OwnerUser.Id);
                 Category category = context.Categories.FirstOrDefault(c => c.Id == product.Category.Id);
 
@@ -30,10 +24,6 @@ namespace DataMapper.SqlServerDAO
             }
         }
 
-        /// <summary>
-        /// Deletes the product.
-        /// </summary>
-        /// <param name="product">The product.</param>
         public void DeleteProduct(Product product)
         {
             using (var context = new MyApplicationContext())
@@ -45,10 +35,6 @@ namespace DataMapper.SqlServerDAO
             }
         }
 
-        /// <summary>
-        /// Gets all products.
-        /// </summary>
-        /// <returns></returns>
         public IList<Product> GetAllProducts()
         {
             using (var context = new MyApplicationContext())
@@ -64,13 +50,7 @@ namespace DataMapper.SqlServerDAO
                 return context.Products.Where(product => product.OwnerUser.Id == userId && product.Status == AuctionStatus.Open).ToList();
             }
         }
-       
-        /// <summary>
-        /// Gets the product by identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+
         public Product GetProductById(int id)
         {
             using (var context = new MyApplicationContext())
@@ -87,10 +67,6 @@ namespace DataMapper.SqlServerDAO
             }
         }
 
-        /// <summary>
-        /// Updates the product.
-        /// </summary>
-        /// <param name="product">The product.</param>
         public void UpdateProduct(Product product)
         {
             using (var context = new MyApplicationContext())
@@ -100,7 +76,7 @@ namespace DataMapper.SqlServerDAO
 
                 var result = user.Products.First(p => p.Id == product.Id);
                 var result_two = category.Products.First(p => p.Id == product.Id);
-               
+
                 result.Name = product.Name;
                 result_two.Name = product.Name;
 
@@ -108,7 +84,6 @@ namespace DataMapper.SqlServerDAO
                 result_two.Description = product.Description;
 
                 context.SaveChanges();
-                
             }
         }
     }

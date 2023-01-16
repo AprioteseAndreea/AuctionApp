@@ -1,48 +1,41 @@
-﻿using DataMapper.SqlServerDAO;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataMapper
+﻿namespace DataMapper
 {
+    using System.Configuration;
+    using DataMapper.SqlServerDAO;
+
     public static class DAOFactoryMethod
     {
-        private static readonly IDAOFactory _currentDAOFactory;
+        private static readonly IDAOFactory CurrentDAOFactoryValue;
 
-        /// <summary>Initializes the <see cref="DAOFactoryMethod" /> class.</summary>
         static DAOFactoryMethod()
         {
             string currentDataProvider = ConfigurationManager.AppSettings["dataProvider"];
-            if (String.IsNullOrWhiteSpace(currentDataProvider))
+            if (string.IsNullOrWhiteSpace(currentDataProvider))
             {
-                _currentDAOFactory = null;
+                CurrentDAOFactoryValue = null;
             }
             else
             {
                 switch (currentDataProvider.ToLower().Trim())
                 {
                     case "sqlserver":
-                        _currentDAOFactory = new SQLServerDAOFactory();
+                        CurrentDAOFactoryValue = new SQLServerDAOFactory();
                         break;
                     case "oracle":
-                        _currentDAOFactory = null;//de fapt ar trebui un new OracleDaoFactory, dar care nu e inca scris
+                        CurrentDAOFactoryValue = null;
                         return;
                     default:
-                        _currentDAOFactory = new SQLServerDAOFactory();
+                        CurrentDAOFactoryValue = new SQLServerDAOFactory();
                         break;
                 }
             }
         }
-        /// <summary>Gets the current DAO factory.</summary>
-        /// <value>The current DAO factory.</value>
+
         public static IDAOFactory CurrentDAOFactory
         {
             get
             {
-                return _currentDAOFactory;
+                return CurrentDAOFactoryValue;
             }
         }
     }

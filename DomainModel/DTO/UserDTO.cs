@@ -1,40 +1,40 @@
-﻿using DomainModel.enums;
-using Microsoft.Practices.EnterpriseLibrary.Validation;
-using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using System;
-using System.ComponentModel.DataAnnotations;
-using ValidationResult = Microsoft.Practices.EnterpriseLibrary.Validation.ValidationResult;
-
-
-namespace DomainModel.DTO
+﻿namespace DomainModel.DTO
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using DomainModel.Enums;
+    using Microsoft.Practices.EnterpriseLibrary.Validation;
+    using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+    using ValidationResult = Microsoft.Practices.EnterpriseLibrary.Validation.ValidationResult;
+
     [HasSelfValidation]
     public class UserDTO
     {
+        public UserDTO()
+        {
+        }
 
-        public UserDTO() { }
         public UserDTO(User user)
         {
-
-            Id = user.Id;
-            FirstName = user.FirstName;
-            LastName = user.LastName;
-            Email = user.Email;
-            BirthDate = user.BirthDate;
-            Score = user.Score;
-            Status = user.Status;
+            this.Id = user.Id;
+            this.FirstName = user.FirstName;
+            this.LastName = user.LastName;
+            this.Email = user.Email;
+            this.BirthDate = user.BirthDate;
+            this.Score = user.Score;
+            this.Status = user.Status;
         }
 
         public int Id { get; set; }
 
         [NotNullValidator(MessageTemplate = "The name cannot be null")]
         [RegexValidator("[A-Za-z]")]
-        [StringLengthValidator(2, RangeBoundaryType.Inclusive, 40, RangeBoundaryType.Inclusive, ErrorMessage = "The name should have between {3} and {5} letters")]
+        [StringLengthValidator(2, RangeBoundaryType.Inclusive, 40, RangeBoundaryType.Inclusive, ErrorMessage = "The first name should have between {3} and {5} letters")]
         public string FirstName { get; set; }
 
         [NotNullValidator(MessageTemplate = "The name cannot be null")]
         [RegexValidator("[A-Za-z]")]
-        [StringLengthValidator(2, RangeBoundaryType.Inclusive, 40, RangeBoundaryType.Inclusive, ErrorMessage = "The name should have between {3} and {5} letters")]
+        [StringLengthValidator(2, RangeBoundaryType.Inclusive, 40, RangeBoundaryType.Inclusive, ErrorMessage = "The last name should have between {3} and {5} letters")]
         public string LastName { get; set; }
 
         [NotNullValidator(MessageTemplate = "The email cannot be null")]
@@ -55,21 +55,23 @@ namespace DomainModel.DTO
         [SelfValidation]
         public void Validate(ValidationResults validationResults)
         {
-            var age = DateTime.Now.Year - DateTime.Parse(BirthDate).Year;
+            var age = DateTime.Now.Year - DateTime.Parse(this.BirthDate).Year;
             if (age < 18)
             {
-
                 validationResults.AddResult(
-                    new ValidationResult("Customer must be older than 18",
+                    new ValidationResult(
+                        "Customer must be older than 18",
                         this,
                         "BirthDate",
                         null,
                         null));
             }
-            if (DateTime.Now < DateTime.Parse(BirthDate))
+
+            if (DateTime.Now < DateTime.Parse(this.BirthDate))
             {
                 validationResults.AddResult(
-                  new ValidationResult("You can not set a birth date in the future!",
+                  new ValidationResult(
+                      "You can not set a birth date in the future!",
                       this,
                       "BirthDate",
                       null,

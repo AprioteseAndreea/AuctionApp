@@ -1,22 +1,17 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DomainModel.DTO
+﻿namespace DomainModel.DTO
 {
+    using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+
     public class CategoryDTO
     {
         public CategoryDTO() { }
+
         public CategoryDTO(Category category)
         {
-
-            Id = category.Id;
-            Name = category.Name;
-
+            this.Id = category.Id;
+            this.Name = category.Name;
         }
+
         public int Id { get; set; }
 
         [NotNullValidator(MessageTemplate = "The name cannot be null")]

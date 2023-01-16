@@ -1,39 +1,31 @@
-﻿using DataMapper;
-using DomainModel.enums;
-using DomainModel.Enums;
-using DomainModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using ServiceLayer.ServiceImplementation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServiceLayer.Utils;
-using DomainModel.DTO;
-using log4net;
-
-namespace TestsServiceLayer
+﻿namespace TestsServiceLayer
 {
+    using System;
+    using System.Collections.Generic;
+    using DataMapper;
+    using DomainModel;
+    using DomainModel.DTO;
+    using DomainModel.Enums;
+    using log4net;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using ServiceLayer.ServiceImplementation;
+    using ServiceLayer.Utils;
+
     [TestClass]
     public class UserServiceTest
     {
+        private const int POSITIVEUSERID = 5;
+        private const int NEGATIVEUSERID = -5;
         private Category category;
 
         private Product productFirst;
-        
         private User user;
         private UserDTO userDTO;
 
         private User invalidUser;
         private UserDTO invaidUserDTO;
-
         private Money moneyFirst;
-       
-        private const int POSITIVE_USER_ID = 5;
-        private const int NEGATIVE_USER_ID = -5;
-
         private Configuration configurationSecond;
 
         private List<Product> userProducts;
@@ -42,9 +34,8 @@ namespace TestsServiceLayer
         private Mock<ILog> loggerMock;
         private Mock<IUserDataServices> userDataServicesStub;
         private Mock<IConfigurationDataServices> configurationDataServicesStub;
-     
-        private UserServicesImplementation userService;
 
+        private UserServicesImplementation userService;
 
         [TestInitialize]
         public void SetUp()
@@ -54,7 +45,7 @@ namespace TestsServiceLayer
                 Id = 4,
                 Name = "Produse alimentare pentru oameni",
             };
-                      
+
             this.user = new User
             {
                 Id = 1,
@@ -63,9 +54,9 @@ namespace TestsServiceLayer
                 Status = UserStatus.Active,
                 Email = "andreea.apriotese@gmail.com",
                 Score = 4.00,
-                BirthDate = "12.12.2000"
+                BirthDate = "12.12.2000",
             };
-            userDTO = new UserDTO(user);
+            this.userDTO = new UserDTO(this.user);
             this.invalidUser = new User
             {
                 Id = 1,
@@ -74,16 +65,15 @@ namespace TestsServiceLayer
                 Status = UserStatus.Active,
                 Email = "andreea.apriotese",
                 Score = 4.00,
-                BirthDate = "12.12.2000"
+                BirthDate = "12.12.2000",
             };
-            invaidUserDTO = new UserDTO(invalidUser);
+            this.invaidUserDTO = new UserDTO(this.invalidUser);
 
             this.moneyFirst = new Money
             {
                 Amount = 100,
-                Currency = Currency.RON
+                Currency = Currency.RON,
             };
-           
             this.productFirst = new Product
             {
                 Id = 1,
@@ -96,23 +86,22 @@ namespace TestsServiceLayer
                 Category = this.category,
                 Status = AuctionStatus.Open,
             };
-                       
             this.configurationSecond = new Configuration
             {
                 MaxAuctions = 5,
                 InitialScore = 4,
                 MinScore = 2,
-                Days = 7
+                Days = 7,
             };
-          
+
             this.userProducts = new List<Product>();
             this.userAuctions = new List<UserAuction>();
 
-            userProducts.Add(this.productFirst);
-            userAuctions.Add(new UserAuction
+            this.userProducts.Add(this.productFirst);
+            this.userAuctions.Add(new UserAuction
             {
-                Product = productFirst,
-                User = user,
+                Product = this.productFirst,
+                User = this.user,
                 Price = new Money
                 {
                     Amount = 100,
@@ -120,132 +109,126 @@ namespace TestsServiceLayer
                 },
             });
 
-          
             this.configurationDataServicesStub = new Mock<IConfigurationDataServices>();
             this.userDataServicesStub = new Mock<IUserDataServices>();
             this.loggerMock = new Mock<ILog>();
 
-            userService = new UserServicesImplementation(
-                userDataServicesStub.Object,
-                configurationDataServicesStub.Object,
-                loggerMock.Object
-                );
+            this.userService = new UserServicesImplementation(
+                this.userDataServicesStub.Object,
+                this.configurationDataServicesStub.Object,
+                this.loggerMock.Object);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddUser_InvalidObjectException()
         {
-            configurationDataServicesStub
+            this.configurationDataServicesStub
              .Setup(x => x.GetConfigurationById(1))
-             .Returns(configurationSecond);
-            userService.AddUser(invaidUserDTO);
+             .Returns(this.configurationSecond);
+            this.userService.AddUser(this.invaidUserDTO);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddUser_NullObject()
         {
-            configurationDataServicesStub
+            this.configurationDataServicesStub
              .Setup(x => x.GetConfigurationById(1))
-             .Returns(configurationSecond);
-            userService.AddUser(null);
+             .Returns(this.configurationSecond);
+            this.userService.AddUser(null);
         }
 
         [TestMethod]
         public void TestAddUser_Successfully()
         {
-            configurationDataServicesStub
+            this.configurationDataServicesStub
                 .Setup(x => x.GetConfigurationById(1))
-                .Returns(configurationSecond);
-            userService.AddUser(userDTO);
+                .Returns(this.configurationSecond);
+            this.userService.AddUser(this.userDTO);
         }
-
 
         [TestMethod]
         public void TestDeleteUser_Successfully()
         {
-            userDataServicesStub
+            this.userDataServicesStub
               .Setup(x => x.GetUserById(It.IsAny<int>()))
-              .Returns(user);
+              .Returns(this.user);
 
-            userService.DeleteUser(userDTO);
+            this.userService.DeleteUser(this.userDTO);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestDeleteUser_NullProduct()
         {
-            userService.DeleteUser(null);
+            this.userService.DeleteUser(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestDeleteUsert_ObjectNotFoundException()
         {
-            userDataServicesStub
+            this.userDataServicesStub
                .Setup(x => x.GetUserById(It.IsAny<int>()))
                .Equals(null);
 
-            userService.DeleteUser(userDTO);
+            this.userService.DeleteUser(this.userDTO);
         }
+
         [TestMethod]
         public void TestGetListOfUsers_Successfully()
         {
-
-            userDataServicesStub
+            this.userDataServicesStub
                .Setup(x => x.GetAllUsers())
                .Returns(new List<User>());
 
-            userService.GetListOfUsers();
+            this.userService.GetListOfUsers();
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserById_IncorrectIdException()
         {
-
-            userService.GetUserById(NEGATIVE_USER_ID);
+            this.userService.GetUserById(NEGATIVEUSERID);
         }
 
         [TestMethod]
         public void TestGetUserById_Successfully()
         {
-            userDataServicesStub
+            this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
-            .Returns(user);
+            .Returns(this.user);
 
-            userService.GetUserById(POSITIVE_USER_ID);
+            this.userService.GetUserById(POSITIVEUSERID);
         }
 
         [TestMethod]
         public void TestUpdateUser_Successfully()
         {
-            userDataServicesStub
+            this.userDataServicesStub
               .Setup(x => x.GetUserById(It.IsAny<int>()))
-              .Returns(user);
+              .Returns(this.user);
 
-            userService.UpdateUser(userDTO);
+            this.userService.UpdateUser(this.userDTO);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestUpdateUser_NullProduct()
         {
-            userService.UpdateUser(null);
+            this.userService.UpdateUser(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestUpdateUser_ObjectNotFoundException()
         {
-            userDataServicesStub
+            this.userDataServicesStub
               .Setup(x => x.GetUserById(It.IsAny<int>()))
               .Equals(null);
 
-            userService.UpdateUser(userDTO);
+            this.userService.UpdateUser(this.userDTO);
         }
     }
 }

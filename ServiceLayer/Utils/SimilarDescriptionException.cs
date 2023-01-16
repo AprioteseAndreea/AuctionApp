@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Utils
+﻿namespace ServiceLayer.Utils
 {
-     public class SimilarDescriptionException: Exception
-    {
-     
-        public SimilarDescriptionException(string name)
-            : base(String.Format("Invalid Description for product: {0}", name))
-        {
+    using System;
 
+    public class SimilarDescriptionException : Exception
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimilarDescriptionException"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        public SimilarDescriptionException(string name)
+            : base(string.Format("Invalid Description for product: {0}", name))
+        {
         }
     }
-
-    
-        
-    
 }

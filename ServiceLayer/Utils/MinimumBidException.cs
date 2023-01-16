@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Utils
+﻿namespace ServiceLayer.Utils
 {
+    using System;
+
     public class MinimumBidException : Exception
     {
-     
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MinimumBidException"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
         public MinimumBidException(string name)
-            : base(String.Format("Minimum bid for product: {0}", name))
+            : base(string.Format("Minimum bid for product: {0}", name))
         {
-
         }
     }
-
 }

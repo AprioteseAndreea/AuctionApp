@@ -2,3 +2,6 @@
 
 # CS0162: Unreachable code detected
 dotnet_diagnostic.CS0162.severity = none
+
+# Default severity for analyzer diagnostics with category 'StyleCop.CSharp.DocumentationRules'
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity = suggestion

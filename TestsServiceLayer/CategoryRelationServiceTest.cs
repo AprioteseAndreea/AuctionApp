@@ -1,21 +1,25 @@
-﻿using DataMapper;
-using DomainModel.enums;
-using DomainModel.Enums;
-using DomainModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using ServiceLayer.ServiceImplementation;
-using System;
-using System.Collections.Generic;
-using ServiceLayer.Utils;
-using DomainModel.DTO;
-using log4net;
-
-namespace TestsServiceLayer
+﻿namespace TestsServiceLayer
 {
+    using System;
+    using System.Collections.Generic;
+    using DataMapper;
+    using DomainModel;
+    using DomainModel.DTO;
+    using DomainModel.Enums;
+    using log4net;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using ServiceLayer.ServiceImplementation;
+    using ServiceLayer.Utils;
+
     [TestClass]
     public class CategoryRelationServiceTest
     {
+        private const int POSITIVEUSERID = 5;
+        private const int NEGATIVEUSERID = -5;
+
+        private const int POSITIVEPRODUCTID = 4;
+        private const int NEGATIVEPRODUCTID = -4;
 
         private Category category;
         private Category childCategory;
@@ -31,22 +35,16 @@ namespace TestsServiceLayer
 
         private User user;
         private Money moneyFirst;
-      
-        private const int POSITIVE_USER_ID = 5;
-        private const int NEGATIVE_USER_ID = -5;
-
-        private const int POSITIVE_PRODUCT_ID = 4;
-        private const int NEGATIVE_PRODUCT_ID = -4;
 
         private List<Product> userProducts;
         private List<UserAuction> userAuctions;
-     
+
         private Mock<ICategoryDataServices> categoryDataServicesStub;
         private Mock<ICategoryRelationDataServices> categoryRelationDataServicesStub;
         private Mock<ILog> loggerMock;
-       
+
         private CategoryRelationServicesImplementation categoryRelationServices;
-       
+
         [TestInitialize]
         public void SetUp()
         {
@@ -67,8 +65,8 @@ namespace TestsServiceLayer
             };
             this.categoryRelation = new CategoryRelation
             {
-                ParentCategory = parentCategory,
-                ChildCategory = childCategory,
+                ParentCategory = this.parentCategory,
+                ChildCategory = this.childCategory,
             };
             this.invalidCategoryRelation = new CategoryRelation
             {
@@ -81,10 +79,10 @@ namespace TestsServiceLayer
                 {
                     Id = 0,
                     Name = "Produse alimentare pentru oameni",
-                }
+                },
             };
-            categoryRelationDTO = new CategoryRelationDTO(categoryRelation);
-            invalidCategoryRelationDTO = new CategoryRelationDTO(invalidCategoryRelation);
+            this.categoryRelationDTO = new CategoryRelationDTO(this.categoryRelation);
+            this.invalidCategoryRelationDTO = new CategoryRelationDTO(this.invalidCategoryRelation);
 
             this.user = new User
             {
@@ -100,9 +98,9 @@ namespace TestsServiceLayer
             this.moneyFirst = new Money
             {
                 Amount = 100,
-                Currency = Currency.RON
+                Currency = Currency.RON,
             };
-         
+
             this.productFirst = new Product
             {
                 Id = 1,
@@ -114,16 +112,16 @@ namespace TestsServiceLayer
                 StartingPrice = this.moneyFirst,
                 Category = this.category,
                 Status = AuctionStatus.Open,
-            };          
+            };
 
             this.userProducts = new List<Product>();
             this.userAuctions = new List<UserAuction>();
 
-            userProducts.Add(this.productFirst);
-            userAuctions.Add(new UserAuction
+            this.userProducts.Add(this.productFirst);
+            this.userAuctions.Add(new UserAuction
             {
-                Product = productFirst,
-                User = user,
+                Product = this.productFirst,
+                User = this.user,
                 Price = new Money
                 {
                     Amount = 100,
@@ -135,175 +133,174 @@ namespace TestsServiceLayer
             this.categoryRelationDataServicesStub = new Mock<ICategoryRelationDataServices>();
             this.loggerMock = new Mock<ILog>();
 
-            categoryRelationServices = new CategoryRelationServicesImplementation(
-                categoryRelationDataServicesStub.Object,
-                categoryDataServicesStub.Object,
-                loggerMock.Object);
+            this.categoryRelationServices = new CategoryRelationServicesImplementation(
+                this.categoryRelationDataServicesStub.Object,
+                this.categoryDataServicesStub.Object,
+                this.loggerMock.Object);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddCategoryRelation_InvalidObjectException()
         {
-            categoryRelationServices.AddCategoryRelation(invalidCategoryRelationDTO);
+            this.categoryRelationServices.AddCategoryRelation(this.invalidCategoryRelationDTO);
         }
 
         [TestMethod]
         public void TestAddCategoryRelation_Successfully()
         {
-
-            categoryDataServicesStub
+            this.categoryDataServicesStub
               .Setup(x => x.GetCategoryById(It.IsAny<int>()))
-              .Returns(childCategory);
+              .Returns(this.childCategory);
 
-            categoryDataServicesStub
+            this.categoryDataServicesStub
               .Setup(x => x.GetCategoryById(It.IsAny<int>()))
-              .Returns(parentCategory);
+              .Returns(this.parentCategory);
 
-            categoryRelationServices.AddCategoryRelation(categoryRelationDTO);
+            this.categoryRelationServices.AddCategoryRelation(this.categoryRelationDTO);
         }
+
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "")]
         public void TestAddCategoryRelation_CategoriesNotFound()
         {
-
-            categoryDataServicesStub
+            this.categoryDataServicesStub
               .Setup(x => x.GetCategoryById(It.IsAny<int>()))
               .Equals(null);
 
-            categoryDataServicesStub
+            this.categoryDataServicesStub
               .Setup(x => x.GetCategoryById(It.IsAny<int>()))
               .Equals(null);
 
-            categoryRelationServices.AddCategoryRelation(categoryRelationDTO);
+            this.categoryRelationServices.AddCategoryRelation(this.categoryRelationDTO);
         }
 
         [TestMethod]
         public void TestDeleteCategoryRelation_Successfully()
         {
-            categoryRelationDataServicesStub
+            this.categoryRelationDataServicesStub
               .Setup(x => x.GetCategoryRelationByChildAndParentId(It.IsAny<int>(), It.IsAny<int>()))
-              .Returns(categoryRelation);
+              .Returns(this.categoryRelation);
 
-            categoryRelationServices.DeleteCategoryRelation(categoryRelationDTO);
+            this.categoryRelationServices.DeleteCategoryRelation(this.categoryRelationDTO);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "")]
         public void TestDeleteCategoryRelation_CategoryNotFound()
         {
-            categoryRelationDataServicesStub
+            this.categoryRelationDataServicesStub
               .Setup(x => x.GetCategoryRelationByChildAndParentId(It.IsAny<int>(), It.IsAny<int>()))
               .Equals(null);
 
-            categoryRelationServices.DeleteCategoryRelation(categoryRelationDTO);
+            this.categoryRelationServices.DeleteCategoryRelation(this.categoryRelationDTO);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestDeleteCategoryRelation_NullProduct()
         {
-            categoryRelationServices.DeleteCategoryRelation(null);
+            this.categoryRelationServices.DeleteCategoryRelation(null);
         }
 
         [TestMethod]
         public void TestGetCategoryRelationByParentId_Successfully()
         {
-            categoryRelationDataServicesStub
+            this.categoryRelationDataServicesStub
             .Setup(x => x.GetCategoryRelationByParentId(It.IsAny<int>()))
             .Returns(new List<CategoryRelation>());
-            categoryRelationServices.GetCategoryRelationByParentId(parentCategory.Id);
+            this.categoryRelationServices.GetCategoryRelationByParentId(this.parentCategory.Id);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetCategoryRelationByParentId_NegativeId()
         {
-            categoryRelationServices.GetCategoryRelationByParentId(NEGATIVE_PRODUCT_ID);
+            this.categoryRelationServices.GetCategoryRelationByParentId(NEGATIVEPRODUCTID);
         }
+
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetCategoryRelationByParentId_ZeroId()
         {
-            categoryRelationServices.GetCategoryRelationByParentId(0);
+            this.categoryRelationServices.GetCategoryRelationByParentId(0);
         }
 
         [TestMethod]
         public void TestGetCategoryRelationByChildId_Successfully()
         {
-            categoryRelationDataServicesStub
+            this.categoryRelationDataServicesStub
            .Setup(x => x.GetCategoryRelationByChildId(It.IsAny<int>()))
          .Returns(new List<CategoryRelation>());
-            categoryRelationServices.GetCategoryRelationByChildId(childCategory.Id);
+            this.categoryRelationServices.GetCategoryRelationByChildId(this.childCategory.Id);
         }
+
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetCategoryRelationByChildId_NegativeId()
         {
-            categoryRelationServices.GetCategoryRelationByChildId(NEGATIVE_PRODUCT_ID);
+            this.categoryRelationServices.GetCategoryRelationByChildId(NEGATIVEPRODUCTID);
         }
+
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetCategoryRelationByChildId_ZeroId()
         {
-            categoryRelationServices.GetCategoryRelationByChildId(0);
+            this.categoryRelationServices.GetCategoryRelationByChildId(0);
         }
+
         [TestMethod]
         public void TestGetListOfCategoriesRelation_Successfully()
         {
-            categoryRelationDataServicesStub
+            this.categoryRelationDataServicesStub
              .Setup(x => x.GetListOfCategoriesRelation())
            .Returns(new List<CategoryRelation>());
 
-            categoryRelationServices.GetListOfCategoriesRelation();
+            this.categoryRelationServices.GetListOfCategoriesRelation();
         }
-
 
         [TestMethod]
         public void TestUpdateCategoryRelation_Successfully()
         {
-            categoryRelationDataServicesStub
+            this.categoryRelationDataServicesStub
               .Setup(x => x.GetCategoryRelationByChildAndParentId(It.IsAny<int>(), It.IsAny<int>()))
-            .Returns(categoryRelation);
+            .Returns(this.categoryRelation);
 
-            categoryRelationServices.UpdateCategoryRelation(categoryRelationDTO);
+            this.categoryRelationServices.UpdateCategoryRelation(this.categoryRelationDTO);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestUpdateCategoryRelation_NullProduct()
         {
-            categoryRelationServices.UpdateCategoryRelation(null);
+            this.categoryRelationServices.UpdateCategoryRelation(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestUpdateCategoryRelation_ObjectNotFoundException()
         {
-            categoryRelationDataServicesStub
+            this.categoryRelationDataServicesStub
               .Setup(x => x.GetCategoryRelationByChildAndParentId(It.IsAny<int>(), It.IsAny<int>()))
             .Equals(null);
 
-            categoryRelationServices.UpdateCategoryRelation(categoryRelationDTO);
+            this.categoryRelationServices.UpdateCategoryRelation(this.categoryRelationDTO);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetCategoryRelationById_IncorrectIdException()
         {
-
-            categoryRelationServices.GetCategoryRelationByChildAndParentId(NEGATIVE_USER_ID, NEGATIVE_PRODUCT_ID);
+            this.categoryRelationServices.GetCategoryRelationByChildAndParentId(NEGATIVEUSERID, NEGATIVEPRODUCTID);
         }
 
         [TestMethod]
         public void TestGetCategoryRelationById_Successfully()
         {
-            categoryRelationDataServicesStub
+            this.categoryRelationDataServicesStub
              .Setup(x => x.GetCategoryRelationByChildAndParentId(It.IsAny<int>(), It.IsAny<int>()))
-           .Returns(categoryRelation);
-            categoryRelationServices.GetCategoryRelationByChildAndParentId(POSITIVE_USER_ID, POSITIVE_PRODUCT_ID);
+           .Returns(this.categoryRelation);
+            this.categoryRelationServices.GetCategoryRelationByChildAndParentId(POSITIVEUSERID, POSITIVEPRODUCTID);
         }
     }
 }

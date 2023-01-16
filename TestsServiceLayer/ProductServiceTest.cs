@@ -1,21 +1,26 @@
-﻿using DataMapper;
-using DomainModel;
-using DomainModel.DTO;
-using DomainModel.enums;
-using DomainModel.Enums;
-using log4net;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using ServiceLayer.ServiceImplementation;
-using ServiceLayer.Utils;
-using System;
-using System.Collections.Generic;
-
-namespace TestsServiceLayer
+﻿namespace TestsServiceLayer
 {
+    using System;
+    using System.Collections.Generic;
+    using DataMapper;
+    using DomainModel;
+    using DomainModel.DTO;
+    using DomainModel.Enums;
+    using log4net;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using ServiceLayer.ServiceImplementation;
+    using ServiceLayer.Utils;
+
     [TestClass]
     public class ProductServiceTest
     {
+        private const int POSITIVEUSERID = 5;
+        private const int NEGATIVEUSERID = -5;
+
+        private const int POSITIVEPRODUCTID = 4;
+        private const int NEGATIVEPRODUCTID = -4;
+
         private Category category;
 
         private Product productFirst;
@@ -30,12 +35,6 @@ namespace TestsServiceLayer
 
         private Money moneyFirst;
         private Money moneySecond;
-
-        private const int POSITIVE_USER_ID = 5;
-        private const int NEGATIVE_USER_ID = -5;
-
-        private const int POSITIVE_PRODUCT_ID = 4;
-        private const int NEGATIVE_PRODUCT_ID = -4;
 
         private Configuration configurationFirst;
         private Configuration configurationSecond;
@@ -68,18 +67,18 @@ namespace TestsServiceLayer
                 Status = UserStatus.Active,
                 Email = "andreea.apriotese@gmail.com",
                 Score = 4.00,
-                BirthDate = "12.12.2000"
+                BirthDate = "12.12.2000",
             };
 
             this.moneyFirst = new Money
             {
                 Amount = 100,
-                Currency = Currency.RON
+                Currency = Currency.RON,
             };
             this.moneySecond = new Money
             {
                 Amount = 50,
-                Currency = Currency.USD
+                Currency = Currency.USD,
             };
 
             this.productFirst = new Product
@@ -119,33 +118,33 @@ namespace TestsServiceLayer
                 Status = AuctionStatus.Closed,
             };
 
-            productFirstDTO = new ProductDTO(productFirst);
-            productSecondDTO = new ProductDTO(productSecond);
-            invalidProductDTO = new ProductDTO(invalidProduct);
+            this.productFirstDTO = new ProductDTO(this.productFirst);
+            this.productSecondDTO = new ProductDTO(this.productSecond);
+            this.invalidProductDTO = new ProductDTO(this.invalidProduct);
 
             this.configurationFirst = new Configuration
             {
                 MaxAuctions = 1,
                 InitialScore = 4,
                 MinScore = 2,
-                Days = 7
+                Days = 7,
             };
             this.configurationSecond = new Configuration
             {
                 MaxAuctions = 5,
                 InitialScore = 4,
                 MinScore = 2,
-                Days = 7
+                Days = 7,
             };
 
             this.userProducts = new List<Product>();
             this.userAuctions = new List<UserAuction>();
 
-            userProducts.Add(this.productFirst);
-            userAuctions.Add(new UserAuction
+            this.userProducts.Add(this.productFirst);
+            this.userAuctions.Add(new UserAuction
             {
-                Product = productFirst,
-                User = user,
+                Product = this.productFirst,
+                User = this.user,
                 Price = new Money
                 {
                     Amount = 100,
@@ -159,271 +158,263 @@ namespace TestsServiceLayer
             this.categoryDataServicesStub = new Mock<ICategoryDataServices>();
             this.loggerMock = new Mock<ILog>();
 
-            prod = new ProductServicesImplementation(
-                productDataServicesStub.Object,
-                configurationDataServicesStub.Object,
-                userDataServicesStub.Object,
-                categoryDataServicesStub.Object,
-                loggerMock.Object
-                );
-
+            this.prod = new ProductServicesImplementation(
+                this.productDataServicesStub.Object,
+                this.configurationDataServicesStub.Object,
+                this.userDataServicesStub.Object,
+                this.categoryDataServicesStub.Object,
+                this.loggerMock.Object);
         }
+
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestAddProduct_NullObjectException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
                 .Returns(new List<Product>());
-            productDataServicesStub
+            this.productDataServicesStub
                .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
                .Returns(new List<Product>());
 
-            configurationDataServicesStub
+            this.configurationDataServicesStub
                 .Setup(c => c.GetConfigurationById(It.IsAny<int>()))
-                .Returns(configurationFirst);
+                .Returns(this.configurationFirst);
 
-            prod.AddProduct(null);
-
+            this.prod.AddProduct(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(MaxAuctionsException), "The maximum number of licitations has been reached!")]
         public void TestAddProduct_MaxAuctionsException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
                 .Returns(new List<Product>());
-            productDataServicesStub
+            this.productDataServicesStub
                .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
-               .Returns(userProducts);
+               .Returns(this.userProducts);
 
-            configurationDataServicesStub
+            this.configurationDataServicesStub
                 .Setup(c => c.GetConfigurationById(It.IsAny<int>()))
-                .Returns(configurationFirst);
+                .Returns(this.configurationFirst);
 
-            prod.AddProduct(productFirstDTO);
-
+            this.prod.AddProduct(this.productFirstDTO);
         }
 
         [TestMethod]
         [ExpectedException(typeof(SimilarDescriptionException), "")]
         public void TestAddProduct_SimilarDescriptionException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
                 .Returns(this.userProducts);
-            productDataServicesStub
+            this.productDataServicesStub
                .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
                .Returns(new List<Product>());
 
-            configurationDataServicesStub
+            this.configurationDataServicesStub
                 .Setup(c => c.GetConfigurationById(It.IsAny<int>()))
-                .Returns(configurationSecond);
+                .Returns(this.configurationSecond);
 
-            prod.AddProduct(productFirstDTO);
+            this.prod.AddProduct(this.productFirstDTO);
 
         }
+
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddProduct_InvalidObjectException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
                 .Returns(this.userProducts);
-            productDataServicesStub
+            this.productDataServicesStub
                .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
                .Returns(new List<Product>());
 
-            configurationDataServicesStub
+            this.configurationDataServicesStub
                 .Setup(c => c.GetConfigurationById(It.IsAny<int>()))
-                .Returns(configurationSecond);
+                .Returns(this.configurationSecond);
 
-            prod.AddProduct(invalidProductDTO);
-
+            this.prod.AddProduct(this.invalidProductDTO);
         }
 
         [TestMethod]
         public void TestAddProduct_SimilarDescriptionWasNotThrown()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
                 .Returns(this.userProducts);
-            productDataServicesStub
+            this.productDataServicesStub
                .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
                .Returns(new List<Product>());
 
-            configurationDataServicesStub
+            this.configurationDataServicesStub
                 .Setup(c => c.GetConfigurationById(It.IsAny<int>()))
-                .Returns(configurationSecond);
+                .Returns(this.configurationSecond);
 
-            prod.AddProduct(productSecondDTO);
-
+            this.prod.AddProduct(this.productSecondDTO);
         }
 
         [TestMethod]
         public void TestAddProduct_Successfully()
         {
-            productDataServicesStub
+            this.productDataServicesStub
                 .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
                 .Returns(new List<Product>());
-            productDataServicesStub
+            this.productDataServicesStub
                .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
                .Returns(new List<Product>());
 
-            configurationDataServicesStub
+            this.configurationDataServicesStub
                 .Setup(c => c.GetConfigurationById(It.IsAny<int>()))
-                .Returns(configurationSecond);
+                .Returns(this.configurationSecond);
 
-            prod.AddProduct(productSecondDTO);
-
+            this.prod.AddProduct(this.productSecondDTO);
         }
 
         [TestMethod]
         public void TestDeleteProduct_Successfully()
         {
-            productDataServicesStub
+            this.productDataServicesStub
               .Setup(x => x.GetProductById(It.IsAny<int>()))
-              .Returns(productFirst);
+              .Returns(this.productFirst);
 
-            prod.DeleteProduct(productSecondDTO);
+            this.prod.DeleteProduct(this.productSecondDTO);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestDeleteProduct_NullProduct()
         {
-            prod.DeleteProduct(null);
+            this.prod.DeleteProduct(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestDeleteProduct_ObjectNotFoundException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
               .Setup(x => x.GetProductById(It.IsAny<int>()))
               .Equals(null);
 
-            prod.DeleteProduct(productSecondDTO);
+            this.prod.DeleteProduct(this.productSecondDTO);
         }
 
         [TestMethod]
         public void TestGetListOfProducts_Successfully()
         {
-            productDataServicesStub
+            this.productDataServicesStub
             .Setup(x => x.GetAllProducts())
             .Returns(new List<Product>());
-            prod.GetListOfProducts();
+            this.prod.GetListOfProducts();
         }
+
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetOpenProductsByUserId_IncorrectIdException()
         {
-            prod.GetOpenProductsByUserId(NEGATIVE_USER_ID);
+            this.prod.GetOpenProductsByUserId(NEGATIVEUSERID);
         }
 
         [TestMethod]
         public void TestGetOpenProductsByUserId_Successfully()
         {
-            userDataServicesStub
+            this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
-            .Returns(user);
+            .Returns(this.user);
 
-            productDataServicesStub
+            this.productDataServicesStub
               .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
               .Returns(new List<Product>());
 
-            prod.GetOpenProductsByUserId(POSITIVE_USER_ID);
+            this.prod.GetOpenProductsByUserId(POSITIVEUSERID);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestGetOpenProductsByUserId_ObjectNotFoundException()
         {
-            userDataServicesStub
+            this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
             .Equals(null);
-            prod.GetOpenProductsByUserId(POSITIVE_USER_ID);
+            this.prod.GetOpenProductsByUserId(POSITIVEUSERID);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetProductsByUserId_IncorrectIdException()
         {
-            prod.GetProductsByUserId(NEGATIVE_USER_ID);
+            this.prod.GetProductsByUserId(NEGATIVEUSERID);
         }
 
         [TestMethod]
         public void TestGetProductsByUserId_Successfully()
         {
-            userDataServicesStub
+            this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
-            .Returns(user);
+            .Returns(this.user);
 
-            productDataServicesStub
+            this.productDataServicesStub
            .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
            .Returns(new List<Product>());
 
-            prod.GetProductsByUserId(POSITIVE_USER_ID);
+            this.prod.GetProductsByUserId(POSITIVEUSERID);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestGetProductsByUserId_ObjectNotFoundException()
         {
-            userDataServicesStub
+            this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
             .Equals(null);
-            prod.GetProductsByUserId(POSITIVE_USER_ID);
+            this.prod.GetProductsByUserId(POSITIVEUSERID);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetProductById_IncorrectIdException()
         {
-            prod.GetProductById(NEGATIVE_PRODUCT_ID);
+            this.prod.GetProductById(NEGATIVEPRODUCTID);
         }
 
         [TestMethod]
         public void TestGetProductById_Successfully()
         {
-            productDataServicesStub
+            this.productDataServicesStub
            .Setup(x => x.GetProductById(It.IsAny<int>()))
-           .Returns(productFirst);
+           .Returns(this.productFirst);
 
-            prod.GetProductById(POSITIVE_PRODUCT_ID);
+            this.prod.GetProductById(POSITIVEPRODUCTID);
         }
 
         [TestMethod]
         public void TestUpdateProduct_Successfully()
         {
-            productDataServicesStub
+            this.productDataServicesStub
               .Setup(x => x.GetProductById(It.IsAny<int>()))
-              .Returns(productFirst);
+              .Returns(this.productFirst);
 
-            prod.UpdateProduct(productSecondDTO);
+            this.prod.UpdateProduct(this.productSecondDTO);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestUpdateProduct_NullProduct()
         {
-            prod.UpdateProduct(null);
+            this.prod.UpdateProduct(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestUpdateProduct_ObjectNotFoundException()
         {
-            productDataServicesStub
+            this.productDataServicesStub
               .Setup(x => x.GetProductById(It.IsAny<int>()))
               .Equals(null);
 
-            prod.UpdateProduct(productSecondDTO);
+            this.prod.UpdateProduct(this.productSecondDTO);
         }
-
     }
 }

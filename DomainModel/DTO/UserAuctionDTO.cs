@@ -1,24 +1,20 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DomainModel.DTO
+﻿namespace DomainModel.DTO
 {
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+
     public class UserAuctionDTO
     {
-        public UserAuctionDTO() { }
+        public UserAuctionDTO()
+        {
+        }
+
         public UserAuctionDTO(UserAuction userAuction)
         {
-
-            Id = userAuction.Id;
-            ProductId = userAuction.Product.Id;
-            UserId = userAuction.Id;
-            Price = userAuction.Price;
-
+            this.Id = userAuction.Id;
+            this.ProductId = userAuction.Product.Id;
+            this.UserId = userAuction.Id;
+            this.Price = userAuction.Price;
         }
 
         public int Id { get; set; }

@@ -1,15 +1,9 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DomainModel
+﻿namespace DomainModel
 {
+    using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+
     public class CategoryRelation
     {
-       
         [NotNullValidator]
         public Category ParentCategory { get; set; }
 

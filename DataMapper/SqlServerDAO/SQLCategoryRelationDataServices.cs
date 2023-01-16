@@ -1,13 +1,9 @@
-﻿using DomainModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataMapper.SqlServerDAO
+﻿namespace DataMapper.SqlServerDAO
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using DomainModel;
+
     internal class SQLCategoryRelationDataServicesL : ICategoryRelationDataServices
     {
         public void AddCategoryRelation(CategoryRelation category)
