@@ -1,4 +1,8 @@
-﻿namespace ServiceLayer.ServiceImplementation
+﻿// <copyright file="UserServicesImplementation.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace ServiceLayer.ServiceImplementation
 {
     using System.Collections.Generic;
     using System.Linq;

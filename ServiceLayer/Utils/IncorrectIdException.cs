@@ -1,4 +1,8 @@
-﻿namespace ServiceLayer.Utils
+﻿// <copyright file="IncorrectIdException.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace ServiceLayer.Utils
 {
     using System;
 

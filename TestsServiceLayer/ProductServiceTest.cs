@@ -1,4 +1,8 @@
-﻿namespace TestsServiceLayer
+﻿// <copyright file="ProductServiceTest.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace TestsServiceLayer
 {
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿// <copyright file="CategoryRelationServiceTest.cs" company="Transilvania University of Brasov">
+﻿// <copyright file="CategoryServiceTest.cs" company="Transilvania University of Brasov">
 // Copyright (c) Andreea Apriotese. All rights reserved.
 // </copyright>
 

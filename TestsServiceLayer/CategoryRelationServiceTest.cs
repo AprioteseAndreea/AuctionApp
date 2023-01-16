@@ -1,4 +1,8 @@
-﻿namespace TestsServiceLayer
+﻿// <copyright file="CategoryRelationServiceTest.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace TestsServiceLayer
 {
     using System;
     using System.Collections.Generic;
@@ -92,7 +96,7 @@
                 Status = UserStatus.Active,
                 Email = "andreea.apriotese@gmail.com",
                 Score = 4.00,
-                BirthDate = "12.12.2000"
+                BirthDate = "12.12.2000",
             };
 
             this.moneyFirst = new Money

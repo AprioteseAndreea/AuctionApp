@@ -1,4 +1,8 @@
-﻿namespace TestsServiceLayer
+﻿// <copyright file="UserServiceTest.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace TestsServiceLayer
 {
     using System;
     using System.Collections.Generic;
@@ -43,7 +47,7 @@
             this.category = new Category
             {
                 Id = 4,
-                Name = "Produse alimentare pentru oameni",
+                Name = "Genti de lux",
             };
 
             this.user = new User

@@ -1,4 +1,8 @@
-﻿namespace DataMapper
+﻿// <copyright file="DAOFactoryMethod.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace DataMapper
 {
     using System.Configuration;
     using DataMapper.SqlServerDAO;

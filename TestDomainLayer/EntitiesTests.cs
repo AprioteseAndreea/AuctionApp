@@ -1,4 +1,8 @@
-﻿namespace TestDomainLayer
+﻿// <copyright file="EntitiesTests.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace TestDomainLayer
 {
     using System;
     using DomainModel;

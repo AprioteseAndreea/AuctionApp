@@ -1,4 +1,8 @@
-﻿namespace ServiceLayer.ServiceImplementation
+﻿// <copyright file="ConfigurationServicesImplementation.cs" company="PlaceholderCompany">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace ServiceLayer.ServiceImplementation
 {
     using System.Collections.Generic;
     using System.Linq;

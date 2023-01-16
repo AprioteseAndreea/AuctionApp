@@ -1,4 +1,8 @@
-﻿namespace ServiceLayer
+﻿// <copyright file="IUserServices.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace ServiceLayer
 {
     using System.Collections.Generic;
     using DomainModel.DTO;

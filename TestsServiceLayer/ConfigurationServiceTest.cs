@@ -1,4 +1,4 @@
-﻿// <copyright file="CategoryRelationServiceTest.cs" company="Transilvania University of Brasov">
+﻿// <copyright file="ConfigurationServiceTest.cs" company="Transilvania University of Brasov">
 // Copyright (c) Andreea Apriotese. All rights reserved.
 // </copyright>
 namespace TestsServiceLayer
@@ -18,13 +18,13 @@ namespace TestsServiceLayer
     [TestClass]
     public class ConfigurationServiceTest
     {
+        private const int POSITIVEUSERID = 5;
+        private const int NEGATIVEUSERID = -5;
+
         private Category category;
         private Product productFirst;
         private User user;
         private Money moneyFirst;
-
-        private const int POSITIVEUSERID = 5;
-        private const int NEGATIVEUSERID = -5;
 
         private Configuration configurationFirst;
         private Configuration configurationSecond;

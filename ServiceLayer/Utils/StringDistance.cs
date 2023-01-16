@@ -1,6 +1,11 @@
-﻿namespace ServiceLayer.Utils
+﻿// <copyright file="StringDistance.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace ServiceLayer.Utils
 {
     using System;
+    using System.Linq;
 
     public class StringDistance
     {
@@ -12,8 +17,12 @@
         /// <returns></returns>
         public static int LevenshteinDistance(string s, string t)
         {
+            s = RemoveNonAlphaNumeric(s);
+            t = RemoveNonAlphaNumeric(t);
+
             int n = s.Length;
             int m = t.Length;
+
             int[,] d = new int[n + 1, m + 1];
 
             // Step 1
@@ -54,6 +63,11 @@
 
             // Step 7
             return d[n, m];
+        }
+
+        public static string RemoveNonAlphaNumeric(string s)
+        {
+            return new string(s.Where(c => char.IsLetterOrDigit(c)).ToArray()).ToLower();
         }
     }
 }
