@@ -19,17 +19,16 @@ namespace TestsServiceLayer
     [TestClass]
     public class UserServiceTest
     {
-        private const int POSITIVEUSERID = 5;
-        private const int NEGATIVEUSERID = -5;
-        private Category category;
+        private const int PositiveUserId = 5;
+        private const int NegativeUserId = -5;
 
-        private Product productFirst;
         private User user;
-        private UserDTO userDTO;
-
         private User invalidUser;
-        private UserDTO invaidUserDTO;
+        private Category category;
         private Money moneyFirst;
+        private UserDTO userDTO;
+        private UserDTO invaidUserDTO;
+        private Product productFirst;
         private Configuration configurationSecond;
 
         private List<Product> userProducts;
@@ -123,6 +122,9 @@ namespace TestsServiceLayer
                 this.loggerMock.Object);
         }
 
+        /// <summary>
+        /// Tests the add user invalid object exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddUser_InvalidObjectException()
@@ -133,6 +135,9 @@ namespace TestsServiceLayer
             this.userService.AddUser(this.invaidUserDTO);
         }
 
+        /// <summary>
+        /// Tests the add user null object.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddUser_NullObject()
@@ -143,6 +148,9 @@ namespace TestsServiceLayer
             this.userService.AddUser(null);
         }
 
+        /// <summary>
+        /// Tests the add user successfully.
+        /// </summary>
         [TestMethod]
         public void TestAddUser_Successfully()
         {
@@ -152,6 +160,9 @@ namespace TestsServiceLayer
             this.userService.AddUser(this.userDTO);
         }
 
+        /// <summary>
+        /// Tests the delete user successfully.
+        /// </summary>
         [TestMethod]
         public void TestDeleteUser_Successfully()
         {
@@ -162,6 +173,9 @@ namespace TestsServiceLayer
             this.userService.DeleteUser(this.userDTO);
         }
 
+        /// <summary>
+        /// Tests the delete user null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestDeleteUser_NullProduct()
@@ -169,6 +183,9 @@ namespace TestsServiceLayer
             this.userService.DeleteUser(null);
         }
 
+        /// <summary>
+        /// Tests the delete usert object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestDeleteUsert_ObjectNotFoundException()
@@ -180,6 +197,9 @@ namespace TestsServiceLayer
             this.userService.DeleteUser(this.userDTO);
         }
 
+        /// <summary>
+        /// Tests the get list of users successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetListOfUsers_Successfully()
         {
@@ -190,13 +210,19 @@ namespace TestsServiceLayer
             this.userService.GetListOfUsers();
         }
 
+        /// <summary>
+        /// Tests the get user by identifier incorrect identifier exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserById_IncorrectIdException()
         {
-            this.userService.GetUserById(NEGATIVEUSERID);
+            this.userService.GetUserById(NegativeUserId);
         }
 
+        /// <summary>
+        /// Tests the get user by identifier successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetUserById_Successfully()
         {
@@ -204,9 +230,12 @@ namespace TestsServiceLayer
             .Setup(x => x.GetUserById(It.IsAny<int>()))
             .Returns(this.user);
 
-            this.userService.GetUserById(POSITIVEUSERID);
+            this.userService.GetUserById(PositiveUserId);
         }
 
+        /// <summary>
+        /// Tests the update user successfully.
+        /// </summary>
         [TestMethod]
         public void TestUpdateUser_Successfully()
         {
@@ -217,6 +246,9 @@ namespace TestsServiceLayer
             this.userService.UpdateUser(this.userDTO);
         }
 
+        /// <summary>
+        /// Tests the update user null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestUpdateUser_NullProduct()
@@ -224,6 +256,9 @@ namespace TestsServiceLayer
             this.userService.UpdateUser(null);
         }
 
+        /// <summary>
+        /// Tests the update user object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestUpdateUser_ObjectNotFoundException()

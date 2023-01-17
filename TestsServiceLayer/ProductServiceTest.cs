@@ -19,11 +19,11 @@ namespace TestsServiceLayer
     [TestClass]
     public class ProductServiceTest
     {
-        private const int POSITIVEUSERID = 5;
-        private const int NEGATIVEUSERID = -5;
+        private const int PositiveUserId = 5;
+        private const int NegativeUserId = -5;
 
-        private const int POSITIVEPRODUCTID = 4;
-        private const int NEGATIVEPRODUCTID = -4;
+        private const int PositiveProductId = 4;
+        private const int NegativeProductId = -4;
 
         private Category category;
 
@@ -170,6 +170,9 @@ namespace TestsServiceLayer
                 this.loggerMock.Object);
         }
 
+        /// <summary>
+        /// Tests the add product null object exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestAddProduct_NullObjectException()
@@ -188,6 +191,9 @@ namespace TestsServiceLayer
             this.prod.AddProduct(null);
         }
 
+        /// <summary>
+        /// Tests the add product maximum auctions exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(MaxAuctionsException), "The maximum number of licitations has been reached!")]
         public void TestAddProduct_MaxAuctionsException()
@@ -206,6 +212,9 @@ namespace TestsServiceLayer
             this.prod.AddProduct(this.productFirstDTO);
         }
 
+        /// <summary>
+        /// Tests the add product similar description exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(SimilarDescriptionException), "")]
         public void TestAddProduct_SimilarDescriptionException()
@@ -225,6 +234,9 @@ namespace TestsServiceLayer
 
         }
 
+        /// <summary>
+        /// Tests the add product invalid object exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddProduct_InvalidObjectException()
@@ -243,6 +255,9 @@ namespace TestsServiceLayer
             this.prod.AddProduct(this.invalidProductDTO);
         }
 
+        /// <summary>
+        /// Tests the add product similar description was not thrown.
+        /// </summary>
         [TestMethod]
         public void TestAddProduct_SimilarDescriptionWasNotThrown()
         {
@@ -260,6 +275,9 @@ namespace TestsServiceLayer
             this.prod.AddProduct(this.productSecondDTO);
         }
 
+        /// <summary>
+        /// Tests the add product successfully.
+        /// </summary>
         [TestMethod]
         public void TestAddProduct_Successfully()
         {
@@ -277,6 +295,9 @@ namespace TestsServiceLayer
             this.prod.AddProduct(this.productSecondDTO);
         }
 
+        /// <summary>
+        /// Tests the delete product successfully.
+        /// </summary>
         [TestMethod]
         public void TestDeleteProduct_Successfully()
         {
@@ -287,6 +308,9 @@ namespace TestsServiceLayer
             this.prod.DeleteProduct(this.productSecondDTO);
         }
 
+        /// <summary>
+        /// Tests the delete product null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestDeleteProduct_NullProduct()
@@ -294,6 +318,9 @@ namespace TestsServiceLayer
             this.prod.DeleteProduct(null);
         }
 
+        /// <summary>
+        /// Tests the delete product object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestDeleteProduct_ObjectNotFoundException()
@@ -305,6 +332,9 @@ namespace TestsServiceLayer
             this.prod.DeleteProduct(this.productSecondDTO);
         }
 
+        /// <summary>
+        /// Tests the get list of products successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetListOfProducts_Successfully()
         {
@@ -314,13 +344,19 @@ namespace TestsServiceLayer
             this.prod.GetListOfProducts();
         }
 
+        /// <summary>
+        /// Tests the get open products by user identifier incorrect identifier exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetOpenProductsByUserId_IncorrectIdException()
         {
-            this.prod.GetOpenProductsByUserId(NEGATIVEUSERID);
+            this.prod.GetOpenProductsByUserId(NegativeUserId);
         }
 
+        /// <summary>
+        /// Tests the get open products by user identifier successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetOpenProductsByUserId_Successfully()
         {
@@ -332,9 +368,12 @@ namespace TestsServiceLayer
               .Setup(x => x.GetOpenProductsByUserId(It.IsAny<int>()))
               .Returns(new List<Product>());
 
-            this.prod.GetOpenProductsByUserId(POSITIVEUSERID);
+            this.prod.GetOpenProductsByUserId(PositiveUserId);
         }
 
+        /// <summary>
+        /// Tests the get open products by user identifier object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestGetOpenProductsByUserId_ObjectNotFoundException()
@@ -342,16 +381,22 @@ namespace TestsServiceLayer
             this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
             .Equals(null);
-            this.prod.GetOpenProductsByUserId(POSITIVEUSERID);
+            this.prod.GetOpenProductsByUserId(PositiveUserId);
         }
 
+        /// <summary>
+        /// Tests the get products by user identifier incorrect identifier exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetProductsByUserId_IncorrectIdException()
         {
-            this.prod.GetProductsByUserId(NEGATIVEUSERID);
+            this.prod.GetProductsByUserId(NegativeUserId);
         }
 
+        /// <summary>
+        /// Tests the get products by user identifier successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetProductsByUserId_Successfully()
         {
@@ -363,9 +408,12 @@ namespace TestsServiceLayer
            .Setup(x => x.GetProductsByUserId(It.IsAny<int>()))
            .Returns(new List<Product>());
 
-            this.prod.GetProductsByUserId(POSITIVEUSERID);
+            this.prod.GetProductsByUserId(PositiveUserId);
         }
 
+        /// <summary>
+        /// Tests the get products by user identifier object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestGetProductsByUserId_ObjectNotFoundException()
@@ -373,16 +421,22 @@ namespace TestsServiceLayer
             this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
             .Equals(null);
-            this.prod.GetProductsByUserId(POSITIVEUSERID);
+            this.prod.GetProductsByUserId(PositiveUserId);
         }
 
+        /// <summary>
+        /// Tests the get product by identifier incorrect identifier exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetProductById_IncorrectIdException()
         {
-            this.prod.GetProductById(NEGATIVEPRODUCTID);
+            this.prod.GetProductById(NegativeProductId);
         }
 
+        /// <summary>
+        /// Tests the get product by identifier successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetProductById_Successfully()
         {
@@ -390,9 +444,12 @@ namespace TestsServiceLayer
            .Setup(x => x.GetProductById(It.IsAny<int>()))
            .Returns(this.productFirst);
 
-            this.prod.GetProductById(POSITIVEPRODUCTID);
+            this.prod.GetProductById(PositiveProductId);
         }
 
+        /// <summary>
+        /// Tests the update product successfully.
+        /// </summary>
         [TestMethod]
         public void TestUpdateProduct_Successfully()
         {
@@ -403,6 +460,9 @@ namespace TestsServiceLayer
             this.prod.UpdateProduct(this.productSecondDTO);
         }
 
+        /// <summary>
+        /// Tests the update product null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestUpdateProduct_NullProduct()
@@ -410,6 +470,9 @@ namespace TestsServiceLayer
             this.prod.UpdateProduct(null);
         }
 
+        /// <summary>
+        /// Tests the update product object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestUpdateProduct_ObjectNotFoundException()

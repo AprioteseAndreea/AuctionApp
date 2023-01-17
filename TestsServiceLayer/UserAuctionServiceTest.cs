@@ -19,11 +19,11 @@ namespace TestsServiceLayer
     [TestClass]
     public class UserAuctionServiceTest
     {
-        private const int POSITIVEUSERID = 5;
-        private const int NEGATIVEUSERID = -5;
+        private const int PositiveUserId = 5;
+        private const int NegativeUserId = -5;
 
-        private const int POSITIVEPRODUCTID = 4;
-        private const int NEGATIVEPRODUCTID = -4;
+        private const int PositiveProductId = 4;
+        private const int NegativeProductId = -4;
 
         private Category category;
         private Product productFirst;
@@ -186,6 +186,9 @@ namespace TestsServiceLayer
                 this.loggerMock.Object);
         }
 
+        /// <summary>
+        /// Tests the add user auction incompatible currency exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncompatibleCurrencyException), "")]
         public void TestAddUserAuction_IncompatibleCurrencyException()
@@ -199,6 +202,9 @@ namespace TestsServiceLayer
             this.userAuction.AddUserAuction(this.userAuctionFirstDTO);
         }
 
+        /// <summary>
+        /// Tests the add user auction minimum bid exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(MinimumBidException), "")]
         public void TestAddUserAuction_MinimumBidException()
@@ -213,6 +219,9 @@ namespace TestsServiceLayer
             this.userAuction.AddUserAuction(this.userAuctionThirdDTO);
         }
 
+        /// <summary>
+        /// Tests the add user auction closed auction exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ClosedAuctionException), "")]
         public void TestAddUserAuction_ClosedAuctionException()
@@ -227,6 +236,9 @@ namespace TestsServiceLayer
             this.userAuction.AddUserAuction(this.userAuctionThirdDTO);
         }
 
+        /// <summary>
+        /// Tests the add user auction overbidding exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(OverbiddingException), "")]
         public void TestAddUserAuction_OverbiddingException()
@@ -241,6 +253,9 @@ namespace TestsServiceLayer
             this.userAuction.AddUserAuction(this.userAuctionThirdDTO);
         }
 
+        /// <summary>
+        /// Tests the add user auction overbidding exception amount is over300 percent.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(OverbiddingException), "")]
         public void TestAddUserAuction_OverbiddingException_AmountIsOver300Percent()
@@ -255,6 +270,9 @@ namespace TestsServiceLayer
             this.userAuction.AddUserAuction(this.userAuctionFourthDTO);
         }
 
+        /// <summary>
+        /// Tests the add user auction successfully.
+        /// </summary>
         [TestMethod]
         public void TestAddUserAuction_Successfully()
         {
@@ -268,6 +286,9 @@ namespace TestsServiceLayer
             this.userAuction.AddUserAuction(this.userAuctionSecondDTO);
         }
 
+        /// <summary>
+        /// Tests the delete user auction successfully.
+        /// </summary>
         [TestMethod]
         public void TestDeleteUserAuction_Successfully()
         {
@@ -278,6 +299,9 @@ namespace TestsServiceLayer
             this.userAuction.DeleteUserAuction(this.userAuctionFirstDTO);
         }
 
+        /// <summary>
+        /// Tests the delete user auction null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestDeleteUserAuction_NullProduct()
@@ -285,6 +309,9 @@ namespace TestsServiceLayer
             this.userAuction.DeleteUserAuction(null);
         }
 
+        /// <summary>
+        /// Tests the delete user auction object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestDeleteUserAuction_ObjectNotFoundException()
@@ -296,6 +323,9 @@ namespace TestsServiceLayer
             this.userAuction.DeleteUserAuction(this.userAuctionFirstDTO);
         }
 
+        /// <summary>
+        /// Tests the get list of user auctions successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetListOfUserAuctions_Successfully()
         {
@@ -306,13 +336,19 @@ namespace TestsServiceLayer
             this.userAuction.GetListOfUserAuctions();
         }
 
+        /// <summary>
+        /// Tests the get user auction by identifier incorrect identifier exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionById_IncorrectIdException()
         {
-            this.userAuction.GetUserAuctionById(NEGATIVEUSERID);
+            this.userAuction.GetUserAuctionById(NegativeUserId);
         }
 
+        /// <summary>
+        /// Tests the get user auction by identifier successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetUserAuctionById_Successfully()
         {
@@ -320,16 +356,22 @@ namespace TestsServiceLayer
             .Setup(x => x.GetUserAuctionById(It.IsAny<int>()))
             .Returns(this.userAuctionFirst);
 
-            this.userAuction.GetUserAuctionById(POSITIVEUSERID);
+            this.userAuction.GetUserAuctionById(PositiveUserId);
         }
 
+        /// <summary>
+        /// Tests the get user auctions by user identifier incorrect identifier exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserId_IncorrectIdException()
         {
-            this.userAuction.GetUserAuctionsByUserId(NEGATIVEUSERID);
+            this.userAuction.GetUserAuctionsByUserId(NegativeUserId);
         }
 
+        /// <summary>
+        /// Tests the get user auctions by user identifier successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetUserAuctionsByUserId_Successfully()
         {
@@ -339,9 +381,12 @@ namespace TestsServiceLayer
             this.userAuctionDataServiceStub
                .Setup(x => x.GetUserAuctionsByUserId(It.IsAny<int>()))
                .Returns(new List<UserAuction>());
-            this.userAuction.GetUserAuctionsByUserId(POSITIVEUSERID);
+            this.userAuction.GetUserAuctionsByUserId(PositiveUserId);
         }
 
+        /// <summary>
+        /// Tests the get user auctions by user identifier object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The ObjectNotFoundException was thrown!")]
         public void TestGetUserAuctionsByUserId_ObjectNotFoundException()
@@ -349,9 +394,12 @@ namespace TestsServiceLayer
             this.userDataServicesStub
             .Setup(x => x.GetUserById(It.IsAny<int>()))
             .Equals(null);
-            this.userAuction.GetUserAuctionsByUserId(POSITIVEUSERID);
+            this.userAuction.GetUserAuctionsByUserId(PositiveUserId);
         }
 
+        /// <summary>
+        /// Tests the get user auctions by user idand product identifier successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetUserAuctionsByUserIdandProductId_Successfully()
         {
@@ -359,44 +407,59 @@ namespace TestsServiceLayer
             .Setup(x => x.GetUserAuctionsByUserIdandProductId(It.IsAny<int>(), It.IsAny<int>()))
             .Returns(new List<UserAuction>());
 
-            this.userAuction.GetUserAuctionsByUserIdandProductId(POSITIVEUSERID, POSITIVEPRODUCTID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(PositiveUserId, PositiveProductId);
         }
 
+        /// <summary>
+        /// Tests the get user auctions by user idand product identifier incorrect identifier exception user identifier is less than0.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_UserIdIsLessThan0()
         {
-            this.userAuction.GetUserAuctionsByUserIdandProductId(NEGATIVEUSERID, POSITIVEPRODUCTID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(NegativeUserId, PositiveProductId);
         }
 
+        /// <summary>
+        /// Tests the get user auctions by user idand product identifier incorrect identifier exception product identifier is less than0.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_ProductIdIsLessThan0()
         {
-            this.userAuction.GetUserAuctionsByUserIdandProductId(POSITIVEUSERID, NEGATIVEPRODUCTID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(PositiveUserId, NegativeProductId);
         }
 
+        /// <summary>
+        /// Tests the get user auctions by user idand product identifier incorrect identifier exception product identifier and user identifier is less than0.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_ProductIdAndUserIdIsLessThan0()
         {
-            this.userAuction.GetUserAuctionsByUserIdandProductId(NEGATIVEUSERID, NEGATIVEPRODUCTID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(NegativeUserId, NegativeProductId);
         }
 
+        /// <summary>
+        /// Tests the get user auctions by user idand product identifier incorrect identifier exception user identifier is0.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_UserIdIs0()
         {
-            this.userAuction.GetUserAuctionsByUserIdandProductId(0, NEGATIVEPRODUCTID);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(0, NegativeProductId);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetUserAuctionsByUserIdandProductId_IncorrectIdException_ProductIdIs0()
         {
-            this.userAuction.GetUserAuctionsByUserIdandProductId(POSITIVEUSERID, 0);
+            this.userAuction.GetUserAuctionsByUserIdandProductId(PositiveUserId, 0);
         }
 
+        /// <summary>
+        /// Tests the update user auction successfully.
+        /// </summary>
         [TestMethod]
         public void TestUpdateUserAuction_Successfully()
         {
@@ -407,6 +470,9 @@ namespace TestsServiceLayer
             this.userAuction.UpdateUserAuction(this.userAuctionFirstDTO);
         }
 
+        /// <summary>
+        /// Tests the update user auction null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestUpdateUserAuction_NullProduct()
@@ -414,6 +480,9 @@ namespace TestsServiceLayer
             this.userAuction.UpdateUserAuction(null);
         }
 
+        /// <summary>
+        /// Tests the update user auction null reference exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException), "The product was not found!")]
         public void TestUpdateUserAuction_NullReferenceException()
@@ -425,6 +494,9 @@ namespace TestsServiceLayer
             this.userAuction.UpdateUserAuction(this.userAuctionFirstDTO);
         }
 
+        /// <summary>
+        /// Tests the add user auction invalid object exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddUserAuction_InvalidObjectException()

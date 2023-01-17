@@ -103,12 +103,18 @@ namespace TestDomainLayer
             };
         }
 
+        /// <summary>
+        /// Tests the correct product.
+        /// </summary>
         [TestMethod]
         public void TestCorrectProduct()
         {
             Assert.IsNotNull(this.product);
         }
 
+        /// <summary>
+        /// Tests the product constructor.
+        /// </summary>
         [TestMethod]
         public void TestProductConstructor()
         {
@@ -116,6 +122,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product name null.
+        /// </summary>
         [TestMethod]
         public void TestProductNameNull()
         {
@@ -124,6 +133,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the short name of the product name.
+        /// </summary>
         [TestMethod]
         public void TestProductNameShortName()
         {
@@ -132,6 +144,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the name of the product long enough.
+        /// </summary>
         [TestMethod]
         public void TestProductLongEnoughName()
         {
@@ -140,6 +155,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product null description.
+        /// </summary>
         [TestMethod]
         public void TestProductNullDescription()
         {
@@ -148,6 +166,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product short description.
+        /// </summary>
         [TestMethod]
         public void TestProductShortDescription()
         {
@@ -156,6 +177,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product enough long description.
+        /// </summary>
         [TestMethod]
         public void TestProductEnoughLongDescription()
         {
@@ -164,6 +188,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product owner user null.
+        /// </summary>
         [TestMethod]
         public void TestProductOwnerUserNull()
         {
@@ -172,6 +199,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product owner user not null.
+        /// </summary>
         [TestMethod]
         public void TestProductOwnerUserNotNull()
         {
@@ -180,6 +210,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product category null.
+        /// </summary>
         [TestMethod]
         public void TestProductCategoryNull()
         {
@@ -188,6 +221,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product category not null.
+        /// </summary>
         [TestMethod]
         public void TestProductCategoryNotNull()
         {
@@ -196,6 +232,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product starting price null.
+        /// </summary>
         [TestMethod]
         public void TestProductStartingPriceNull()
         {
@@ -204,6 +243,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product starting price not null.
+        /// </summary>
         [TestMethod]
         public void TestProductStartingPriceNotNull()
         {
@@ -212,6 +254,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product wrong status range.
+        /// </summary>
         [TestMethod]
         public void TestProductWrongStatusRange()
         {
@@ -220,6 +265,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the product correct status range.
+        /// </summary>
         [TestMethod]
         public void TestProductCorrectStatusRange()
         {
@@ -228,6 +276,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the end date before now.
+        /// </summary>
         [TestMethod]
         public void TestEndDateBeforeNow()
         {
@@ -236,6 +287,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the start date before now.
+        /// </summary>
         [TestMethod]
         public void TestStartDateBeforeNow()
         {
@@ -244,6 +298,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the start date before now and end date in future.
+        /// </summary>
         [TestMethod]
         public void TestStartDateBeforeNowAndEndDateInFuture()
         {
@@ -254,6 +311,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the zero money amount.
+        /// </summary>
         [TestMethod]
         public void TestZeroMoneyAmount()
         {
@@ -262,6 +322,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the negative ammount.
+        /// </summary>
         [TestMethod]
         public void TestNegativeAmmount()
         {
@@ -270,6 +333,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the correct ammount.
+        /// </summary>
         [TestMethod]
         public void TestCorrectAmmount()
         {
@@ -279,6 +345,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the correct money currency domain.
+        /// </summary>
         [TestMethod]
         public void TestCorrectMoneyCurrencyDomain()
         {
@@ -287,6 +356,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the money currency domain.
+        /// </summary>
         [TestMethod]
         public void TestMoneyCurrencyDomain()
         {
@@ -295,6 +367,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the name of the category enough.
+        /// </summary>
         [TestMethod]
         public void TestCategoryEnoughName()
         {
@@ -303,6 +378,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the short name of the category.
+        /// </summary>
         [TestMethod]
         public void TestCategoryShortName()
         {
@@ -311,6 +389,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the category null products.
+        /// </summary>
         [TestMethod]
         public void TestCategoryNullProducts()
         {
@@ -319,6 +400,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the first name of the user null.
+        /// </summary>
         [TestMethod]
         public void TestUserNullFirstName()
         {
@@ -327,6 +411,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user first name contains numbers.
+        /// </summary>
         [TestMethod]
         public void TestUserFirstNameContainsNumbers()
         {
@@ -335,6 +422,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the first name of the user short.
+        /// </summary>
         [TestMethod]
         public void TestUserShortFirstName()
         {
@@ -343,6 +433,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the first name of the user enough long.
+        /// </summary>
         [TestMethod]
         public void TestUserEnoughLongFirstName()
         {
@@ -351,6 +444,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the last name of the user null.
+        /// </summary>
         [TestMethod]
         public void TestUserNullLastName()
         {
@@ -359,6 +455,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user last name contains numbers.
+        /// </summary>
         [TestMethod]
         public void TestUserLastNameContainsNumbers()
         {
@@ -367,6 +466,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the last name of the user short.
+        /// </summary>
         [TestMethod]
         public void TestUserShortLastName()
         {
@@ -375,6 +477,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the last name of the user enough long.
+        /// </summary>
         [TestMethod]
         public void TestUserEnoughLongLastName()
         {
@@ -383,6 +488,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user null email.
+        /// </summary>
         [TestMethod]
         public void TestUserNullEmail()
         {
@@ -391,6 +499,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user wrong format email.
+        /// </summary>
         [TestMethod]
         public void TestUserWrongFormatEmail()
         {
@@ -399,6 +510,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user wrong format email2.
+        /// </summary>
         [TestMethod]
         public void TestUserWrongFormatEmail2()
         {
@@ -407,6 +521,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user correct format email.
+        /// </summary>
         [TestMethod]
         public void TestUserCorrectFormatEmail()
         {
@@ -415,6 +532,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user age under eighteen.
+        /// </summary>
         [TestMethod]
         public void TestUserAgeUnderEighteen()
         {
@@ -423,6 +543,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user age over eighteen.
+        /// </summary>
         [TestMethod]
         public void TestUserAgeOverEighteen()
         {
@@ -431,6 +554,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user age in the future.
+        /// </summary>
         [TestMethod]
         public void TestUserAgeInTheFuture()
         {
@@ -439,6 +565,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user score out of range.
+        /// </summary>
         [TestMethod]
         public void TestUserScoreOutOfRange()
         {
@@ -447,6 +576,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user score in range.
+        /// </summary>
         [TestMethod]
         public void TestUserScoreInRange()
         {
@@ -455,6 +587,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user status in range.
+        /// </summary>
         [TestMethod]
         public void TestUserStatusInRange()
         {
@@ -463,6 +598,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user status out of range.
+        /// </summary>
         [TestMethod]
         public void TestUserStatusOutOfRange()
         {
@@ -471,6 +609,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user products null.
+        /// </summary>
         [TestMethod]
         public void TestUserProductsNull()
         {
@@ -479,6 +620,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user auction null price.
+        /// </summary>
         [TestMethod]
         public void TestUserAuctionNullPrice()
         {
@@ -487,6 +631,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user auction not null price.
+        /// </summary>
         [TestMethod]
         public void TestUserAuctionNotNullPrice()
         {
@@ -495,6 +642,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user auction null product.
+        /// </summary>
         [TestMethod]
         public void TestUserAuctionNullProduct()
         {
@@ -503,6 +653,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user auction not null product.
+        /// </summary>
         [TestMethod]
         public void TestUserAuctionNotNullProduct()
         {
@@ -511,6 +664,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user auction null user.
+        /// </summary>
         [TestMethod]
         public void TestUserAuctionNullUser()
         {
@@ -519,6 +675,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the user auction not null user.
+        /// </summary>
         [TestMethod]
         public void TestUserAuctionNotNullUser()
         {
@@ -527,6 +686,9 @@ namespace TestDomainLayer
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the configuration negative auctions.
+        /// </summary>
         [TestMethod]
         public void TestConfigurationNegativeAuctions()
         {
@@ -535,6 +697,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the configuration out of range initial score.
+        /// </summary>
         [TestMethod]
         public void TestConfigurationOutOfRangeInitialScore()
         {
@@ -543,6 +708,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the configuration out of range minimum score.
+        /// </summary>
         [TestMethod]
         public void TestConfigurationOutOfRangeMinScore()
         {
@@ -551,6 +719,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the configuration out of range days.
+        /// </summary>
         [TestMethod]
         public void TestConfigurationOutOfRangeDays()
         {
@@ -559,6 +730,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the category configuration null parent category.
+        /// </summary>
         [TestMethod]
         public void TestCategoryConfigurationNullParentCategory()
         {
@@ -567,6 +741,9 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the category configuration null child category.
+        /// </summary>
         [TestMethod]
         public void TestCategoryConfigurationNullChildCategory()
         {
@@ -575,24 +752,36 @@ namespace TestDomainLayer
             Assert.AreNotEqual(0, validationResults.Count);
         }
 
+        /// <summary>
+        /// Tests the money smaller than another money different currency.
+        /// </summary>
         [TestMethod]
         public void TestMoneySmallerThanAnotherMoney_DifferentCurrency()
         {
             Assert.ThrowsException<Exception>(() => this.moneyOne < this.moneyTwo);
         }
 
+        /// <summary>
+        /// Tests the money greater than another money different currency.
+        /// </summary>
         [TestMethod]
         public void TestMoneyGreaterThanAnotherMoney_DifferentCurrency()
         {
             Assert.ThrowsException<Exception>(() => this.moneyOne > this.moneyTwo);
         }
 
+        /// <summary>
+        /// Tests the money smaller than another money same currency.
+        /// </summary>
         [TestMethod]
         public void TestMoneySmallerThanAnotherMoney_SameCurrency()
         {
             Assert.IsTrue(this.moneyOne < this.moneyThree);
         }
 
+        /// <summary>
+        /// Tests the money greater than another money same currency.
+        /// </summary>
         [TestMethod]
         public void TestMoneyGreaterThanAnotherMoney_SameCurrency()
         {

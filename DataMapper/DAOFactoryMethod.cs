@@ -11,6 +11,9 @@ namespace DataMapper
     {
         private static readonly IDAOFactory CurrentDAOFactoryValue;
 
+        /// <summary>
+        /// Initializes the <see cref="DAOFactoryMethod"/> class.
+        /// </summary>
         static DAOFactoryMethod()
         {
             string currentDataProvider = ConfigurationManager.AppSettings["dataProvider"];
@@ -35,6 +38,12 @@ namespace DataMapper
             }
         }
 
+        /// <summary>
+        /// Gets the current DAO factory.
+        /// </summary>
+        /// <value>
+        /// The current DAO factory.
+        /// </value>
         public static IDAOFactory CurrentDAOFactory
         {
             get

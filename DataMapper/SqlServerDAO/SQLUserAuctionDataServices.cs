@@ -1,4 +1,8 @@
-﻿namespace DataMapper.SqlServerDAO
+﻿// <copyright file="SQLUserAuctionDataServices.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace DataMapper.SqlServerDAO
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,6 +10,10 @@
 
     public class SQLUserAuctionDataServices : IUserAuctionDataServices
     {
+        /// <summary>
+        /// Adds the user auction.
+        /// </summary>
+        /// <param name="userAuction">The user auction.</param>
         public void AddUserAuction(UserAuction userAuction)
         {
             using (var context = new MyApplicationContext())
@@ -15,6 +23,10 @@
             }
         }
 
+        /// <summary>
+        /// Deletes the user auction.
+        /// </summary>
+        /// <param name="userAuction">The user auction.</param>
         public void DeleteUserAuction(UserAuction userAuction)
         {
             using (var context = new MyApplicationContext())
@@ -25,6 +37,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets the list of user auctions.
+        /// </summary>
+        /// <returns></returns>
         public IList<UserAuction> GetListOfUserAuctions()
         {
             using (var context = new MyApplicationContext())
@@ -33,6 +49,11 @@
             }
         }
 
+        /// <summary>
+        /// Gets the user auction by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public UserAuction GetUserAuctionById(int id)
         {
             using (var context = new MyApplicationContext())
@@ -41,6 +62,11 @@
             }
         }
 
+        /// <summary>
+        /// Gets the user auctions by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
         public IList<UserAuction> GetUserAuctionsByUserId(int userId)
         {
             using (var context = new MyApplicationContext())
@@ -49,6 +75,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the user auctions by user idand product identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="productId">The product identifier.</param>
+        /// <returns></returns>
         public IList<UserAuction> GetUserAuctionsByUserIdandProductId(int userId, int productId)
         {
             using (var context = new MyApplicationContext())
@@ -57,6 +89,10 @@
             }
         }
 
+        /// <summary>
+        /// Updates the user auction.
+        /// </summary>
+        /// <param name="userAuction">The user auction.</param>
         public void UpdateUserAuction(UserAuction userAuction)
         {
             using (var context = new MyApplicationContext())

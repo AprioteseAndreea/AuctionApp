@@ -1,4 +1,8 @@
-﻿namespace DataMapper.SqlServerDAO
+﻿// <copyright file="SQLConfigurationDataServices.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace DataMapper.SqlServerDAO
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,6 +10,10 @@
 
     public class SQLConfigurationDataServices : IConfigurationDataServices
     {
+        /// <summary>
+        /// Adds the configuration.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
         public void AddConfiguration(Configuration configuration)
         {
             using (var context = new MyApplicationContext())
@@ -15,6 +23,10 @@
             }
         }
 
+        /// <summary>
+        /// Deletes the configuration.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
         public void DeleteConfiguration(Configuration configuration)
         {
             using (var context = new MyApplicationContext())
@@ -26,6 +38,11 @@
             }
         }
 
+        /// <summary>
+        /// Gets the configuration by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public Configuration GetConfigurationById(int id)
         {
             using (var context = new MyApplicationContext())
@@ -34,6 +51,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets the list of configuration.
+        /// </summary>
+        /// <returns></returns>
         public IList<Configuration> GetListOfConfiguration()
         {
             using (var context = new MyApplicationContext())
@@ -42,6 +63,10 @@
             }
         }
 
+        /// <summary>
+        /// Updates the configuration.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
         public void UpdateConfiguration(Configuration configuration)
         {
             using (var context = new MyApplicationContext())

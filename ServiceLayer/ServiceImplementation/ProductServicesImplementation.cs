@@ -279,16 +279,14 @@ namespace ServiceLayer.ServiceImplementation
                     }
                 }
 
-                if (!hasFound)
-                {
-                    this.productDataServices.AddProduct(this.GetProductFromProductDto(product));
-                    this.log.Info("The new product was added!");
-                }
-                else
+                if (hasFound)
                 {
                     this.log.Info("A similar product was found. We won't add the product.");
                     throw new SimilarDescriptionException(product.Name);
                 }
+
+                this.productDataServices.AddProduct(this.GetProductFromProductDto(product));
+                this.log.Info("The new product was added!");
             }
         }
     }

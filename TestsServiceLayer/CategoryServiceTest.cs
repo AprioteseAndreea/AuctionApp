@@ -19,8 +19,8 @@ namespace TestsServiceLayer
     [TestClass]
     public class CategoryServiceTest
     {
-        private const int POSITIVEUSERID = 5;
-        private const int NEGATIVEUSERID = -5;
+        private const int PositiveId = 5;
+        private const int NegativeId = -5;
 
         private Category category;
         private CategoryDTO categoryDTO;
@@ -97,6 +97,9 @@ namespace TestsServiceLayer
                 this.loggerMock.Object);
         }
 
+        /// <summary>
+        /// Tests the add category invalid object exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddCategory_InvalidObjectException()
@@ -104,12 +107,18 @@ namespace TestsServiceLayer
             this.categoryServices.AddCategory(this.invalidCategoryDTO);
         }
 
+        /// <summary>
+        /// Tests the add category successfully.
+        /// </summary>
         [TestMethod]
         public void TestAddCategory_Successfully()
         {
             this.categoryServices.AddCategory(this.categoryDTO);
         }
 
+        /// <summary>
+        /// Tests the delete category successfully.
+        /// </summary>
         [TestMethod]
         public void TestDeleteCategory_Successfully()
         {
@@ -120,6 +129,9 @@ namespace TestsServiceLayer
             this.categoryServices.DeleteCategory(this.categoryDTO);
         }
 
+        /// <summary>
+        /// Tests the delete category object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The object can not be null.")]
         public void TestDeleteCategory_ObjectNotFoundException()
@@ -130,6 +142,9 @@ namespace TestsServiceLayer
             this.categoryServices.DeleteCategory(this.categoryDTO);
         }
 
+        /// <summary>
+        /// Tests the delete category null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestDeleteCategory_NullProduct()
@@ -137,22 +152,31 @@ namespace TestsServiceLayer
             this.categoryServices.DeleteCategory(null);
         }
 
+        /// <summary>
+        /// Tests the get category by identifier incorrect identifier exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetCategoryById_IncorrectIdException()
         {
-            this.categoryServices.GetCategoryById(NEGATIVEUSERID);
+            this.categoryServices.GetCategoryById(NegativeId);
         }
 
+        /// <summary>
+        /// Tests the get category by identifier successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetCategoryById_Successfully()
         {
             this.categoryDataServicesStub
             .Setup(x => x.GetCategoryById(It.IsAny<int>()))
             .Returns(this.category);
-            this.categoryServices.GetCategoryById(POSITIVEUSERID);
+            this.categoryServices.GetCategoryById(PositiveId);
         }
 
+        /// <summary>
+        /// Tests the get list of categories successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetListOfCategories_Successfully()
         {
@@ -163,6 +187,9 @@ namespace TestsServiceLayer
             this.categoryServices.GetListOfCategories();
         }
 
+        /// <summary>
+        /// Tests the update category successfully.
+        /// </summary>
         [TestMethod]
         public void TestUpdateCategory_Successfully()
         {
@@ -173,6 +200,9 @@ namespace TestsServiceLayer
             this.categoryServices.UpdateCategory(this.categoryDTO);
         }
 
+        /// <summary>
+        /// Tests the update category null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestUpdateCategory_NullProduct()
@@ -180,6 +210,9 @@ namespace TestsServiceLayer
             this.categoryServices.UpdateCategory(null);
         }
 
+        /// <summary>
+        /// Tests the update category object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestUpdateCategory_ObjectNotFoundException()

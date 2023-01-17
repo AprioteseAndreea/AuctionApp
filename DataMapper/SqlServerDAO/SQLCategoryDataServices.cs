@@ -1,4 +1,8 @@
-﻿namespace DataMapper.SqlServerDAO
+﻿// <copyright file="SQLCategoryDataServices.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace DataMapper.SqlServerDAO
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,6 +10,10 @@
 
     public class SQLCategoryDataServices : ICategoryDataServices
     {
+        /// <summary>
+        /// Adds the category.
+        /// </summary>
+        /// <param name="category">The category.</param>
         public void AddCategory(Category category)
         {
             using (var context = new MyApplicationContext())
@@ -15,6 +23,10 @@
             }
         }
 
+        /// <summary>
+        /// Deletes the category.
+        /// </summary>
+        /// <param name="category">The category.</param>
         public void DeleteCategory(Category category)
         {
             using (var context = new MyApplicationContext())
@@ -25,6 +37,11 @@
             }
         }
 
+        /// <summary>
+        /// Gets the category by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public Category GetCategoryById(int id)
         {
             using (var context = new MyApplicationContext())
@@ -33,6 +50,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets the list of categories.
+        /// </summary>
+        /// <returns></returns>
         public IList<Category> GetListOfCategories()
         {
             using (var context = new MyApplicationContext())
@@ -41,6 +62,10 @@
             }
         }
 
+        /// <summary>
+        /// Updates the category.
+        /// </summary>
+        /// <param name="category">The category.</param>
         public void UpdateCategory(Category category)
         {
             using (var context = new MyApplicationContext())

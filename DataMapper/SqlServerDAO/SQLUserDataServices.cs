@@ -1,4 +1,8 @@
-﻿namespace DataMapper.SqlServerDAO
+﻿// <copyright file="SQLUserDataServices.cs" company="Transilvania University of Brasov">
+// Copyright (c) Apriotese Andreea. All rights reserved.
+// </copyright>
+
+namespace DataMapper.SqlServerDAO
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,6 +10,10 @@
 
     public class SQLUserDataServices : IUserDataServices
     {
+        /// <summary>
+        /// Adds the user.
+        /// </summary>
+        /// <param name="user">The user.</param>
         public void AddUser(User user)
         {
             using (var context = new MyApplicationContext())
@@ -15,6 +23,10 @@
             }
         }
 
+        /// <summary>
+        /// Deletes the user.
+        /// </summary>
+        /// <param name="user">The user.</param>
         public void DeleteUser(User user)
         {
             using (var context = new MyApplicationContext())
@@ -26,6 +38,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets all users.
+        /// </summary>
+        /// <returns></returns>
         public IList<User> GetAllUsers()
         {
             using (var context = new MyApplicationContext())
@@ -34,6 +50,11 @@
             }
         }
 
+        /// <summary>
+        /// Gets the user by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public User GetUserById(int id)
         {
             using (var context = new MyApplicationContext())
@@ -42,6 +63,10 @@
             }
         }
 
+        /// <summary>
+        /// Updates the user.
+        /// </summary>
+        /// <param name="user">The user.</param>
         public void UpdateUser(User user)
         {
             using (var context = new MyApplicationContext())

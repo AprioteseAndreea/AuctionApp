@@ -1,6 +1,7 @@
 ﻿// <copyright file="ConfigurationServiceTest.cs" company="Transilvania University of Brasov">
 // Copyright (c) Andreea Apriotese. All rights reserved.
 // </copyright>
+
 namespace TestsServiceLayer
 {
     using System;
@@ -18,8 +19,8 @@ namespace TestsServiceLayer
     [TestClass]
     public class ConfigurationServiceTest
     {
-        private const int POSITIVEUSERID = 5;
-        private const int NEGATIVEUSERID = -5;
+        private const int PositiveId = 5;
+        private const int NegativeId = -5;
 
         private Category category;
         private Product productFirst;
@@ -131,6 +132,9 @@ namespace TestsServiceLayer
                 this.loggerMock.Object);
         }
 
+        /// <summary>
+        /// Tests the delete configuration invalid object exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "")]
         public void TestDeleteConfiguration_InvalidObjectException()
@@ -142,6 +146,9 @@ namespace TestsServiceLayer
             this.configurationServices.DeleteConfiguration(this.configurationFirstDTO);
         }
 
+        /// <summary>
+        /// Tests the add configuration invalid object exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "")]
         public void TestAddConfiguration_InvalidObjectException()
@@ -149,12 +156,18 @@ namespace TestsServiceLayer
             this.configurationServices.AddConfiguration(this.invalidConfigurationDTO);
         }
 
+        /// <summary>
+        /// Tests the add configuration successfully.
+        /// </summary>
         [TestMethod]
         public void TestAddConfiguration_Successfully()
         {
             this.configurationServices.AddConfiguration(this.configurationSecondDTO);
         }
 
+        /// <summary>
+        /// Tests the delete configuration successfully.
+        /// </summary>
         [TestMethod]
         public void TestDeleteConfiguration_Successfully()
         {
@@ -165,6 +178,9 @@ namespace TestsServiceLayer
             this.configurationServices.DeleteConfiguration(this.configurationFirstDTO);
         }
 
+        /// <summary>
+        /// Tests the delete configuration null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestDeleteConfiguration_NullProduct()
@@ -172,13 +188,19 @@ namespace TestsServiceLayer
             this.configurationServices.DeleteConfiguration(null);
         }
 
+        /// <summary>
+        /// Tests the get configuration by identifier incorrect identifier exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(IncorrectIdException), "")]
         public void TestGetConfigurationById_IncorrectIdException()
         {
-            this.configurationServices.GetConfigurationById(NEGATIVEUSERID);
+            this.configurationServices.GetConfigurationById(NegativeId);
         }
 
+        /// <summary>
+        /// Tests the get configuration by identifier successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetConfigurationById_Successfully()
         {
@@ -186,9 +208,12 @@ namespace TestsServiceLayer
               .Setup(x => x.GetConfigurationById(It.IsAny<int>()))
               .Returns(this.configurationFirst);
 
-            this.configurationServices.GetConfigurationById(POSITIVEUSERID);
+            this.configurationServices.GetConfigurationById(PositiveId);
         }
 
+        /// <summary>
+        /// Tests the get list of configuration successfully.
+        /// </summary>
         [TestMethod]
         public void TestGetListOfConfiguration_Successfully()
         {
@@ -199,6 +224,9 @@ namespace TestsServiceLayer
             this.configurationServices.GetListOfConfiguration();
         }
 
+        /// <summary>
+        /// Tests the update configuration successfully.
+        /// </summary>
         [TestMethod]
         public void TestUpdateConfiguration_Successfully()
         {
@@ -209,6 +237,9 @@ namespace TestsServiceLayer
             this.configurationServices.UpdateConfiguration(this.configurationFirstDTO);
         }
 
+        /// <summary>
+        /// Tests the update configuration null product.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidObjectException), "The object can not be null.")]
         public void TestUpdateConfiguration_NullProduct()
@@ -216,6 +247,9 @@ namespace TestsServiceLayer
             this.configurationServices.UpdateConfiguration(null);
         }
 
+        /// <summary>
+        /// Tests the update configuration object not found exception.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException), "The product was not found!")]
         public void TestUpdateConfiguration_ObjectNotFoundException()

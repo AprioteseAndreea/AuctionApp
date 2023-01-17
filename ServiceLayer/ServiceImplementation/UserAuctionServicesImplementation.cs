@@ -57,7 +57,9 @@ namespace ServiceLayer.ServiceImplementation
             }
 
             this.ValidateUserAuction(userAuction);
-            var userAuctions = this.userAuctionDataServices.GetUserAuctionsByUserIdandProductId(userAuction.UserId, userAuction.ProductId);
+
+            var userAuctions = this.userAuctionDataServices
+                .GetUserAuctionsByUserIdandProductId(userAuction.UserId, userAuction.ProductId);
 
             this.CheckProductStatus(product);
             this.CheckAuctionCurrency(product, userAuction);
@@ -65,7 +67,8 @@ namespace ServiceLayer.ServiceImplementation
             this.CheckAmountRangeForAuction(userAuction, userAuctions);
 
             this.log.Info("A new auction was successfully added!");
-            this.userAuctionDataServices.AddUserAuction(this.GetUserAuctionFromUserAuctionDto(userAuction));
+            this.userAuctionDataServices.AddUserAuction(
+                this.GetUserAuctionFromUserAuctionDto(userAuction));
         }
 
         /// <summary>
